@@ -34,7 +34,7 @@ const BlogsSection = () => {
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-6">
-          <h2 className="text-3xl font-bold text-gray-800 uppercase mb-2">LATEST BLOGS</h2>
+          <h2 className="text-3xl font-bold uppercase mb-2">LATEST BLOGS</h2>
           <p className="text-gray-600 max-w-3xl mx-auto">
             Discover our curated collection of innovative and sustainable design ideas. From eco-friendly crafts to inspiring creations, explore how Green Business Initiative blends creativity with sustainability.
           </p>
@@ -78,4 +78,4 @@ const BlogsSection = () => {
   );
 };
 
-export default BlogsSection; 
+export default BlogsSection;

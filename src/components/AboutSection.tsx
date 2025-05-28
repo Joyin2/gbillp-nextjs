@@ -7,7 +7,7 @@ const AboutSection = () => {
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-800 uppercase mb-2">KNOW US BETTER</h2>
+          <h2 className="text-3xl font-bold uppercase mb-2">KNOW US BETTER</h2>
         </div>
 
         <div className="flex flex-col md:flex-row md:space-x-12 items-center">
@@ -25,7 +25,7 @@ const AboutSection = () => {
 
           {/* Text Section */}
           <div className="md:w-1/2">
-            <h3 className="text-2xl font-bold text-green-600 mb-4">EMPOWERING COMMUNITIES FOR A GREENER FUTURE</h3>
+            <h3 className="text-2xl font-bold mb-4">EMPOWERING COMMUNITIES FOR A GREENER FUTURE</h3>
             <p className="text-gray-600 text-lg mb-6 leading-relaxed">
               Green Business Initiative LLP is committed to fostering sustainable agriculture, empowering local farmers, and promoting eco-friendly Products. Join us in shaping a greener, more prosperous future for all.
             </p>
@@ -42,4 +42,4 @@ const AboutSection = () => {
   );
 };
 
-export default AboutSection; 
+export default AboutSection;

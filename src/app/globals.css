@@ -3,10 +3,6 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary-gradient-from: #065f46; /* emerald-800 */
-  --primary-gradient-to: #0d9488; /* teal-600 */
-  --secondary-gradient-from: #6ee7b7; /* emerald-300 */
-  --secondary-gradient-to: #99f6e4; /* teal-200 */
 }
 
 @theme inline {
@@ -29,28 +25,28 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Premium heading styles */
+/* Premium heading styles with exact gradient as specified */
 h1, h2, h3, h4, h5, h6 {
-  background: linear-gradient(to right, var(--primary-gradient-from), var(--primary-gradient-to));
+  background: linear-gradient(45deg, #d6ff76, #31cc20, #ffffff);
   -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: transparent;
   font-weight: bold;
 }
 
 /* Alternative light gradient for dark backgrounds */
 .light-gradient-text {
-  background: linear-gradient(to right, var(--secondary-gradient-from), var(--secondary-gradient-to));
+  background: linear-gradient(45deg, #d6ff76, #31cc20, #ffffff);
   -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: transparent;
 }
 
 /* Premium gradient backgrounds */
 .premium-gradient-bg {
-  background: linear-gradient(to right, var(--primary-gradient-from), var(--primary-gradient-to));
+  background: linear-gradient(45deg, #d6ff76, #31cc20, #ffffff);
 }
 
 .premium-gradient-bg-light {
-  background: linear-gradient(to right, var(--secondary-gradient-from), var(--secondary-gradient-to));
+  background: linear-gradient(45deg, #d6ff76, #31cc20, #ffffff);
 }

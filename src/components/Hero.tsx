@@ -85,7 +85,12 @@ const Hero = () => {
             <span className="block mb-2">
               Green Business Initiative LLP
             </span>
-            <span className="text-green-400 text-3xl md:text-4xl lg:text-5xl">
+            <span className="text-3xl md:text-4xl lg:text-5xl" style={{
+              background: "linear-gradient(45deg, #d6ff76, #31cc20, #ffffff)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text"
+            }}>
               Leap Towards Sustainability
             </span>
           </h1>

@@ -39,7 +39,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Column 1 - About */}
           <div>
-            <h6 className="text-gray-800 font-bold mb-4 uppercase text-sm border-b border-gray-300 pb-2">Green Business Initiative LLP</h6>
+            <h6 className="light-gradient-text font-bold mb-4 uppercase text-sm border-b border-gray-300 pb-2">Green Business Initiative LLP</h6>
             <p className="text-gray-600 text-sm leading-relaxed">
               Green Business Initiative LLP (GBI) is an American Indian partnership, that is currently in the business that encompasses agriculture, animal husbandry, and related commercial activities.
             </p>
@@ -160,4 +160,4 @@ const Footer = () => {
   );
 };
 
-export default Footer; 
+export default Footer;

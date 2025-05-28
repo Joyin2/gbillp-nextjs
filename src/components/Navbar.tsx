@@ -72,7 +72,7 @@ const Navbar = () => {
                 />
               </div>
               <span className={`text-xl font-bold ${scrolled ? 'text-white' : 'text-white'} hidden sm:block`}>
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-teal-200">Green Business</span>
+                <span className="light-gradient-text">Green Business</span>
               </span>
             </Link>
           </div>
@@ -86,16 +86,16 @@ const Navbar = () => {
             <div className="relative group">
               <button 
                 className={`px-3 py-2 rounded-md group flex items-center ${scrolled 
-                  ? 'text-white hover:bg-emerald-700' 
-                  : 'text-white hover:bg-white/10'} transition-colors duration-200`}
+                  ? 'hover:bg-emerald-700' 
+                  : 'hover:bg-white/10'} transition-colors duration-200`}
               >
-                <span>Products</span>
+                <span className="light-gradient-text">Products</span>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1 group-hover:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
               <div className="absolute left-0 mt-1 w-56 origin-top-left rounded-md shadow-lg overflow-hidden z-20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2">
-                <div className="bg-white ring-1 ring-black ring-opacity-5 py-1 divide-y divide-gray-100">
+                <div className="bg-gray-800 ring-1 ring-black ring-opacity-5 py-1 divide-y divide-gray-700">
                   <ProductLink href="/products/pickle">Pickle</ProductLink>
                   <ProductLink href="/products/rice">Rice</ProductLink>
                   <ProductLink href="/products/dry-bean">Dry Bean (Forash)</ProductLink>
@@ -117,8 +117,8 @@ const Navbar = () => {
             <Link 
               href="/contact" 
               className={`ml-2 px-4 py-2 rounded-full font-medium transition-all duration-300 ${scrolled 
-                ? 'bg-gradient-to-r from-emerald-200 to-teal-100 text-emerald-800 hover:shadow-emerald-500/20' 
-                : 'bg-gradient-to-r from-emerald-500 to-teal-400 text-white hover:from-emerald-600 hover:to-teal-500'} shadow-md hover:shadow-lg transform hover:-translate-y-0.5`}
+                ? 'premium-gradient-bg text-white hover:shadow-emerald-500/20' 
+                : 'premium-gradient-bg text-white hover:shadow-emerald-500/20'} shadow-md hover:shadow-lg transform hover:-translate-y-0.5`}
             >
               Contact Us
             </Link>
@@ -210,14 +210,6 @@ const Navbar = () => {
                   Contact Us
                 </Link>
               </div>
-              
-              {/* Social Media Icons */}
-              <div className="flex justify-center space-x-4 pt-4 border-t border-emerald-500/30 mt-4">
-                <SocialIcon icon="facebook" />
-                <SocialIcon icon="twitter" />
-                <SocialIcon icon="instagram" />
-                <SocialIcon icon="linkedin" />
-              </div>
             </div>
           </div>
         </div>
@@ -231,8 +223,8 @@ const NavLink = ({ href, children, scrolled }: { href: string; children: React.R
   <Link 
     href={href} 
     className={`px-3 py-2 rounded-md ${scrolled 
-      ? 'text-white hover:bg-emerald-700' 
-      : 'text-white hover:bg-white/10'} transition-colors duration-200`}
+      ? 'light-gradient-text hover:bg-emerald-700' 
+      : 'light-gradient-text hover:bg-white/10'} transition-colors duration-200`}
   >
     {children}
   </Link>
@@ -241,7 +233,7 @@ const NavLink = ({ href, children, scrolled }: { href: string; children: React.R
 const ProductLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
   <Link 
     href={href} 
-    className="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-700 transition-colors duration-200"
+    className="block px-4 py-2 text-sm light-gradient-text hover:bg-emerald-50 transition-colors duration-200"
   >
     {children}
   </Link>
