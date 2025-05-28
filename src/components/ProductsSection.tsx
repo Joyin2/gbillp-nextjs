@@ -15,43 +15,43 @@ import handicraft from "../images/products/art & craft.png"
 const products = [
   {
     id: 1,
-    title: "Pickle",
-    image: {pickle},
+    title: "Pickle",  
+    image: pickle,
     description: "Organic, traditionally prepared pickles from locally sourced ingredients.",
     link: "/products/pickle"
   },
   {
     id: 2,
     title: "Rice",
-    image: {rice},
+    image: rice,
     description: "Premium quality, sustainably grown rice varieties from the region.",
     link: "/products/rice"
   },
   {
     id: 3,
     title: "Dry Bean (Forash)",
-    image: {drybean}, // This file doesn't exist, you may need to rename it or add it
+    image: drybean,
     description: "Nutrient-rich dry beans cultivated using traditional farming methods.",
     link: "/products/dry-bean"
   },
   {
     id: 4,
     title: "Dry Hathkora",
-    image: {dryhathkora}, // Updated to match existing file
+    image: dryhathkora,
     description: "Naturally dried hathkora with preserved authentic flavor and aroma.",
     link: "/products/dry-hathkora"
   },
   {
     id: 5,
     title: "Tezpatta",
-    image: {tezpatta},
+    image: tezpatta,
     description: "Fresh, aromatic bay leaves harvested from sustainable sources.",
     link: "/products/tezpatta"
   },
   {
     id: 6,
     title: "Decorative Handicraft",
-    image: {handicraft}, // Updated to match existing file
+    image: handicraft,
     description: "Exquisite handcrafted items made by local artisans using eco-friendly materials.",
     link: "/products/handicraft"
   }

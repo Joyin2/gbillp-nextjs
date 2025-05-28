@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import video from "../videos/hero video.mp4";
+// import herovideo from "../videos/herovideo.mp4";
 
 const Hero = () => {
   const [videoError, setVideoError] = useState(false);
@@ -64,7 +64,7 @@ const Hero = () => {
               className="absolute inset-0 min-w-full min-h-full object-cover w-full h-full z-0"
             >
               {/* Using the correct file path with space */}
-              <source src={video} type="video/mp4" />
+              <source src="/videos/herovideo.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
             {/* Removed the black overlay completely */}
