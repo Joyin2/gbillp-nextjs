@@ -27,7 +27,7 @@ body {
 
 /* Premium heading styles with exact gradient as specified */
 h1, h2, h3, h4, h5, h6 {
-  background: linear-gradient(45deg, #d6ff76, #31cc20, #ffffff);
+  background: linear-gradient(45deg, #b2e63a, #31cc20);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -36,7 +36,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Alternative light gradient for dark backgrounds */
 .light-gradient-text {
-  background: linear-gradient(45deg, #d6ff76, #31cc20, #ffffff);
+  background: linear-gradient(45deg, #b2e63a, #31cc20, #ffffff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -44,9 +44,14 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Premium gradient backgrounds */
 .premium-gradient-bg {
-  background: linear-gradient(45deg, #d6ff76, #31cc20, #ffffff);
+  background: linear-gradient(45deg, #31cc20, #b2e63a);
 }
 
 .premium-gradient-bg-light {
-  background: linear-gradient(45deg, #d6ff76, #31cc20, #ffffff);
+  background: linear-gradient(45deg, #b2e63a, #31cc20, #ffffff);
+}
+
+/* New button gradient */
+.button-gradient {
+  background: linear-gradient(to right,#31cc20, #b2e63a);
 }

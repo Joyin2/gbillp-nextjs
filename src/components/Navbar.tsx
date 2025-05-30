@@ -54,8 +54,8 @@ const Navbar = () => {
   return (
     <nav 
       className={`fixed w-full z-50 transition-all duration-300 ${scrolled 
-        ? 'bg-gradient-to-r from-emerald-800 to-teal-600 shadow-lg py-2' 
-        : 'bg-transparent backdrop-blur-sm py-4'}`}
+        ? 'bg-black/30 backdrop-blur-sm py-2' 
+        : 'bg-transparent py-4'}`}
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
@@ -71,7 +71,7 @@ const Navbar = () => {
                   className="object-cover"
                 />
               </div>
-              <span className={`text-xl font-bold ${scrolled ? 'text-white' : 'text-white'} hidden sm:block`}>
+              <span className="text-xl font-bold text-white hidden sm:block">
                 <span className="light-gradient-text">Green Business</span>
               </span>
             </Link>
@@ -85,17 +85,17 @@ const Navbar = () => {
             {/* Products Dropdown */}
             <div className="relative group">
               <button 
-                className={`px-3 py-2 rounded-md group flex items-center ${scrolled 
-                  ? 'hover:bg-emerald-700' 
+                className={`px-3 py-2 rounded-md group flex items-center font-bold ${scrolled 
+                  ? 'hover:bg-white/20' 
                   : 'hover:bg-white/10'} transition-colors duration-200`}
               >
-                <span className="light-gradient-text">Products</span>
+                <span className="text-white">Products</span>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1 group-hover:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
               <div className="absolute left-0 mt-1 w-56 origin-top-left rounded-md shadow-lg overflow-hidden z-20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2">
-                <div className="bg-gray-800 ring-1 ring-black ring-opacity-5 py-1 divide-y divide-gray-700">
+                <div className="bg-black/80 backdrop-blur-sm ring-1 ring-white/10 py-1 divide-y divide-white/10">
                   <ProductLink href="/products/pickle">Pickle</ProductLink>
                   <ProductLink href="/products/rice">Rice</ProductLink>
                   <ProductLink href="/products/dry-bean">Dry Bean (Forash)</ProductLink>
@@ -116,9 +116,7 @@ const Navbar = () => {
             {/* Contact Button with highlight */}
             <Link 
               href="/contact" 
-              className={`ml-2 px-4 py-2 rounded-full font-medium transition-all duration-300 ${scrolled 
-                ? 'premium-gradient-bg text-white hover:shadow-emerald-500/20' 
-                : 'premium-gradient-bg text-white hover:shadow-emerald-500/20'} shadow-md hover:shadow-lg transform hover:-translate-y-0.5`}
+              className={`ml-2 px-4 py-2 rounded-full font-medium transition-all duration-300 bg-gradient-to-r from-[#d6ff76] to-[#31cc20] text-white hover:shadow-emerald-500/20 shadow-md hover:shadow-lg transform hover:-translate-y-0.5`}
             >
               Contact Us
             </Link>
@@ -204,7 +202,7 @@ const Navbar = () => {
               <div className="pt-4">
                 <Link 
                   href="/contact" 
-                  className="block w-full text-center px-4 py-3 rounded-md bg-gradient-to-r from-emerald-200 to-teal-100 text-emerald-800 font-medium hover:shadow-lg transition-all duration-200 shadow-md"
+                  className="block w-full text-center px-4 py-3 rounded-md bg-gradient-to-r from-[#d6ff76] to-[#31cc20] text-white font-medium hover:shadow-lg transition-all duration-200 shadow-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Contact Us
@@ -222,9 +220,9 @@ const Navbar = () => {
 const NavLink = ({ href, children, scrolled }: { href: string; children: React.ReactNode; scrolled: boolean }) => (
   <Link 
     href={href} 
-    className={`px-3 py-2 rounded-md ${scrolled 
-      ? 'light-gradient-text hover:bg-emerald-700' 
-      : 'light-gradient-text hover:bg-white/10'} transition-colors duration-200`}
+    className={`px-3 py-2 rounded-md font-bold text-white ${scrolled 
+      ? 'hover:bg-white/20' 
+      : 'hover:bg-white/10'} transition-colors duration-200`}
   >
     {children}
   </Link>
@@ -233,7 +231,7 @@ const NavLink = ({ href, children, scrolled }: { href: string; children: React.R
 const ProductLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
   <Link 
     href={href} 
-    className="block px-4 py-2 text-sm light-gradient-text hover:bg-emerald-50 transition-colors duration-200"
+    className="block px-4 py-2 text-sm text-white hover:bg-white/10 transition-colors duration-200 font-bold"
   >
     {children}
   </Link>
@@ -242,7 +240,7 @@ const ProductLink = ({ href, children }: { href: string; children: React.ReactNo
 const MobileNavLink = ({ href, children, onClick }: { href: string; children: React.ReactNode; onClick: () => void }) => (
   <Link 
     href={href} 
-    className="block px-3 py-2 text-white hover:bg-emerald-700/50 rounded-md transition-colors duration-200 font-medium"
+    className="block px-3 py-2 text-white hover:bg-emerald-700/50 rounded-md transition-colors duration-200 font-bold"
     onClick={onClick}
   >
     {children}
@@ -252,7 +250,7 @@ const MobileNavLink = ({ href, children, onClick }: { href: string; children: Re
 const MobileProductLink = ({ href, children, onClick }: { href: string; children: React.ReactNode; onClick: () => void }) => (
   <Link 
     href={href} 
-    className="block px-3 py-1.5 text-sm text-white/90 hover:bg-emerald-700/30 hover:text-white rounded transition-colors duration-200"
+    className="block px-3 py-1.5 text-sm text-white/90 hover:bg-emerald-700/30 hover:text-white rounded transition-colors duration-200 font-bold"
     onClick={onClick}
   >
     {children}

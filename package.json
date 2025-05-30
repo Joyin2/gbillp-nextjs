@@ -9,10 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.4",
+    "@heroicons/react": "^2.2.0",
+    "@hookform/resolvers": "^5.0.1",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/supabase-js": "^2.49.8",
+    "@tanstack/react-table": "^8.21.3",
+    "@tsparticles/all": "^3.8.1",
+    "@tsparticles/engine": "^3.8.1",
+    "@tsparticles/react": "^3.0.0",
     "framer-motion": "^12.12.1",
     "next": "15.3.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.4",
+    "zod": "^3.25.42"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

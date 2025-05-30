@@ -1,4 +1,4 @@
-import type { NextConfig } from 'next';
+import { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -11,7 +11,15 @@ const nextConfig: NextConfig = {
       }
     });
     return config;
-  }
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/admin/:path*',
+        destination: '/src/admin/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;

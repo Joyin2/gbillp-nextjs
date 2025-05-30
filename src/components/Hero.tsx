@@ -63,11 +63,9 @@ const Hero = () => {
               }}
               className="absolute inset-0 min-w-full min-h-full object-cover w-full h-full z-0"
             >
-              {/* Using the correct file path with space */}
               <source src="/videos/herovideo.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-            {/* Removed the black overlay completely */}
           </>
         ) : (
           <div className="absolute inset-0 bg-gradient-to-r from-green-900 to-green-700 w-full h-full z-0">
@@ -79,26 +77,29 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-6 md:px-12 relative z-20">
-        <div className="max-w-3xl">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
-            <span className="block mb-2">
-              Green Business Initiative LLP
+      <div className="container mx-auto px-6 md:px-12 relative z-20 h-full flex items-center justify-center">
+        <div className="max-w-4xl lg:max-w-5xl text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white drop-shadow-lg">
+            <span className="block md:inline mb-2 md:mb-0 md:mr-2">
+            Transforming local agri-products
             </span>
+            <br />
             <span className="text-3xl md:text-4xl lg:text-5xl" style={{
               background: "linear-gradient(45deg, #d6ff76, #31cc20, #ffffff)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              backgroundClip: "text"
+              backgroundClip: "text",
+              textShadow: "0 2px 4px rgba(0,0,0,0.1)"
             }}>
-              Leap Towards Sustainability
+             for the global market.
             </span>
           </h1>
-          <p className="text-gray-200 text-lg md:text-xl mb-8 leading-relaxed">
-            GBI empowers rural communities, promoting a sustainable, nature-friendly world with reliable eco-products for a greener, higher quality of life.
+          <p className="text-gray-200 text-lg md:text-xl mb-8 leading-relaxed drop-shadow-md">
+          We brand premium agro products, crafted with care, into global market sensations.
+          Sustainable, eco-friendly treasures enhance lives, empower rural communities, and nurture a greener future.
           </p>
-          <div>
-            <Link href="/about" className="inline-block bg-green-600 hover:bg-green-700 text-white py-3 px-8 rounded-full font-medium transition-all duration-300 shadow-lg hover:shadow-green-500/20 transform hover:-translate-y-1">
+          <div className="flex justify-center">
+            <Link href="/about" className="inline-block button-gradient text-white py-3 px-8 rounded-full font-medium transition-all duration-300 shadow-lg hover:shadow-green-500/20 transform hover:-translate-y-1">
               Discover More
             </Link>
           </div>

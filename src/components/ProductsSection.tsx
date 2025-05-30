@@ -140,7 +140,7 @@ const ProductsSection = () => {
             viewport={{ once: true }}
             className="text-4xl md:text-5xl font-bold mb-6"
           >
-            Our Premium Products
+            WE BROUGHT TO YOU
           </motion.h2>
           <motion.div 
             initial={{ width: 0 }}
@@ -149,7 +149,7 @@ const ProductsSection = () => {
             viewport={{ once: true }}
             className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200"
           >
-            <div className="h-full w-full bg-gradient-to-r from-emerald-500 to-teal-500"></div>
+            <div className="h-full w-full bg-gradient-to-r from-green-800 to-emerald-600"></div>
           </motion.div>
           <motion.p 
             initial={{ opacity: 0, y: 10 }}
@@ -185,8 +185,8 @@ const ProductsSection = () => {
                   className="bg-white rounded-xl overflow-hidden shadow-md h-full"
                 >
                   {/* Product image with enhanced hover animation */}
-                  <div className="relative h-64 overflow-hidden">
-                    <motion.div 
+                  <div className="relative h-95 overflow-hidden">
+                    {/* <motion.div 
                       className="absolute top-0 left-0 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-3 py-1 text-xs font-medium z-10 rounded-br-lg"
                       initial={{ x: -50, opacity: 0 }}
                       whileInView={{ x: 0, opacity: 1 }}
@@ -194,7 +194,7 @@ const ProductsSection = () => {
                       viewport={{ once: true }}
                     >
                       {index % 2 === 0 ? 'Featured' : 'Organic'}
-                    </motion.div>
+                    </motion.div> */}
                     
                     <motion.div
                       variants={imageHoverVariants}
@@ -243,7 +243,7 @@ const ProductsSection = () => {
                       viewport={{ once: true }}
                       className="flex justify-between items-center"
                     >
-                      <span className="text-emerald-600 font-medium text-sm">Green Business Initiative</span>
+                      <span className="text-emerald-600 font-medium text-sm">Green Business Initiative LLP</span>
                       <motion.div 
                         className="relative overflow-hidden inline-flex rounded-full"
                         whileHover={{ scale: 1.05 }}

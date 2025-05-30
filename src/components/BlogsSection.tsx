@@ -34,7 +34,10 @@ const BlogsSection = () => {
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-6">
-          <h2 className="text-3xl font-bold uppercase mb-2">LATEST BLOGS</h2>
+        <h2 className="text-4xl md:text-5xl font-bold mb-6">OUR LATEST BLOGS</h2>
+          <div className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 w-24">
+            <div className="h-full w-full bg-gradient-to-r from-green-800 to-emerald-600"></div>
+          </div>
           <p className="text-gray-600 max-w-3xl mx-auto">
             Discover our curated collection of innovative and sustainable design ideas. From eco-friendly crafts to inspiring creations, explore how Green Business Initiative blends creativity with sustainability.
           </p>
@@ -68,7 +71,7 @@ const BlogsSection = () => {
         <div className="text-center mt-12">
           <Link 
             href="/blogs"
-            className="inline-block bg-green-600 text-white py-3 px-8 rounded-full font-medium hover:bg-green-700 transition duration-300"
+            className="inline-block button-gradient text-white py-3 px-8 rounded-full font-medium hover:bg-green-700 transition duration-300"
           >
             Explore More Blogs
           </Link>

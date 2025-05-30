@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const CtaSection = () => {
   return (
-    <section className="py-16 bg-green-600 text-white">
+    <section className="py-16 bg-blue-600 text-white">
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-6 light-gradient-text">
           Embrace <span className="italic">sustainability,</span> cultivate change.
