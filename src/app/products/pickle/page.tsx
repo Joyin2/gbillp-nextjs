@@ -5,12 +5,12 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 
-// Import pickle images
-import boromar from '@/images/pickle/boromar.jpeg';
-import indianOlive from '@/images/pickle/indian olive pickles.jpg';
-import freshGarlic from '@/images/pickle/fresh garlic pickle.jpg';
-import bambooShoot from '@/images/pickle/bamboo shoot.jpg';
-import freshGinger from '@/images/pickle/fresh ginger.jpg';
+// Import pickle images from Supabase
+const boromar = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickle/boromar.jpeg";
+const indianOlive = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickle/indian%20olive%20pickles.jpg";
+const freshGarlic = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickle/fresh%20garlic%20pickle.jpg";
+const bambooShoot = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickle/bamboo%20shoot.jpg";
+const freshGinger = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickle/fresh%20ginger.jpg";
 
 const pickleVarieties = [
   {
@@ -221,41 +221,66 @@ export default function PicklesPage() {
               />
             </div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Here are some varieties of our pickles
+              Discover our premium selection of handcrafted pickles
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div className="space-y-20">
             {pickleVarieties.map((pickle, index) => (
               <motion.div
                 key={pickle.name}
-                className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+                className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12`}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.02 }}
               >
-                <div className="relative h-64 w-full">
-                  <Image
-                    src={pickle.image}
-                    alt={pickle.name}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
+                {/* Image Section */}
+                <div className="w-full md:w-1/2">
+                  <motion.div
+                    className="relative h-[400px] w-full rounded-lg overflow-hidden shadow-xl"
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Image
+                      src={pickle.image}
+                      alt={pickle.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                  </motion.div>
                 </div>
-                <div className="p-8">
-                  <h3 className="text-2xl font-bold mb-4">{pickle.name}</h3>
-                  <p className="text-gray-600 mb-6">{pickle.description}</p>
-                  <ul className="space-y-2">
-                    {pickle.features.map((feature, i) => (
-                      <li key={i} className="flex items-start">
-                        <span className="text-emerald-600 mr-2">•</span>
-                        <span className="text-gray-600">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+
+                {/* Content Section */}
+                <div className="w-full md:w-1/2">
+                  <motion.div
+                    className="bg-white p-8 rounded-lg shadow-lg"
+                    initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
+                  >
+                    <h3 className="text-3xl font-bold mb-4 text-emerald-800">{pickle.name}</h3>
+                    <p className="text-gray-600 text-lg mb-6 leading-relaxed">
+                      {pickle.description}
+                    </p>
+                    <ul className="space-y-3">
+                      {pickle.features.map((feature, i) => (
+                        <motion.li 
+                          key={i} 
+                          className="flex items-start"
+                          initial={{ opacity: 0, x: -20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.3, delay: i * 0.1 }}
+                        >
+                          <span className="text-emerald-600 mr-2 text-xl">•</span>
+                          <span className="text-gray-600">{feature}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </motion.div>
                 </div>
               </motion.div>
             ))}

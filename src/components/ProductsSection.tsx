@@ -4,61 +4,54 @@ import { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import pickle from "../images/products/pickle.png"
-import rice from "../images/products/rice.png"
-import drybean from "../images/products/dry beans.png"
-import orange from "../images/products/orange.png"
-import dryhathkora from "../images/products/haatkora.png"
-import tezpatta from "../images/products/tezpatta.png"
-import handicraft from "../images/products/art & craft.png"
 
 const products = [
   {
     id: 1,
-    title: "Pickle",  
-    image: pickle,
-    description: "Organic, traditionally prepared pickles from locally sourced ingredients.",
+    name: "Pickle",
+    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/pickle.png",
+    description: "Traditional and authentic pickles made with local ingredients.",
     link: "/products/pickle"
   },
   {
     id: 2,
-    title: "Rice",
-    image: rice,
-    description: "Premium quality, sustainably grown rice varieties from the region.",
+    name: "Rice",
+    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/rice.png",
+    description: "Premium quality rice varieties from local farmers.",
     link: "/products/rice"
   },
   {
     id: 3,
-    title: "Dry Bean (Forash)",
-    image: drybean,
-    description: "Nutrient-rich dry beans cultivated using traditional farming methods.",
+    name: "Dry Bean (Forash)",
+    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/dry%20beans.png",
+    description: "High-quality dried beans for various culinary uses.",
     link: "/products/dry-bean"
   },
   {
     id: 4,
-    title: "Dry Hathkora",
-    image: dryhathkora,
-    description: "Naturally dried hathkora with preserved authentic flavor and aroma.",
+    name: "Dry Hathkora",
+    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/haatkora.png",
+    description: "Traditional dried hathkora for authentic flavors.",
     link: "/products/dry-hathkora"
   },
   {
     id: 5,
-    title: "Tezpatta",
-    image: tezpatta,
-    description: "Fresh, aromatic bay leaves harvested from sustainable sources.",
+    name: "Tezpatta",
+    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/tezpatta.png",
+    description: "Premium quality tezpatta for enhanced flavors.",
     link: "/products/tezpatta"
   },
   {
     id: 6,
-    title: "Decorative Handicraft",
-    image: handicraft,
-    description: "Exquisite handcrafted items made by local artisans using eco-friendly materials.",
+    name: "Decorative Handicraft",
+    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/art%20&%20craft.png",
+    description: "Beautiful handcrafted decorative items.",
     link: "/products/handicraft"
   },
   {
     id: 7,
-    title: "Lemon & Orange Plantation",
-    image: orange,
+    name: "Lemon & Orange Plantation",
+    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/orange.png",
     description: "Fresh, sustainably grown citrus fruits from our local plantations, cultivated with care and expertise.",
     link: "/products/plantation"
   }
@@ -185,28 +178,18 @@ const ProductsSection = () => {
                   className="bg-white rounded-xl overflow-hidden shadow-md h-full"
                 >
                   {/* Product image with enhanced hover animation */}
-                  <div className="relative h-95 overflow-hidden">
-                    {/* <motion.div 
-                      className="absolute top-0 left-0 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-3 py-1 text-xs font-medium z-10 rounded-br-lg"
-                      initial={{ x: -50, opacity: 0 }}
-                      whileInView={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.1 * index, duration: 0.5 }}
-                      viewport={{ once: true }}
-                    >
-                      {index % 2 === 0 ? 'Featured' : 'Organic'}
-                    </motion.div> */}
-                    
+                  <div className="relative aspect-[4/3] w-full overflow-hidden">
                     <motion.div
                       variants={imageHoverVariants}
                       className="h-full w-full"
                     >
                       <Image 
                         src={product.image} 
-                        alt={product.title}
+                        alt={product.name}
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         className="object-cover"
-                        placeholder="empty"
+                        priority={index < 4}
                       />
                     </motion.div>
                     
@@ -223,7 +206,7 @@ const ProductsSection = () => {
                       viewport={{ once: true }}
                       className="text-xl font-bold mb-2 text-gray-800"
                     >
-                      {product.title}
+                      {product.name}
                     </motion.h3>
                     
                     <motion.p 

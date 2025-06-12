@@ -5,9 +5,9 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 
-// Import plantation images
-import orange from '@/images/Plantation/orange.jpeg';
-import orangeProduct from '@/images/products/orange.png';
+// Import plantation images from Supabase
+const orange = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/Plantation/orange.jpeg";
+const orangeProduct = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/orange.png";
 
 const plantationFeatures = [
   {

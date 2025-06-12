@@ -4,23 +4,44 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import pickle from "../images/products/pickle.png";
-import rice from "../images/products/rice.png";
-import drybean from "../images/products/dry beans.png";
-import orange from "../images/products/orange.png";
-import dryhathkora from "../images/products/haatkora.png";
-import tezpatta from "../images/products/tezpatta.png";
-import handicraft from "../images/products/art & craft.png";
 
 // Array of images for the animation
 const images = [
-  { src: pickle, alt: "Organic Pickle", id: 1 },
-  { src: rice, alt: "Premium Rice", id: 2 },
-  { src: drybean, alt: "Dry Bean", id: 3 },
-  { src: orange, alt: "Orange", id: 4 },
-  { src: dryhathkora, alt: "Dry Hathkora", id: 5 },
-  { src: tezpatta, alt: "Tezpatta", id: 6 },
-  { src: handicraft, alt: "Handicraft", id: 7 },
+  { 
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/pickle.png", 
+    alt: "Pickle", 
+    id: 1 
+  },
+  { 
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/rice.png", 
+    alt: "Rice", 
+    id: 2 
+  },
+  { 
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/dry%20beans.png", 
+    alt: "Dry Bean", 
+    id: 3 
+  },
+  { 
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/orange.png", 
+    alt: "Orange", 
+    id: 4 
+  },
+  { 
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/haatkora.png", 
+    alt: "Dry Hathkora", 
+    id: 5 
+  },
+  { 
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/tezpatta.png", 
+    alt: "Tez Patta", 
+    id: 6 
+  },
+  { 
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/art%20&%20craft.png", 
+    alt: "Handicraft", 
+    id: 7 
+  },
 ];
 
 // Animation variants for different effects
@@ -101,7 +122,7 @@ const decorVariants = {
     transition: { 
       duration: 5,
       repeat: Infinity,
-      repeatType: "reverse"
+      repeatType: "reverse" as const
     }
   }
 };

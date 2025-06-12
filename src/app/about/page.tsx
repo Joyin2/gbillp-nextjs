@@ -2,17 +2,22 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import Link from 'next/link';
+import { aboutImages, productImages, teamImages } from '@/lib/imageUrls';
 
 // TypeScript interfaces
 interface ParticleProps {
   image: {
-    src: StaticImageData;
+    src: string;
     alt: string;
     id: number;
   };
   index: number;
+  total: number;
+  onHover: (index: number) => void;
+  isHovered: boolean;
+  hoveredIndex: number | null;
 }
 
 interface ValueCardProps {
@@ -28,51 +33,63 @@ interface TeamMember {
   image: string;
 }
 
-// Import product images for the particle effect
-import pickle from '@/images/products/pickle.png';
-import rice from '@/images/products/rice.png';
-import drybean from '@/images/products/dry beans.png';
-import orange from '@/images/products/orange.png';
-import dryhathkora from '@/images/products/haatkora.png';
-import tezpatta from '@/images/products/tezpatta.png';
-import handicraft from '@/images/products/art & craft.png';
-
-// Import about section images
-import empoweringCommunities from '@/images/about/empowering local communities and products.jpg';
-import agriTreasures from '@/images/about/MAKING OUR LOCAL AGRI-TREASURES GLOBAL.jpg';
-import ecologyEconomy from '@/images/about/MOVING TOGETHER WITH ECOLOGY AND ECONOMY.png';
-
-// Import authorised images
-import ashok from '@/images/authorised/ashok.jpeg';
-import assamStartup from '@/images/authorised/assam startup.jpeg';
-import fssai from '@/images/authorised/fssai.png';
-import mca from '@/images/authorised/mca.jpg';
-import msme from '@/images/authorised/msme.jpeg';
-import startupIndia from '@/images/authorised/startup-india.jpeg';
-
-// Import team member images
-import chatterjee from '@/images/team member/Chatterje .jpeg';
-import tooba from '@/images/team member/tooba.jpg';
-import saiyra from '@/images/team member/saiyra.jpg';
-import sudipta from '@/images/team member/sudipta.jpg';
-import reema from '@/images/team member/reema.jpg';
-import adnan from '@/images/team member/adnan.jpeg';
-import joyin from '@/images/team member/joyin.jpg';
-import mehboob from '@/images/team member/mehboob.jpg';
-
 // Array of images for particles
 const particleImages = [
-  { src: pickle, alt: "Organic Pickle", id: 1 },
-  { src: rice, alt: "Premium Rice", id: 2 },
-  { src: drybean, alt: "Dry Bean", id: 3 },
-  { src: orange, alt: "Orange", id: 4 },
-  { src: dryhathkora, alt: "Dry Hathkora", id: 5 },
-  { src: tezpatta, alt: "Tezpatta", id: 6 },
-  { src: handicraft, alt: "Handicraft", id: 7 },
+  { 
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/pickle.png", 
+    alt: "Pickle", 
+    id: 1 
+  },
+  { 
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/rice.png", 
+    alt: "Rice", 
+    id: 2 
+  },
+  { 
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/dry%20beans.png", 
+    alt: "Dry Bean", 
+    id: 3 
+  },
+  { 
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/orange.png", 
+    alt: "Orange", 
+    id: 4 
+  },
+  { 
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/haatkora.png", 
+    alt: "Dry Hathkora", 
+    id: 5 
+  },
+  { 
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/tezpatta.png", 
+    alt: "Tez Patta", 
+    id: 6 
+  },
+  { 
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/art%20&%20craft.png", 
+    alt: "Handicraft", 
+    id: 7 
+  },
+];
+
+// Update the image imports to use Supabase URLs
+const images = [
+  {
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/about/about/empowering%20local%20communities%20and%20products.jpg",
+    alt: 'Empowering Local Communities and Products'
+  },
+  {
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/about/about/MAKING%20OUR%20LOCAL%20AGRI-TREASURES%20GLOBAL.jpg",
+    alt: 'Making Our Local Agri-Treasures Global'
+  },
+  {
+    src: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/about/about/MOVING%20TOGETHER%20WITH%20ECOLOGY%20AND%20ECONOMY.png",
+    alt: 'Moving Together with Ecology and Economy'
+  }
 ];
 
 // Particle component
-const Particle = ({ image, index }: ParticleProps) => {
+const Particle = ({ image, index, total, onHover, isHovered, hoveredIndex }: ParticleProps) => {
   const randomX = Math.random() * 100;
   const randomY = Math.random() * 100;
   const randomDelay = Math.random() * 5;
@@ -139,6 +156,60 @@ const missionItems = [
   },
 ];
 
+// Update the team members array to use Supabase URLs
+const teamMembers = [
+  {
+    name: "Dwijadas Chatterjee",
+    role: "Finance and Business Advisor",
+    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/Chatterje%20.jpeg"
+  },
+  {
+    name: "Tooba Ahmed Laskar",
+    role: "Co-ordinator, Arts and Crafts Unit",
+    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/tooba.jpg"
+  },
+  {
+    name: "Saiyra Begom",
+    role: "Unit Head, Pickle Production & Development",
+    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/saiyra.jpg"
+  },
+  {
+    name: "Sudipta Dawn",
+    role: "Advisor, Pickle Marketing & Business Development",
+    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/sudipta.jpg"
+  },
+  {
+    name: "Reema Pathomi",
+    role: "Manager, Lekhicheera Eco-Village",
+    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/reema.jpg"
+  },
+  {
+    name: "Ch. Adnan Alig",
+    role: "Business Coordinator/ Analyst",
+    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/adnan.jpeg"
+  },
+  {
+    name: "Joyin Mahmmad Aslam Laskar",
+    role: "IT Advisor",
+    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/joyin.jpg"
+  },
+  {
+    name: "Mehboob Hasan Barbhuiya",
+    role: "Advisor, Finance",
+    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/mehboob.jpg"
+  }
+];
+
+// Update the authorized logos array
+const authorisedLogos = {
+  ashok: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/logos/authorised/ashok.jpeg",
+  assamStartup: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/logos/authorised/assam%20startup.jpeg",
+  fssai: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/logos/authorised/fssai.png",
+  mca: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/logos/authorised/mca.jpg",
+  msme: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/logos/authorised/msme.jpeg",
+  startupIndia: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/logos/authorised/startup-india.jpeg"
+};
+
 export default function AboutPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const heroRef = useRef(null);
@@ -151,6 +222,12 @@ export default function AboutPage() {
   const y = useTransform(scrollYProgress, [0, 1], [0, 300]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const handleParticleHover = (index: number) => {
+    setHoveredIndex(index);
+  };
+
   useEffect(() => {
     setIsLoaded(true);
   }, []);
@@ -181,7 +258,15 @@ export default function AboutPage() {
         {isLoaded && (
           <div className="absolute inset-0 z-10 overflow-hidden">
             {particleImages.map((image, index) => (
-              <Particle key={image.id} image={image} index={index} />
+              <Particle 
+                key={image.id} 
+                image={image} 
+                index={index}
+                total={particleImages.length}
+                onHover={handleParticleHover}
+                isHovered={hoveredIndex === index}
+                hoveredIndex={hoveredIndex}
+              />
             ))}
           </div>
         )}
@@ -215,7 +300,7 @@ export default function AboutPage() {
         />
 
         <motion.div 
-          className="container mx-auto px-6 relative z-20 text-center"
+          className="container mx-auto px-6 relative z-20 text-center max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -245,7 +330,7 @@ export default function AboutPage() {
           </motion.h1>
           
           <motion.p 
-            className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-8"
+            className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-8 text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -360,8 +445,8 @@ export default function AboutPage() {
                     >
                       <div className="relative w-full h-full">
                         <Image 
-                          src={empoweringCommunities}
-                          alt="Empowering local communities"
+                          src={images[0].src}
+                          alt={images[0].alt}
                           fill
                           className="object-cover rounded-lg"
                           sizes="(max-width: 768px) 100vw, 50vw"
@@ -430,8 +515,8 @@ export default function AboutPage() {
                     >
                       <div className="relative w-full h-full">
                         <Image 
-                          src={agriTreasures}
-                          alt="Local agri-treasures"
+                          src={images[1].src}
+                          alt={images[1].alt}
                           fill
                           className="object-cover rounded-lg"
                           sizes="(max-width: 768px) 100vw, 50vw"
@@ -499,8 +584,8 @@ export default function AboutPage() {
                     >
                       <div className="relative w-full h-full">
                         <Image 
-                          src={ecologyEconomy}
-                          alt="Ecology and economy"
+                          src={images[2].src}
+                          alt={images[2].alt}
                           fill
                           className="object-cover rounded-lg"
                           sizes="(max-width: 768px) 100vw, 50vw"
@@ -749,12 +834,12 @@ export default function AboutPage() {
 
     <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
     {[
-    { src: ashok, alt: 'Ashok Stambh' },
-    { src: assamStartup, alt: 'Assam Startup' },
-    { src: fssai, alt: 'FSSAI' },
-    { src: mca, alt: 'Ministry of Corporate Affairs' },
-    { src: msme, alt: 'MSME' },
-    { src: startupIndia, alt: 'Startup India' }
+    { src: authorisedLogos.ashok, alt: 'Ashok Stambh' },
+    { src: authorisedLogos.assamStartup, alt: 'Assam Startup' },
+    { src: authorisedLogos.fssai, alt: 'FSSAI' },
+    { src: authorisedLogos.mca, alt: 'Ministry of Corporate Affairs' },
+    { src: authorisedLogos.msme, alt: 'MSME' },
+    { src: authorisedLogos.startupIndia, alt: 'Startup India' }
   ].map((image, index) => (
         <motion.div
           key={image.alt}
@@ -877,48 +962,7 @@ export default function AboutPage() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                name: "Dwijadas Chatterjee",
-                role: "Finance and Business Advisor",
-                image: chatterjee
-              },
-              {
-                name: "Tooba Ahmed Laskar",
-                role: "Co-ordinator, Arts and Crafts Unit",
-                image: tooba
-              },
-              {
-                name: "Saiyra Begom",
-                role: "Unit Head, Pickle Production & Development",
-                image: saiyra
-              },
-              {
-                name: "Sudipta Dawn",
-                role: "Advisor, Pickle Marketing & Business Development",
-                image: sudipta
-              },
-              {
-                name: "Reema Pathomi",
-                role: "Manager, Lekhicheera Eco-Village",
-                image: reema
-              },
-              {
-                name: "Ch. Adnan Alig",
-                role: "Business Coordinator/ Analyst",
-                image: adnan
-              },
-              {
-                name: "Joyin Mahmmad Aslam Laskar",
-                role: "IT Advisor",
-                image: joyin
-              },
-              {
-                name: "Mehboob Hasan Barbhuiya",
-                role: "Advisor, Finance",
-                image: mehboob
-              }
-            ].map((member, index) => (
+            {teamMembers.map((member, index) => (
               <motion.div
                 key={member.name}
                 className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
@@ -947,7 +991,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Call to Action */}
       <section className="py-20 bg-gradient-to-r from-green-800 to-emerald-600 text-white">
         <div className="container mx-auto px-6 text-center">
           <motion.h2 

@@ -7,23 +7,25 @@ import Link from 'next/link';
 import Script from 'next/script';
 
 // Import images for particles
-import pickle from '@/images/products/pickle.png';
-import rice from '@/images/products/rice.png';
-import drybean from '@/images/products/dry beans.png';
-import orange from '@/images/products/orange.png';
-import dryhathkora from '@/images/products/haatkora.png';
-import tezpatta from '@/images/products/tezpatta.png';
-import handicraft from '@/images/products/art & craft.png';
+const productImages = {
+  pickle: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/pickle.png",
+  rice: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/rice.png",
+  drybean: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/dry%20beans.png",
+  orange: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/orange.png",
+  dryhathkora: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/haatkora.png",
+  tezpatta: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/tezpatta.png",
+  handicraft: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/art%20&%20craft.png"
+};
 
 // Array of images for particles
 const particleImages = [
-  { src: pickle, alt: "Organic Pickle", id: 1 },
-  { src: rice, alt: "Premium Rice", id: 2 },
-  { src: drybean, alt: "Dry Bean", id: 3 },
-  { src: orange, alt: "Orange", id: 4 },
-  { src: dryhathkora, alt: "Dry Hathkora", id: 5 },
-  { src: tezpatta, alt: "Tezpatta", id: 6 },
-  { src: handicraft, alt: "Handicraft", id: 7 },
+  { src: productImages.pickle, alt: "Organic Pickle", id: 1 },
+  { src: productImages.rice, alt: "Premium Rice", id: 2 },
+  { src: productImages.drybean, alt: "Dry Bean", id: 3 },
+  { src: productImages.orange, alt: "Orange", id: 4 },
+  { src: productImages.dryhathkora, alt: "Dry Hathkora", id: 5 },
+  { src: productImages.tezpatta, alt: "Tezpatta", id: 6 },
+  { src: productImages.handicraft, alt: "Handicraft", id: 7 },
 ];
 
 // Particle component

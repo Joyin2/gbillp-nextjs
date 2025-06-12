@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import sylhetiChaiImg from '@/images/sylotichawla/syl.jpeg';
+// Import Sylheti Chaiwala image from Supabase
+const sylhetiChaiImg = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/sylotichawla/syl.jpeg";
 
 const features = [
   {

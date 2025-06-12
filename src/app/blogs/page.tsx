@@ -4,40 +4,25 @@ import { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase/config';
 
-// Sample blog data structure (this will be replaced with data from admin panel)
-const sampleBlogs = [
-  {
-    id: 1,
-    title: "Green Business Initiative LLP Named EarthON Climate Champion",
-    excerpt: "Green Business Initiative LLP (GBI) has been recognized as an EarthON Climate Champion and participated in the prestigious Climate Champion Workshop held at TapovON in Nadia, West Bengal.",
-    date: "December 11, 2023",
-    category: "Sustainability",
-    image: "/images/blog-1.jpg",
-    slug: "earthon-climate-champion"
-  },
-  {
-    id: 2,
-    title: "GBI Participates in 43rd India International Trade Fair",
-    excerpt: "Green Business Initiative LLP is proud to have been invited to participate in the 43rd India International Trade Fair (IITF), held from November 14 to 27 at Pragati Maidan, New Delhi.",
-    date: "November 14, 2024",
-    category: "Events",
-    image: "/images/blog-2.jpg",
-    slug: "iitf-participation"
-  },
-  {
-    id: 3,
-    title: "GBI Named ODOP Ambassador for Cachar District",
-    excerpt: "Green Business Initiative LLP has been appointed from Cachar District as the Ambassador of the One District One Product (ODOP) initiative for promoting local varieties of Sticky and Kalijira Rice.",
-    date: "October 15, 2023",
-    category: "Achievements",
-    image: "/images/blog-3.jpg",
-    slug: "odop-ambassador"
-  }
-];
+interface Blog {
+  id: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  featured_image: string;
+  created_at: string;
+  status: 'draft' | 'published';
+  author_name: string;
+  category?: string;
+}
 
 export default function BlogPage() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -48,8 +33,30 @@ export default function BlogPage() {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('blogs')
+          .select('*')
+          .eq('status', 'published')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        setBlogs(data || []);
+      } catch (error) {
+        console.error('Error fetching blogs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
     setIsLoaded(true);
   }, []);
+
+  const filteredBlogs = selectedCategory === 'All' 
+    ? blogs 
+    : blogs.filter(blog => blog.category === selectedCategory);
 
   return (
     <div className="min-h-screen">
@@ -181,7 +188,7 @@ export default function BlogPage() {
             </div>
           </motion.div>
 
-          {/* Scroll Indicator - Moved below search bar */}
+          {/* Scroll Indicator */}
           <motion.div
             className="absolute bottom-0 -mb-20 left-1/2 transform -translate-x-1/2"
             animate={{
@@ -190,19 +197,17 @@ export default function BlogPage() {
             transition={{
               duration: 1.5,
               repeat: Infinity,
-              repeatType: "reverse"
             }}
           >
-            <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
+            <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
               <motion.div
-                className="w-1 h-3 bg-white rounded-full mt-2"
+                className="w-1 h-2 bg-white/50 rounded-full mt-2"
                 animate={{
                   y: [0, 12, 0],
                 }}
                 transition={{
                   duration: 1.5,
                   repeat: Infinity,
-                  repeatType: "reverse"
                 }}
               />
             </div>
@@ -210,110 +215,57 @@ export default function BlogPage() {
         </motion.div>
       </section>
 
-      {/* Blog Categories */}
-      <section className="py-12 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-wrap justify-center gap-4">
-            {['All', 'Sustainability', 'Events', 'Achievements', 'Innovation', 'Community'].map((category) => (
-              <motion.button
-                key={category}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-6 py-2 rounded-full bg-green-50 text-green-800 hover:bg-green-100 transition-colors duration-300"
-              >
-                {category}
-              </motion.button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Blog Grid */}
+      {/* Blog Grid Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
+          {/* Category Filter */}
+          <div className="flex justify-center mb-12 space-x-4">
+            {['All', 'Technology', 'Business', 'Sustainability', 'Innovation'].map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-full transition-colors duration-300 ${
+                  selectedCategory === category
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-white text-gray-600 hover:bg-emerald-50'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+
+          {/* Blog Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {sampleBlogs.map((blog, index) => (
-              <motion.article
+            {filteredBlogs.map((blog) => (
+              <motion.div
                 key={blog.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
                 <div className="relative h-48">
                   <Image
-                    src={blog.image}
+                    src={blog.featured_image}
                     alt={blog.title}
                     fill
                     className="object-cover"
                   />
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-green-500 text-white text-sm rounded-full">
-                      {blog.category}
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-2 text-gray-900">{blog.title}</h3>
+                  <p className="text-gray-600 mb-4">{blog.excerpt}</p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-500">{blog.author_name}</span>
+                    <span className="text-sm text-gray-500">
+                      {new Date(blog.created_at).toLocaleDateString()}
                     </span>
                   </div>
                 </div>
-                <div className="p-6">
-                  <div className="text-sm text-gray-500 mb-2">{blog.date}</div>
-                  <h3 className="text-xl font-bold mb-3 text-gray-800 hover:text-green-600 transition-colors duration-300">
-                    <Link href={`/blogs/${blog.slug}`}>
-                      {blog.title}
-                    </Link>
-                  </h3>
-                  <p className="text-gray-600 mb-4">{blog.excerpt}</p>
-                  <Link
-                    href={`/blogs/${blog.slug}`}
-                    className="inline-flex items-center text-green-600 hover:text-green-700 font-medium"
-                  >
-                    Read More
-                    <svg
-                      className="w-4 h-4 ml-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </Link>
-                </div>
-              </motion.article>
+              </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Newsletter Section */}
-      <section className="py-20 bg-gradient-to-r from-green-800 to-emerald-600 text-white">
-        <div className="container mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
-            <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
-              Subscribe to our newsletter to receive the latest updates, news, and insights from Green Business Initiative LLP.
-            </p>
-            <div className="max-w-md mx-auto">
-              <div className="flex gap-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-6 py-3 rounded-full bg-white/10 backdrop-blur-lg text-white placeholder-white/70 border border-white/20 focus:outline-none focus:ring-2 focus:ring-white"
-                />
-                <button className="px-8 py-3 bg-white text-green-800 rounded-full font-medium hover:bg-gray-100 transition-colors duration-300">
-                  Subscribe
-                </button>
-              </div>
-            </div>
-          </motion.div>
         </div>
       </section>
     </div>

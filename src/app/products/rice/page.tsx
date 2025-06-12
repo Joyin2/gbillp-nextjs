@@ -5,19 +5,19 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 
-// Import rice images
-import kalijira from '@/images/rice/kalijira.jpg';
-import hariNarayan from '@/images/rice/hari narayan.jpg';
-import whiteSticky from '@/images/rice/white sticky rice.jpg';
-import redSticky from '@/images/rice/red sticky rice.jpg';
-import steamRice from '@/images/rice/steam rice.jpg';
-import gobindobhog from '@/images/rice/gobindobhog.jpg';
-import sugandhaBasmati from '@/images/rice/sugandha basmati.jpg';
-import basmatiWhiteSella from '@/images/rice/basmati white sella.jpg';
-import basmatiGoldenSella from '@/images/rice/basmati golden sella.jpg';
-import basmatiRaw from '@/images/rice/basmati raw.jpg';
-import pusa1718 from '@/images/rice/pusa 1718.jpg';
-import redRiceKaliMukri from '@/images/rice/red rice kali mukri.jpg';
+// Import rice images from Supabase
+const kalijira = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/kalijira.jpg";
+const hariNarayan = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/hari%20narayan.jpg";
+const whiteSticky = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/white%20sticky%20rice.jpg";
+const redSticky = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/red%20sticky%20rice.jpg";
+const steamRice = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/steam%20rice.jpg";
+const gobindobhog = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/gobindobhog.jpg";
+const sugandhaBasmati = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/sugandha%20basmati.jpg";
+const basmatiWhiteSella = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/basmati%20white%20sella.jpg";
+const basmatiGoldenSella = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/basmati%20golden%20sella.jpg";
+const basmatiRaw = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/basmati%20raw.jpg";
+const pusa1718 = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/pusa%201718.jpg";
+const redRiceKaliMukri = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/red%20rice%20kali%20mukri.jpg";
 
 const riceVarieties = [
   {

@@ -1,23 +1,29 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function TestPage() {
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [error, setError] = useState<string | null>(null);
+  const [blogs, setBlogs] = useState<any[]>([]);
 
   useEffect(() => {
     async function testConnection() {
       try {
-        // Test the connection by fetching the current user
-        const { data, error } = await supabase.auth.getSession();
+        const supabase = createClientComponentClient();
         
+        // Test the connection by fetching blogs
+        const { data, error } = await supabase
+          .from('blogs')
+          .select('*')
+          .limit(1);
+
         if (error) {
           throw error;
         }
 
-        // If we get here, the connection is working
+        setBlogs(data || []);
         setStatus('success');
       } catch (err) {
         setStatus('error');
@@ -29,7 +35,7 @@ export default function TestPage() {
   }, []);
 
   return (
-    <div>
+    <div className="p-8">
       <h1 className="text-3xl font-bold mb-8">Supabase Connection Test</h1>
       
       <div className="bg-white rounded-lg shadow p-6 mb-6">
@@ -47,7 +53,7 @@ export default function TestPage() {
         )}
       </div>
 
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-white rounded-lg shadow p-6 mb-6">
         <h2 className="text-xl font-semibold mb-4">Environment Variables</h2>
         <div className="space-y-2">
           <p className="flex items-center">
@@ -64,6 +70,15 @@ export default function TestPage() {
           </p>
         </div>
       </div>
+
+      {blogs.length > 0 && (
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-xl font-semibold mb-4">Sample Blog Data</h2>
+          <pre className="bg-gray-50 p-4 rounded overflow-auto">
+            {JSON.stringify(blogs[0], null, 2)}
+          </pre>
+        </div>
+      )}
     </div>
   );
 } 

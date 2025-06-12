@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import logo from '../images/logo.png'
+import { logo } from '@/lib/imageUrls';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -64,7 +64,7 @@ const Navbar = () => {
             <Link href="/" className="flex items-center space-x-2">
               <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-emerald-400">
                 <Image 
-                  src={logo} 
+                  src="https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/logo.png"
                   alt="Green Business Initiative Logo" 
                   width={48} 
                   height={48} 

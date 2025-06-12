@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 
-// Import tezpatta image
-import tezpattaImg from '@/images/products/tezpatta.png';
+// Import tezpatta image from Supabase
+const tezpattaImg = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/tezpatta.png";
 
 const features = [
   {

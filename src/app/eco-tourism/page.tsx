@@ -40,24 +40,39 @@ const features = [
 
 export default function EcoTourismPage() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [videosLoaded, setVideosLoaded] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
+    // Set videos as loaded after a short delay to ensure proper hydration
+    const timer = setTimeout(() => {
+      setVideosLoaded(true);
+    }, 100);
+    return () => clearTimeout(timer);
   }, []);
+
+  if (!isLoaded) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/videos/videoss.mp4" type="video/mp4" />
-        </video>
+        {videosLoaded && (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source 
+              src="https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/videoss.mp4" 
+              type="video/mp4" 
+            />
+          </video>
+        )}
         
         <div className="absolute inset-0 bg-black/40" />
         
@@ -119,7 +134,7 @@ export default function EcoTourismPage() {
               className="relative h-[400px] rounded-lg overflow-hidden"
             >
               <Image
-                src="/images/eco-park-land-all.jpeg"
+                src="https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/ecotourism//eco-park-land-all.jpeg"
                 alt="Eco Park Landscape"
                 fill
                 className="object-cover"
@@ -214,15 +229,20 @@ export default function EcoTourismPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-cover"
-              >
-                <source src="/videos/videoss.mp4" type="video/mp4" />
-              </video>
+              {videosLoaded && (
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                >
+                  <source 
+                    src="https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/videoss.mp4" 
+                    type="video/mp4" 
+                  />
+                </video>
+              )}
             </motion.div>
             <motion.div
               className="text-center md:text-left"
@@ -265,15 +285,20 @@ export default function EcoTourismPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-cover"
-              >
-                <source src="/videos/eco-village-2.mp4" type="video/mp4" />
-              </video>
+              {videosLoaded && (
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                >
+                  <source 
+                    src="https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/ecotourism/eco-village-2.mp4" 
+                    type="video/mp4" 
+                  />
+                </video>
+              )}
             </motion.div>
           </div>
 
@@ -286,15 +311,20 @@ export default function EcoTourismPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-cover"
-              >
-                <source src="/videos/eco-village-1.mp4" type="video/mp4" />
-              </video>
+              {videosLoaded && (
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                >
+                  <source 
+                    src="https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/ecotourism/eco-village-1.mp4" 
+                    type="video/mp4" 
+                  />
+                </video>
+              )}
             </motion.div>
             <motion.div
               className="text-center md:text-left"

@@ -1,7 +1,17 @@
-import { NextConfig } from 'next';
+import type { NextConfig } from 'next'
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const config: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'uufjafllhnhjzqvasyxj.supabase.co',
+        port: '',
+        pathname: '/storage/v1/object/public/**',
+      },
+    ],
+  },
+  trailingSlash: true,
   webpack: (config) => {
     config.module.rules.push({
       test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
@@ -12,14 +22,7 @@ const nextConfig: NextConfig = {
     });
     return config;
   },
-  async rewrites() {
-    return [
-      {
-        source: '/admin/:path*',
-        destination: '/src/admin/:path*',
-      },
-    ];
-  },
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx'],
 };
 
-export default nextConfig;
+export default config;

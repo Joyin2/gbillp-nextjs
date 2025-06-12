@@ -1,6 +1,50 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
+import { authorisedLogos } from '@/lib/imageUrls';
 
 const Footer = () => {
+  const authorizedLogos = [
+    {
+      src: authorisedLogos.ashok,
+      alt: 'Ashok Logo',
+      width: 100,
+      height: 100
+    },
+    {
+      src: authorisedLogos.assamStartup,
+      alt: 'Assam Startup Logo',
+      width: 100,
+      height: 100
+    },
+    {
+      src: authorisedLogos.fssai,
+      alt: 'FSSAI Logo',
+      width: 100,
+      height: 100
+    },
+    {
+      src: authorisedLogos.mca,
+      alt: 'MCA Logo',
+      width: 100,
+      height: 100
+    },
+    {
+      src: authorisedLogos.msme,
+      alt: 'MSME Logo',
+      width: 100,
+      height: 100
+    },
+    {
+      src: authorisedLogos.startupIndia,
+      alt: 'Startup India Logo',
+      width: 100,
+      height: 100
+    }
+  ];
+
   return (
     <footer className="bg-gray-100 pt-12 pb-6">
       {/* Social Media Links */}

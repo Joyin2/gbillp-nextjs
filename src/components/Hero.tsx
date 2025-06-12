@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-// import herovideo from "../videos/herovideo.mp4";
+import { heroVideo } from '@/lib/imageUrls';
 
 const Hero = () => {
   const [videoError, setVideoError] = useState(false);
@@ -12,7 +12,13 @@ const Hero = () => {
 
   // Handle video loading error
   const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.error("Video error occurred:", e);
+    const videoElement = e.target as HTMLVideoElement;
+    console.error("Video error occurred:", {
+      error: videoElement.error,
+      networkState: videoElement.networkState,
+      readyState: videoElement.readyState,
+      src: videoElement.currentSrc
+    });
     setVideoError(true);
   };
 
@@ -22,7 +28,7 @@ const Hero = () => {
     // Attempt to manually play the video after mounting
     const timer = setTimeout(() => {
       if (videoRef.current) {
-        console.log("Attempting to load video");
+        console.log("Attempting to load video from URL:", heroVideo);
         // Force load before play
         videoRef.current.load();
         
@@ -63,7 +69,7 @@ const Hero = () => {
               }}
               className="absolute inset-0 min-w-full min-h-full object-cover w-full h-full z-0"
             >
-              <source src="/videos/herovideo.mp4" type="video/mp4" />
+              <source src={heroVideo} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </>
@@ -77,8 +83,8 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-6 md:px-12 relative z-20 h-full flex items-center justify-center">
-        <div className="max-w-4xl lg:max-w-5xl text-center">
+      <div className="container mx-auto px-4 relative z-10 flex justify-center items-center">
+        <div className="max-w-4xl lg:max-w-5xl text-center w-full">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white drop-shadow-lg">
             <span className="block md:inline mb-2 md:mb-0 md:mr-2">
             Transforming local agri-products

@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 
-// Import dry hathkora image
-import dryHathkora from '@/images/dry hathkora/dry-hatkora.jpg';
+// Import dry hathkora image from Supabase
+const dryHathkora = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/dry%20hathkora/dry-hatkora.jpg";
 
 const features = [
   {

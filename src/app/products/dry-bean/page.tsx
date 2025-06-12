@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 
-// Import dry bean image
-import dryBean from '@/images/dry bean/dry bean.jpg';
+// Import dry bean image from Supabase
+const dryBean = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/dry%20bean/dry%20bean.jpg";
 
 const features = [
   {

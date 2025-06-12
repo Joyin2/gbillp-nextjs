@@ -9,10 +9,10 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   const isAdminRoute = pathname?.startsWith('/admin');
 
   return (
-    <>
+    <div className="min-h-full">
       {!isAdminRoute && <Navbar />}
       <main className="flex-grow">{children}</main>
       {!isAdminRoute && <Footer />}
-    </>
+    </div>
   );
 } 

@@ -1,0 +1,386 @@
+[
+  {
+    "path": "about\\empowering local communities and products.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/about/about%5Cempowering%20local%20communities%20and%20products.jpg",
+    "bucket": "about",
+    "size": 106943
+  },
+  {
+    "path": "about\\MAKING OUR LOCAL AGRI-TREASURES GLOBAL.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/about/about%5CMAKING%20OUR%20LOCAL%20AGRI-TREASURES%20GLOBAL.jpg",
+    "bucket": "about",
+    "size": 1207367
+  },
+  {
+    "path": "about\\MOVING TOGETHER WITH ECOLOGY AND ECONOMY.png",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/about/about%5CMOVING%20TOGETHER%20WITH%20ECOLOGY%20AND%20ECONOMY.png",
+    "bucket": "about",
+    "size": 1991686
+  },
+  {
+    "path": "art and handicraft\\handicraft.jpeg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft%5Chandicraft.jpeg",
+    "bucket": "products",
+    "size": 144030
+  },
+  {
+    "path": "art and handicraft\\indegenous text pottery.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft%5Cindegenous%20text%20pottery.jpg",
+    "bucket": "products",
+    "size": 943991
+  },
+  {
+    "path": "art and handicraft\\pottery.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft%5Cpottery.jpg",
+    "bucket": "products",
+    "size": 772248
+  },
+  {
+    "path": "art and handicraft\\teracotta.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft%5Cteracotta.jpg",
+    "bucket": "products",
+    "size": 639384
+  },
+  {
+    "path": "art and handicraft\\terracotta.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft%5Cterracotta.jpg",
+    "bucket": "products",
+    "size": 1015831
+  },
+  {
+    "path": "art and handicraft\\visual art 2.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft%5Cvisual%20art%202.jpg",
+    "bucket": "products",
+    "size": 921838
+  },
+  {
+    "path": "art and handicraft\\visual art 3.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft%5Cvisual%20art%203.jpg",
+    "bucket": "products",
+    "size": 764657
+  },
+  {
+    "path": "art and handicraft\\visual art.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft%5Cvisual%20art.jpg",
+    "bucket": "products",
+    "size": 575654
+  },
+  {
+    "path": "authorised\\ashok.jpeg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/logos/authorised%5Cashok.jpeg",
+    "bucket": "logos",
+    "size": 8342
+  },
+  {
+    "path": "authorised\\assam startup.jpeg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/logos/authorised%5Cassam%20startup.jpeg",
+    "bucket": "logos",
+    "size": 2805
+  },
+  {
+    "path": "authorised\\fssai.png",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/logos/authorised%5Cfssai.png",
+    "bucket": "logos",
+    "size": 7733
+  },
+  {
+    "path": "authorised\\mca.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/logos/authorised%5Cmca.jpg",
+    "bucket": "logos",
+    "size": 10420
+  },
+  {
+    "path": "authorised\\msme.jpeg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/logos/authorised%5Cmsme.jpeg",
+    "bucket": "logos",
+    "size": 6216
+  },
+  {
+    "path": "authorised\\startup-india.jpeg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/logos/authorised%5Cstartup-india.jpeg",
+    "bucket": "logos",
+    "size": 6835
+  },
+  {
+    "path": "dry bean\\dry bean.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/dry%20bean%5Cdry%20bean.jpg",
+    "bucket": "products",
+    "size": 438212
+  },
+  {
+    "path": "dry hathkora\\dry-hatkora.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/dry%20hathkora%5Cdry-hatkora.jpg",
+    "bucket": "products",
+    "size": 317041
+  },
+  {
+    "path": "logo.png",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/logo.png",
+    "bucket": "products",
+    "size": 157575
+  },
+  {
+    "path": "pickle\\bamboo shoot.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickle%5Cbamboo%20shoot.jpg",
+    "bucket": "products",
+    "size": 402705
+  },
+  {
+    "path": "pickle\\boromar.jpeg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickle%5Cboromar.jpeg",
+    "bucket": "products",
+    "size": 43456
+  },
+  {
+    "path": "pickle\\fresh garlic pickle.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickle%5Cfresh%20garlic%20pickle.jpg",
+    "bucket": "products",
+    "size": 532829
+  },
+  {
+    "path": "pickle\\fresh ginger.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickle%5Cfresh%20ginger.jpg",
+    "bucket": "products",
+    "size": 465504
+  },
+  {
+    "path": "pickle\\indian olive pickles.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickle%5Cindian%20olive%20pickles.jpg",
+    "bucket": "products",
+    "size": 567191
+  },
+  {
+    "path": "Plantation\\orange.jpeg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/Plantation%5Corange.jpeg",
+    "bucket": "products",
+    "size": 13654
+  },
+  {
+    "path": "products\\art & craft.png",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products%5Cart%20&%20craft.png",
+    "bucket": "products",
+    "size": 271068
+  },
+  {
+    "path": "products\\dry beans.png",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products%5Cdry%20beans.png",
+    "bucket": "products",
+    "size": 746695
+  },
+  {
+    "path": "products\\haatkora.png",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products%5Chaatkora.png",
+    "bucket": "products",
+    "size": 343455
+  },
+  {
+    "path": "products\\orange.png",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products%5Corange.png",
+    "bucket": "products",
+    "size": 307819
+  },
+  {
+    "path": "products\\pickle.png",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products%5Cpickle.png",
+    "bucket": "products",
+    "size": 290416
+  },
+  {
+    "path": "products\\rice.png",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products%5Crice.png",
+    "bucket": "products",
+    "size": 302231
+  },
+  {
+    "path": "products\\tezpatta.png",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products%5Ctezpatta.png",
+    "bucket": "products",
+    "size": 229644
+  },
+  {
+    "path": "rice\\basmati golden sella.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice%5Cbasmati%20golden%20sella.jpg",
+    "bucket": "products",
+    "size": 897667
+  },
+  {
+    "path": "rice\\basmati raw.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice%5Cbasmati%20raw.jpg",
+    "bucket": "products",
+    "size": 854280
+  },
+  {
+    "path": "rice\\basmati white sella.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice%5Cbasmati%20white%20sella.jpg",
+    "bucket": "products",
+    "size": 790252
+  },
+  {
+    "path": "rice\\gobindobhog.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice%5Cgobindobhog.jpg",
+    "bucket": "products",
+    "size": 694609
+  },
+  {
+    "path": "rice\\hari narayan.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice%5Chari%20narayan.jpg",
+    "bucket": "products",
+    "size": 742119
+  },
+  {
+    "path": "rice\\kalijira.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice%5Ckalijira.jpg",
+    "bucket": "products",
+    "size": 641167
+  },
+  {
+    "path": "rice\\pusa 1718.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice%5Cpusa%201718.jpg",
+    "bucket": "products",
+    "size": 833767
+  },
+  {
+    "path": "rice\\red rice kali mukri.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice%5Cred%20rice%20kali%20mukri.jpg",
+    "bucket": "products",
+    "size": 723023
+  },
+  {
+    "path": "rice\\red sticky rice.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice%5Cred%20sticky%20rice.jpg",
+    "bucket": "products",
+    "size": 707629
+  },
+  {
+    "path": "rice\\steam rice.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice%5Csteam%20rice.jpg",
+    "bucket": "products",
+    "size": 712252
+  },
+  {
+    "path": "rice\\sugandha basmati.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice%5Csugandha%20basmati.jpg",
+    "bucket": "products",
+    "size": 856162
+  },
+  {
+    "path": "rice\\white sticky rice.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice%5Cwhite%20sticky%20rice.jpg",
+    "bucket": "products",
+    "size": 596170
+  },
+  {
+    "path": "sylotichawla\\syl.jpeg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/sylotichawla%5Csyl.jpeg",
+    "bucket": "products",
+    "size": 8512
+  },
+  {
+    "path": "team member\\adnan.jpeg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member%5Cadnan.jpeg",
+    "bucket": "team",
+    "size": 121683
+  },
+  {
+    "path": "team member\\Chatterje .jpeg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member%5CChatterje%20.jpeg",
+    "bucket": "team",
+    "size": 24638
+  },
+  {
+    "path": "team member\\joyin.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member%5Cjoyin.jpg",
+    "bucket": "team",
+    "size": 405482
+  },
+  {
+    "path": "team member\\mehboob.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member%5Cmehboob.jpg",
+    "bucket": "team",
+    "size": 255540
+  },
+  {
+    "path": "team member\\reema.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member%5Creema.jpg",
+    "bucket": "team",
+    "size": 851825
+  },
+  {
+    "path": "team member\\saiyra.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member%5Csaiyra.jpg",
+    "bucket": "team",
+    "size": 483805
+  },
+  {
+    "path": "team member\\sudipta.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member%5Csudipta.jpg",
+    "bucket": "team",
+    "size": 416198
+  },
+  {
+    "path": "team member\\tooba.jpg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member%5Ctooba.jpg",
+    "bucket": "team",
+    "size": 741610
+  },
+  {
+    "path": "eco-park-land-all.jpeg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/ecotourism/eco-park-land-all.jpeg",
+    "bucket": "ecotourism",
+    "size": 148638
+  },
+  {
+    "path": "eco-village-1.mp4",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/ecotourism/eco-village-1.mp4",
+    "bucket": "ecotourism",
+    "size": 10412484
+  },
+  {
+    "path": "eco-village-2.mp4",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/ecotourism/eco-village-2.mp4",
+    "bucket": "ecotourism",
+    "size": 7708168
+  },
+  {
+    "path": "comprehensive report.pdf",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/investor/comprehensive%20report.pdf",
+    "bucket": "investor",
+    "size": 4994206
+  },
+  {
+    "path": "eco-village-1.mp4",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/eco-village-1.mp4",
+    "bucket": "products",
+    "size": 10412484
+  },
+  {
+    "path": "eco-village-2.mp4",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/eco-village-2.mp4",
+    "bucket": "products",
+    "size": 7708168
+  },
+  {
+    "path": "herovideo.mp4",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/herovideo.mp4",
+    "bucket": "products",
+    "size": 15167408
+  },
+  {
+    "path": "pickles.mp4",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickles.mp4",
+    "bucket": "products",
+    "size": 16765100
+  },
+  {
+    "path": "videoss.mp4",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/videoss.mp4",
+    "bucket": "products",
+    "size": 28197033
+  },
+  {
+    "path": "eco-park-land-all.jpeg",
+    "url": "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/eco-park-land-all.jpeg",
+    "bucket": "products",
+    "size": 148638
+  }
+]

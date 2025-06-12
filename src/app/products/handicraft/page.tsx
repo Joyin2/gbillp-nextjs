@@ -5,14 +5,14 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 
-// Import handicraft images
-import visualArt1 from '@/images/art and handicraft/visual art.jpg';
-import visualArt2 from '@/images/art and handicraft/visual art 2.jpg';
-import visualArt3 from '@/images/art and handicraft/visual art 3.jpg';
-import terracotta from '@/images/art and handicraft/terracotta.jpg';
-import indigenousText from '@/images/art and handicraft/indegenous text pottery.jpg';
-import pottery from '@/images/art and handicraft/pottery.jpg';
-import handicraft from '@/images/art and handicraft/handicraft.jpeg';
+// Import handicraft images from Supabase
+const visualArt1 = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft/visual%20art.jpg";
+const visualArt2 = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft/visual%20art%202.jpg";
+const visualArt3 = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft/visual%20art%203.jpg";
+const terracotta = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft/terracotta.jpg";
+const indigenousText = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft/indegenous%20text%20pottery.jpg";
+const pottery = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft/pottery.jpg";
+const handicraft = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft/handicraft.jpeg";
 
 const products = [
   {
