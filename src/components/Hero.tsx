@@ -83,8 +83,8 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 relative z-10 flex justify-center items-center">
-        <div className="max-w-4xl lg:max-w-5xl text-center w-full">
+      <div className="container mx-auto px-4 relative z-10 h-full flex flex-col justify-center">
+        <div className="max-w-4xl lg:max-w-5xl text-center w-full mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white drop-shadow-lg">
             <span className="block md:inline mb-2 md:mb-0 md:mr-2">
             Transforming local agri-products
@@ -100,14 +100,22 @@ const Hero = () => {
              for the global market.
             </span>
           </h1>
-          <p className="text-gray-200 text-lg md:text-xl mb-8 leading-relaxed drop-shadow-md">
+          <p className="text-gray-200 text-lg md:text-xl mb-12 leading-relaxed drop-shadow-md">
           We brand premium agro products, crafted with care, into global market sensations.
           Sustainable, eco-friendly treasures enhance lives, empower rural communities, and nurture a greener future.
           </p>
-          <div className="flex justify-center">
-            <Link href="/about" className="inline-block button-gradient text-white py-3 px-8 rounded-full font-medium transition-all duration-300 shadow-lg hover:shadow-green-500/20 transform hover:-translate-y-1">
-              Discover More
-            </Link>
+        </div>
+
+        {/* Explore Button positioned at bottom */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
+          <Link href="/about" className="inline-block button-gradient text-white py-3 px-8 rounded-full font-medium transition-all duration-300 shadow-lg hover:shadow-green-500/20 transform hover:-translate-y-1 mb-4">
+            Explore Our Story
+          </Link>
+          {/* Scroll indicator */}
+          <div className="animate-bounce">
+            <svg className="w-6 h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
           </div>
         </div>
       </div>

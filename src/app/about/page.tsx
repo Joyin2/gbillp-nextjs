@@ -341,7 +341,7 @@ export default function AboutPage() {
 
         {/* Scroll Indicator */}
         <motion.div
-          className="absolute bottom-18 left-1/2 transform -translate-x-1/2 z-20"
+          className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20"
           animate={{
             y: [0, 10, 0],
           }}
