@@ -1,46 +1,100 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { collection, getDocs, query, orderBy, Timestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
-const investorDocuments = [
-  {
-    title: "Comprehensive Report",
-    date: "March 18, 2025",
-    description: "A comprehensive report by Green Business Initiative LLP detailing India's spice export industry, including market trends, performance analysis, challenges, and future opportunities from 2020 to 2026.",
-    link: "/documents/comprehensive-report.pdf"
-  },
-  {
-    title: "Challenges",
-    date: "March 15, 2025",
-    description: "A comprehensive report by Green Business Initiative LLP, detailing India's spice export industry with market trends, performance analysis, challenges, and future opportunities from 2020 to 2026.",
-    link: "/documents/challenges.pdf"
-  }
-];
+interface InvestorDocument {
+  id: string;
+  title: string;
+  description: string;
+  fileName: string;
+  fileSize: number;
+  fileType: string;
+  fileUrl: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
 
-const productCatalogues = [
-  {
-    title: "GBI Brochure High Quality",
-    date: "March 18, 2025",
-    description: "A comprehensive report by Green Business Initiative LLP detailing India's spice export industry, including market trends, performance analysis, challenges, and future opportunities from 2020 to 2026.",
-    link: "/documents/gbi-brochure.pdf"
-  },
-  {
-    title: "Final Brochure",
-    date: "March 15, 2025",
-    description: "A comprehensive report by Green Business Initiative LLP, detailing India's spice export industry with market trends, performance analysis, challenges, and future opportunities from 2020 to 2026.",
-    link: "/documents/final-brochure.pdf"
-  },
-  {
-    title: "Merged Art Board",
-    date: "March 15, 2025",
-    description: "A comprehensive report by Green Business Initiative LLP, detailing India's spice export industry with market trends, performance analysis, challenges, and future opportunities from 2020 to 2026.",
-    link: "/documents/merged-art-board.pdf"
-  }
-];
+interface ProductCatalogue {
+  id: string;
+  title: string;
+  description: string;
+  fileName: string;
+  fileSize: number;
+  fileType: string;
+  fileUrl: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
 
 export default function InvestorPage() {
+  const [investorDocuments, setInvestorDocuments] = useState<InvestorDocument[]>([]);
+  const [productCatalogues, setProductCatalogues] = useState<ProductCatalogue[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      try {
+        // Fetch investor documents
+        const investorDocsCollection = collection(db, 'investorDocuments');
+        const investorDocsQuery = query(investorDocsCollection, orderBy('createdAt', 'desc'));
+        const investorDocsSnapshot = await getDocs(investorDocsQuery);
+
+        const investorDocsData: InvestorDocument[] = [];
+        investorDocsSnapshot.forEach((doc) => {
+          const data = doc.data();
+          investorDocsData.push({
+            id: doc.id,
+            title: data.title,
+            description: data.description,
+            fileName: data.fileName,
+            fileSize: data.fileSize,
+            fileType: data.fileType,
+            fileUrl: data.fileUrl,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+          });
+        });
+
+        // Fetch product catalogues
+        const productCataloguesCollection = collection(db, 'productCatalogues');
+        const productCataloguesQuery = query(productCataloguesCollection, orderBy('createdAt', 'desc'));
+        const productCataloguesSnapshot = await getDocs(productCataloguesQuery);
+
+        const productCataloguesData: ProductCatalogue[] = [];
+        productCataloguesSnapshot.forEach((doc) => {
+          const data = doc.data();
+          productCataloguesData.push({
+            id: doc.id,
+            title: data.title,
+            description: data.description,
+            fileName: data.fileName,
+            fileSize: data.fileSize,
+            fileType: data.fileType,
+            fileUrl: data.fileUrl,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+          });
+        });
+
+        setInvestorDocuments(investorDocsData);
+        setProductCatalogues(productCataloguesData);
+      } catch (error) {
+        console.error('Error fetching documents:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDocuments();
+  }, []);
+
+
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Enhanced Hero Section */}
@@ -186,141 +240,175 @@ export default function InvestorPage() {
         </motion.div>
       </section>
 
-      {/* Main Content */}
-      <section id="documents" className="py-20">
-        <div className="container mx-auto px-6">
-          {/* Investor Documents */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-20"
-          >
-            <div className="text-center mb-12">
-              <motion.h2 
-                className="text-4xl font-bold mb-4 text-gray-800"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-              >
-                Investor Documents
-              </motion.h2>
-              <motion.div 
-                className="w-24 h-1 bg-green-500 mx-auto rounded-full"
-                initial={{ width: 0 }}
-                whileInView={{ width: 96 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-              />
+      {/* Loading State */}
+      {loading && (
+        <section className="py-20">
+          <div className="container mx-auto px-6">
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto"></div>
+              <p className="mt-4 text-gray-600">Loading documents...</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {investorDocuments.map((doc, index) => (
-                <motion.div
-                  key={doc.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-                >
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-800 mb-2">{doc.title}</h3>
-                      <p className="text-sm text-gray-500">{doc.date}</p>
-                    </div>
-                    <Link
-                      href={doc.link}
-                      className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-300"
-                    >
-                      Download
-                      <svg
-                        className="w-4 h-4 ml-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                        />
-                      </svg>
-                    </Link>
-                  </div>
-                  <p className="text-gray-600">{doc.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+          </div>
+        </section>
+      )}
 
-          {/* Product Catalogues */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="text-center mb-12">
-              <motion.h2 
-                className="text-4xl font-bold mb-4 text-gray-800"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-              >
-                Product Catalogues
-              </motion.h2>
-              <motion.div 
-                className="w-24 h-1 bg-green-500 mx-auto rounded-full"
-                initial={{ width: 0 }}
-                whileInView={{ width: 96 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-              />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {productCatalogues.map((catalog, index) => (
-                <motion.div
-                  key={catalog.title}
+      {/* Investor Documents Section */}
+      {!loading && (
+        <section id="investor-documents" className="py-20 bg-gray-50">
+          <div className="container mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="text-center mb-12">
+                <motion.h2
+                  className="text-4xl font-bold mb-4 text-gray-800"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-800 mb-2">{catalog.title}</h3>
-                      <p className="text-sm text-gray-500">{catalog.date}</p>
-                    </div>
-                    <Link
-                      href={catalog.link}
-                      className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-300"
-                    >
-                      Download
-                      <svg
-                        className="w-4 h-4 ml-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                  Investor Documents
+                </motion.h2>
+                <motion.div
+                  className="w-24 h-1 bg-green-500 mx-auto rounded-full"
+                  initial={{ width: 0 }}
+                  whileInView={{ width: 96 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8 }}
+                />
+                <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
+                  Access comprehensive reports, financial documents, and investment opportunities
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {investorDocuments.map((doc, index) => (
+                  <motion.div
+                    key={doc.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">{doc.title}</h3>
+                        <p className="text-sm text-gray-500 mb-3">
+                          {doc.createdAt?.toDate ? new Date(doc.createdAt.toDate()).toLocaleDateString() : 'N/A'}
+                        </p>
+                      </div>
+                      <a
+                        href={doc.fileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-300 ml-4"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                        />
-                      </svg>
-                    </Link>
-                  </div>
-                  <p className="text-gray-600">{catalog.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
+                        Download
+                        <svg
+                          className="w-4 h-4 ml-2"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                    <p className="text-gray-600">{doc.description}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* Product Catalogues Section */}
+      {!loading && (
+        <section id="product-catalogues" className="py-20 bg-white">
+          <div className="container mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="text-center mb-12">
+                <motion.h2
+                  className="text-4xl font-bold mb-4 text-gray-800"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                >
+                  Product Catalogues
+                </motion.h2>
+                <motion.div
+                  className="w-24 h-1 bg-green-500 mx-auto rounded-full"
+                  initial={{ width: 0 }}
+                  whileInView={{ width: 96 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8 }}
+                />
+                <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
+                  Explore our comprehensive product range and detailed specifications
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {productCatalogues.map((catalog, index) => (
+                  <motion.div
+                    key={catalog.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100"
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">{catalog.title}</h3>
+                        <p className="text-sm text-gray-500 mb-3">
+                          {catalog.createdAt?.toDate ? new Date(catalog.createdAt.toDate()).toLocaleDateString() : 'N/A'}
+                        </p>
+                      </div>
+                      <a
+                        href={catalog.fileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-300 ml-4"
+                      >
+                        Download
+                        <svg
+                          className="w-4 h-4 ml-2"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                    <p className="text-gray-600">{catalog.description}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       {/* Enhanced Contact Section */}
       <section className="py-20 bg-gradient-to-r from-green-800 to-emerald-600 text-white">

@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Alternative light gradient for dark backgrounds */
 .light-gradient-text {
-  background: linear-gradient(45deg, #b2e63a, #31cc20, #ffffff);
+  background: linear-gradient(45deg, #b2e63a, #31cc20, #b2e63a);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -43,10 +43,81 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .premium-gradient-bg-light {
-  background: linear-gradient(45deg, #b2e63a, #31cc20, #ffffff);
+  background: linear-gradient(45deg, #b2e63a, #31cc20, #b2e63a);
 }
 
 /* New button gradient */
 .button-gradient {
   background: linear-gradient(to right,#31cc20, #b2e63a);
+}
+
+/* Blog content styles */
+.blog-content p {
+  @apply mb-4 text-gray-700 leading-relaxed;
+}
+
+.blog-content h1, .blog-content h2, .blog-content h3, .blog-content h4, .blog-content h5, .blog-content h6 {
+  @apply font-bold text-gray-900 mb-3 mt-6;
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  background-clip: unset;
+}
+
+.blog-content h1 { @apply text-3xl; }
+.blog-content h2 { @apply text-2xl; }
+.blog-content h3 { @apply text-xl; }
+.blog-content h4 { @apply text-lg; }
+
+.blog-content ul, .blog-content ol {
+  @apply mb-4 pl-6;
+}
+
+.blog-content li {
+  @apply mb-2;
+}
+
+.blog-content ul li {
+  @apply list-disc;
+}
+
+.blog-content ol li {
+  @apply list-decimal;
+}
+
+.blog-content blockquote {
+  @apply border-l-4 border-emerald-500 pl-4 italic text-gray-600 my-4;
+}
+
+.blog-content a {
+  @apply text-emerald-600 hover:text-emerald-700 underline;
+}
+
+.blog-content img {
+  @apply rounded-lg shadow-md my-4 max-w-full h-auto;
+}
+
+.blog-content strong, .blog-content b {
+  @apply font-semibold text-gray-900;
+}
+
+.blog-content em, .blog-content i {
+  @apply italic;
+}
+
+/* Internship content styles */
+.internship-content p {
+  @apply mb-3 text-gray-600 leading-relaxed;
+}
+
+.internship-content br {
+  @apply mb-2;
+}
+
+.internship-content strong, .internship-content b {
+  @apply font-semibold text-gray-800;
+}
+
+.internship-content em, .internship-content i {
+  @apply italic;
 }

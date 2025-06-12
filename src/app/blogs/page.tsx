@@ -4,45 +4,55 @@ import { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { supabase } from '@/lib/supabase/config';
+import { collection, getDocs, query, orderBy, Timestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 interface Blog {
   id: string;
   title: string;
-  excerpt: string;
   content: string;
-  featured_image: string;
-  created_at: string;
-  status: 'draft' | 'published';
-  author_name: string;
-  category?: string;
+  imageUrl: string;
+  authorEmail: string;
+  authorId: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 }
 
 export default function BlogPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState('All');
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"]
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const { data, error } = await supabase
-          .from('blogs')
-          .select('*')
-          .eq('status', 'published')
-          .order('created_at', { ascending: false });
+        const blogsCollection = collection(db, 'blogs');
+        const blogsQuery = query(blogsCollection, orderBy('createdAt', 'desc'));
+        const querySnapshot = await getDocs(blogsQuery);
 
-        if (error) throw error;
-        setBlogs(data || []);
+        const blogsData: Blog[] = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          blogsData.push({
+            id: doc.id,
+            title: data.title,
+            content: data.content,
+            imageUrl: data.imageUrl,
+            authorEmail: data.authorEmail,
+            authorId: data.authorId,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+          });
+        });
+
+        setBlogs(blogsData);
       } catch (error) {
         console.error('Error fetching blogs:', error);
       } finally {
@@ -54,9 +64,8 @@ export default function BlogPage() {
     setIsLoaded(true);
   }, []);
 
-  const filteredBlogs = selectedCategory === 'All' 
-    ? blogs 
-    : blogs.filter(blog => blog.category === selectedCategory);
+  // For now, show all blogs since category filtering is not implemented in Firestore
+  const filteredBlogs = blogs;
 
   return (
     <div className="min-h-screen">
@@ -218,56 +227,78 @@ export default function BlogPage() {
       {/* Blog Grid Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
-          {/* Category Filter */}
-          <div className="flex justify-center mb-12 space-x-4">
-            {['All', 'Technology', 'Business', 'Sustainability', 'Innovation'].map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-full transition-colors duration-300 ${
-                  selectedCategory === category
-                    ? 'bg-emerald-600 text-white'
-                    : 'bg-white text-gray-600 hover:bg-emerald-50'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Latest Blog Posts</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Discover insights, stories, and updates from Green Business Initiative LLP
+            </p>
           </div>
 
           {/* Blog Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredBlogs.map((blog) => (
-              <motion.div
-                key={blog.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
-              >
-                <div className="relative h-48">
-                  <Image
-                    src={blog.featured_image}
-                    alt={blog.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2 text-gray-900">{blog.title}</h3>
-                  <p className="text-gray-600 mb-4">{blog.excerpt}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-500">{blog.author_name}</span>
-                    <span className="text-sm text-gray-500">
-                      {new Date(blog.created_at).toLocaleDateString()}
-                    </span>
+            {loading ? (
+              // Loading skeleton
+              Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="bg-white rounded-lg overflow-hidden shadow-lg animate-pulse">
+                  <div className="h-48 bg-gray-300"></div>
+                  <div className="p-6">
+                    <div className="h-6 bg-gray-300 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-300 rounded mb-4"></div>
+                    <div className="flex items-center justify-between">
+                      <div className="h-4 bg-gray-300 rounded w-24"></div>
+                      <div className="h-4 bg-gray-300 rounded w-20"></div>
+                    </div>
                   </div>
                 </div>
-              </motion.div>
-            ))}
+              ))
+            ) : filteredBlogs.length > 0 ? (
+              filteredBlogs.map((blog) => (
+                <Link key={blog.id} href={`/blogs/${blog.id}`}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group"
+                  >
+                    <div className="relative h-64 overflow-hidden">
+                      <Image
+                        src={blog.imageUrl}
+                        alt={blog.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold mb-3 text-gray-900 group-hover:text-emerald-600 transition-colors duration-300">
+                        {blog.title}
+                      </h3>
+                      <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
+                        {blog.content.replace(/<[^>]*>/g, '').substring(0, 120)}...
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-500">
+                          {blog.createdAt?.toDate ? new Date(blog.createdAt.toDate()).toLocaleDateString() : 'N/A'}
+                        </span>
+                        <span className="text-emerald-600 hover:text-emerald-700 font-medium text-sm flex items-center gap-1 group-hover:gap-2 transition-all duration-300">
+                          Read More
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                </Link>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-gray-500 text-lg">No blogs found.</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
     </div>
   );
-} 
+}

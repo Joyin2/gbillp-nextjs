@@ -1,7 +1,20 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
+import { collection, getDocs, Timestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+
+interface Internship {
+  id: string;
+  title: string;
+  description: string;
+  applyLink: string;
+  active: boolean;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
 
 const internshipDetails = {
   title: "Green Business Initiative Remote Internship Program 2025",
@@ -38,6 +51,51 @@ const internshipDetails = {
 };
 
 export default function InternshipPage() {
+  const [internships, setInternships] = useState<Internship[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchInternships = async () => {
+      try {
+        const internshipsCollection = collection(db, 'internships');
+        const querySnapshot = await getDocs(internshipsCollection);
+
+        const internshipsData: Internship[] = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          // Filter active internships on the client side
+          if (data.active === true) {
+            internshipsData.push({
+              id: doc.id,
+              title: data.title,
+              description: data.description,
+              applyLink: data.applyLink,
+              active: data.active,
+              createdAt: data.createdAt,
+              updatedAt: data.updatedAt,
+            });
+          }
+        });
+
+        // Sort by creation date on the client side
+        internshipsData.sort((a, b) => {
+          if (a.createdAt && b.createdAt) {
+            return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+          }
+          return 0;
+        });
+
+        setInternships(internshipsData);
+      } catch (error) {
+        console.error('Error fetching internships:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInternships();
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -94,7 +152,7 @@ export default function InternshipPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <motion.h1 
+          <motion.h1
             className="text-5xl md:text-7xl font-bold mb-6 text-white drop-shadow-lg"
             animate={{
               textShadow: [
@@ -114,45 +172,17 @@ export default function InternshipPage() {
               repeatType: "reverse"
             }}
           >
-            {internshipDetails.title}
+            Green Business Initiative Remote Internship Program 2025
           </motion.h1>
-          <motion.p 
+          <motion.p
             className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            {internshipDetails.description}
+            We are thrilled to launch our Remote Internship Program under Green Business Initiative (GBI) for UG and PG students across India. Dive into market research, product analysis, and professional report writing while contributing to sustainable rural development.
           </motion.p>
 
-          {/* CTA Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link
-              href="#apply"
-              className="inline-flex items-center px-8 py-4 bg-green-500 text-white rounded-full text-lg font-medium hover:bg-green-600 transition-colors duration-300 shadow-lg hover:shadow-xl"
-            >
-              Apply Now
-              <svg
-                className="w-5 h-5 ml-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </Link>
-          </motion.div>
 
           {/* Scroll Indicator */}
           <motion.div
@@ -286,6 +316,99 @@ export default function InternshipPage() {
         </div>
       </section>
 
+      {/* Internship Details Section - Firestore Data */}
+      {!loading && internships.length > 0 && (
+        <section className="py-20 bg-white">
+          <div className="container mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-12"
+            >
+              <motion.h2
+                className="text-4xl font-bold mb-4 text-gray-800"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                Current Internship Opportunities
+              </motion.h2>
+              <motion.div
+                className="w-24 h-1 bg-green-500 mx-auto rounded-full"
+                initial={{ width: 0 }}
+                whileInView={{ width: 96 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+              />
+            </motion.div>
+
+            <div className="max-w-4xl mx-auto">
+              {internships.map((internship, index) => (
+                <motion.div
+                  key={internship.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                  className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8 mb-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100"
+                >
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="flex-1">
+                      <div className="flex items-center mb-4">
+                        <div className="w-3 h-3 bg-green-500 rounded-full mr-3 animate-pulse"></div>
+                        <span className="text-sm font-medium text-green-600 uppercase tracking-wide">
+                          Active Position
+                        </span>
+                        <span className="ml-4 text-sm text-gray-500">
+                          Posted: {internship.createdAt?.toDate ? new Date(internship.createdAt.toDate()).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          }) : 'N/A'}
+                        </span>
+                      </div>
+                      <h3 className="text-3xl font-bold text-gray-800 mb-4 leading-tight">
+                        {internship.title}
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div
+                    className="text-gray-700 leading-relaxed mb-6 internship-content text-lg"
+                    dangerouslySetInnerHTML={{ __html: internship.description }}
+                  />
+
+                  <div className="flex items-center justify-between pt-6 border-t border-green-200">
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      Remote Position
+                    </div>
+                    <motion.a
+                      href={internship.applyLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full font-medium hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+                    >
+                      Apply Now
+                      <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </motion.a>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Benefits Section */}
       <section className="py-20 bg-green-50">
         <div className="container mx-auto px-6">
@@ -345,117 +468,6 @@ export default function InternshipPage() {
                 </motion.div>
               ))}
             </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Timeline Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto"
-          >
-            <div className="text-center mb-12">
-              <motion.h2 
-                className="text-4xl font-bold mb-4 text-gray-800"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-              >
-                Application Timeline
-              </motion.h2>
-              <motion.div 
-                className="w-24 h-1 bg-green-500 mx-auto rounded-full"
-                initial={{ width: 0 }}
-                whileInView={{ width: 96 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-              />
-            </div>
-
-            <div className="space-y-8">
-              {internshipDetails.timeline.map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.2 }}
-                  className="flex items-center"
-                >
-                  <div className="flex-shrink-0 w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">
-                    {index + 1}
-                  </div>
-                  <div className="ml-6">
-                    <h3 className="text-xl font-semibold text-gray-800">{item.title}</h3>
-                    <p className="text-gray-600">{item.date}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Apply Section */}
-      <section id="apply" className="py-20 bg-gradient-to-r from-green-800 to-emerald-600 text-white">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <motion.h2 
-              className="text-4xl font-bold mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              Ready to Start Your Journey?
-            </motion.h2>
-            <motion.p 
-              className="text-xl text-white/90 mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-            >
-              Join our mission to create sustainable business solutions and make a positive impact on rural development.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Link
-                href="https://forms.gle/E1kbGDk3zy7fmFMn9"
-                className="inline-flex items-center px-8 py-4 bg-white text-green-800 rounded-full text-lg font-medium hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl"
-              >
-                Apply Now
-                <svg
-                  className="w-5 h-5 ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-                </svg>
-              </Link>
-            </motion.div>
           </motion.div>
         </div>
       </section>

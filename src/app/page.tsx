@@ -8,7 +8,6 @@ export default function Home() {
       <Hero />
       <ProductsSection />
       <AboutSection />
-      <BlogsSection />
     </main>
   );
 }

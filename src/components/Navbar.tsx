@@ -52,9 +52,9 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav 
-      className={`fixed w-full z-50 transition-all duration-300 ${scrolled 
-        ? 'bg-black/30 backdrop-blur-sm py-2' 
+    <nav
+      className={`fixed w-full z-50 transition-all duration-300 ${scrolled
+        ? 'bg-black/40 backdrop-blur-xl py-4'
         : 'bg-transparent py-4'}`}
     >
       <div className="container mx-auto px-4">
@@ -62,18 +62,19 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-emerald-400">
-                <Image 
+              <div className="relative h-14 w-14 overflow-hidden">
+                <Image
                   src="https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/logo.png"
-                  alt="Green Business Initiative Logo" 
-                  width={48} 
-                  height={48} 
+                  alt="Green Business Initiative Logo"
+                  width={56}
+                  height={56}
                   className="object-cover"
                 />
               </div>
-              <span className="text-xl font-bold text-white hidden sm:block">
-                <span className="light-gradient-text">Green Business</span>
-              </span>
+              <div className="text-lg font-bold text-white hidden sm:block uppercase leading-tight">
+                <div className="light-gradient-text" style={{ wordSpacing: '0.3em' }}>Green Business</div>
+                <div className="light-gradient-text" style={{ wordSpacing: '0.5em' }}>Initiative LLP</div>
+              </div>
             </Link>
           </div>
 
@@ -84,9 +85,9 @@ const Navbar = () => {
             
             {/* Products Dropdown */}
             <div className="relative group">
-              <button 
-                className={`px-3 py-2 rounded-md group flex items-center font-bold ${scrolled 
-                  ? 'hover:bg-white/20' 
+              <button
+                className={`px-3 py-2 rounded-md group flex items-center font-bold uppercase ${scrolled
+                  ? 'hover:bg-white/20'
                   : 'hover:bg-white/10'} transition-colors duration-200`}
               >
                 <span className="text-white">Products</span>
@@ -114,9 +115,9 @@ const Navbar = () => {
             <NavLink href="/internship" scrolled={scrolled}>Internship</NavLink>
             
             {/* Contact Button with highlight */}
-            <Link 
-              href="/contact" 
-              className={`ml-2 px-4 py-2 rounded-full font-medium transition-all duration-300 bg-gradient-to-r from-[#d6ff76] to-[#31cc20] text-white hover:shadow-emerald-500/20 shadow-md hover:shadow-lg transform hover:-translate-y-0.5`}
+            <Link
+              href="/contact"
+              className={`ml-2 px-4 py-2 rounded-full font-medium transition-all duration-300 bg-gradient-to-r from-[#b2e63a] to-[#31cc20] text-white hover:shadow-emerald-500/20 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 uppercase`}
             >
               Contact Us
             </Link>
@@ -151,20 +152,20 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div 
+        <div
           ref={menuRef}
-          className="lg:hidden fixed inset-0 z-50 mt-16 bg-black bg-opacity-50 overflow-y-auto"
+          className="lg:hidden fixed inset-0 z-50 mt-20 bg-black bg-opacity-50 overflow-y-auto"
           onClick={(e) => e.target === e.currentTarget && setIsMenuOpen(false)}
         >
           <div className="bg-gradient-to-b from-emerald-800 to-teal-600 text-white rounded-t-xl shadow-xl max-w-sm mx-auto overflow-hidden transform transition-all">
-            <div className="px-4 py-6 space-y-3">
+            <div className="px-4 py-4 space-y-3">
               <MobileNavLink href="/" onClick={() => setIsMenuOpen(false)}>Home</MobileNavLink>
               <MobileNavLink href="/about" onClick={() => setIsMenuOpen(false)}>About GBI</MobileNavLink>
               
               {/* Mobile Products Dropdown */}
               <div className="border-b border-emerald-500/30 pb-2">
-                <button 
-                  className="w-full flex justify-between items-center px-3 py-2 text-white hover:bg-emerald-700/50 rounded-md transition-colors duration-200"
+                <button
+                  className="w-full flex justify-between items-center px-3 py-2 text-white hover:bg-emerald-700/50 rounded-md transition-colors duration-200 uppercase"
                   onClick={() => toggleDropdown('products')}
                 >
                   <span className="font-medium">Products</span>
@@ -200,9 +201,9 @@ const Navbar = () => {
               
               {/* Contact Button */}
               <div className="pt-4">
-                <Link 
-                  href="/contact" 
-                  className="block w-full text-center px-4 py-3 rounded-md bg-gradient-to-r from-[#d6ff76] to-[#31cc20] text-white font-medium hover:shadow-lg transition-all duration-200 shadow-md"
+                <Link
+                  href="/contact"
+                  className="block w-full text-center px-4 py-3 rounded-md bg-gradient-to-r from-[#b2e63a] to-[#31cc20] text-white font-medium hover:shadow-lg transition-all duration-200 shadow-md uppercase"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Contact Us
@@ -218,10 +219,10 @@ const Navbar = () => {
 
 // Helper Components
 const NavLink = ({ href, children, scrolled }: { href: string; children: React.ReactNode; scrolled: boolean }) => (
-  <Link 
-    href={href} 
-    className={`px-3 py-2 rounded-md font-bold text-white ${scrolled 
-      ? 'hover:bg-white/20' 
+  <Link
+    href={href}
+    className={`px-3 py-2 rounded-md font-bold text-white uppercase ${scrolled
+      ? 'hover:bg-white/20'
       : 'hover:bg-white/10'} transition-colors duration-200`}
   >
     {children}
@@ -229,18 +230,18 @@ const NavLink = ({ href, children, scrolled }: { href: string; children: React.R
 );
 
 const ProductLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
-  <Link 
-    href={href} 
-    className="block px-4 py-2 text-sm text-white hover:bg-white/10 transition-colors duration-200 font-bold"
+  <Link
+    href={href}
+    className="block px-4 py-2 text-sm text-white hover:bg-white/10 transition-colors duration-200 font-bold uppercase"
   >
     {children}
   </Link>
 );
 
 const MobileNavLink = ({ href, children, onClick }: { href: string; children: React.ReactNode; onClick: () => void }) => (
-  <Link 
-    href={href} 
-    className="block px-3 py-2 text-white hover:bg-emerald-700/50 rounded-md transition-colors duration-200 font-bold"
+  <Link
+    href={href}
+    className="block px-3 py-2 text-white hover:bg-emerald-700/50 rounded-md transition-colors duration-200 font-bold uppercase"
     onClick={onClick}
   >
     {children}
@@ -248,9 +249,9 @@ const MobileNavLink = ({ href, children, onClick }: { href: string; children: Re
 );
 
 const MobileProductLink = ({ href, children, onClick }: { href: string; children: React.ReactNode; onClick: () => void }) => (
-  <Link 
-    href={href} 
-    className="block px-3 py-1.5 text-sm text-white/90 hover:bg-emerald-700/30 hover:text-white rounded transition-colors duration-200 font-bold"
+  <Link
+    href={href}
+    className="block px-3 py-1.5 text-sm text-white/90 hover:bg-emerald-700/30 hover:text-white rounded transition-colors duration-200 font-bold uppercase"
     onClick={onClick}
   >
     {children}
