@@ -121,3 +121,16 @@ h1, h2, h3, h4, h5, h6 {
 .internship-content em, .internship-content i {
   @apply italic;
 }
+
+/* Product description styles */
+.product-description p {
+  @apply mb-4 text-gray-600 leading-relaxed;
+}
+
+.product-description strong, .product-description b {
+  @apply font-semibold text-gray-800;
+}
+
+.product-description em, .product-description i {
+  @apply italic;
+}

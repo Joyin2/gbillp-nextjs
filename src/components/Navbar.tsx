@@ -62,12 +62,12 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="relative h-14 w-14 overflow-hidden">
+              <div className="relative h-18 w-18 overflow-hidden">
                 <Image
                   src="https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/logo.png"
                   alt="Green Business Initiative Logo"
-                  width={56}
-                  height={56}
+                  width={96}
+                  height={96}
                   className="object-cover"
                 />
               </div>

@@ -4,97 +4,101 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { collection, getDocs, Timestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
-// Import handicraft images from Supabase
-const visualArt1 = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft/visual%20art.jpg";
-const visualArt2 = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft/visual%20art%202.jpg";
-const visualArt3 = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft/visual%20art%203.jpg";
-const terracotta = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft/terracotta.jpg";
-const indigenousText = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft/indegenous%20text%20pottery.jpg";
-const pottery = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft/pottery.jpg";
-const handicraft = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/art%20and%20handicraft/handicraft.jpeg";
+// Fallback handicraft image
+const defaultHandicraftImage = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIiBmaWxsPSIjOWNhM2FmIj5IYW5kaWNyYWZ0IEFydDwvdGV4dD48L3N2Zz4=";
 
-const products = [
-  {
-    name: "Wall Hanging Sorai with Arabic Calligraphy",
-    description: "Elegant wall hanging Sorai pieces, adorned with flowing Arabic calligraphy, bring a touch of spiritual artistry to any space. The intricate script, often embodying profound messages, is carefully etched onto the clay surface, creating a harmonious blend of tradition and aesthetics. These pieces serve as a testament to the rich cultural tapestry of the Arabic world.",
-    image: pottery,
-    features: [
-      "Intricate Arabic calligraphy",
-      "Traditional clay craftsmanship",
-      "Spiritual and aesthetic appeal",
-      "Perfect for wall decoration",
-      "Cultural heritage preservation"
-    ]
-  },
-  {
-    name: "Terracotta Art Collection",
-    description: "Our terracotta collection showcases the timeless beauty of clay craftsmanship. Each piece is carefully molded and fired, creating durable and beautiful items that bring natural warmth to any space. The earthy tones and textures make these pieces perfect for both traditional and contemporary interiors.",
-    image: terracotta,
-    features: [
-      "Natural clay material",
-      "Traditional firing techniques",
-      "Earthy color palette",
-      "Durable construction",
-      "Versatile decorative pieces"
-    ]
-  },
-  {
-    name: "Indigenous Text Pottery",
-    description: "Pottery featuring indigenous texts captures the essence of ancestral wisdom and storytelling. Each piece is a canvas for the symbols and scripts of native cultures, often reflecting a deep connection to the earth and community. These works preserve linguistic heritage and offer a unique, earthy charm to any setting, bridging the past with the present.",
-    image: indigenousText,
-    features: [
-      "Indigenous text preservation",
-      "Cultural storytelling",
-      "Traditional craftsmanship",
-      "Unique artistic expression",
-      "Heritage conservation"
-    ]
-  },
-  {
-    name: "Visual Art Collection",
-    description: "Our visual art collection features stunning pieces created by professional artists. These artworks serve as powerful mediums for conveying ideas and messages, whether political, emotional, social, or scientific, while providing visual pleasure and lasting impact. Perfect for enhancing the ambiance of homes, offices, and public spaces.",
-    image: visualArt1,
-    features: [
-      "Professional artistic creation",
-      "Meaningful visual impact",
-      "Versatile placement options",
-      "Emotional and social expression",
-      "Aesthetic enhancement"
-    ]
-  },
-  {
-    name: "Contemporary Art Series",
-    description: "The contemporary art series showcases modern interpretations of traditional themes. These pieces blend traditional techniques with contemporary aesthetics, creating unique artworks that appeal to modern sensibilities while maintaining cultural relevance.",
-    image: visualArt2,
-    features: [
-      "Modern artistic interpretation",
-      "Contemporary design elements",
-      "Cultural fusion",
-      "Unique visual appeal",
-      "Modern interior compatibility"
-    ]
-  },
-  {
-    name: "Abstract Art Collection",
-    description: "Our abstract art collection features bold, expressive pieces that add character and depth to any space. These artworks encourage personal interpretation and create engaging focal points in both residential and commercial settings.",
-    image: visualArt3,
-    features: [
-      "Bold artistic expression",
-      "Abstract design elements",
-      "Engaging visual impact",
-      "Versatile placement options",
-      "Contemporary appeal"
-    ]
+interface HandicraftProduct {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+  featured: boolean;
+  price: number | null;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+  createdBy: string;
+  createdByEmail: string;
+}
+
+// Helper function to extract features from HTML description
+const extractFeaturesFromDescription = (htmlDescription: string): string[] => {
+  // Extract list items from HTML
+  const listItemRegex = /<li><p>(.*?)<\/p><\/li>/g;
+  const features: string[] = [];
+  let match;
+
+  while ((match = listItemRegex.exec(htmlDescription)) !== null) {
+    features.push(match[1]);
   }
-];
+
+  // If no list items found, return some default features
+  if (features.length === 0) {
+    return [
+      "Handcrafted with care",
+      "Unique artistic design",
+      "Cultural heritage piece",
+      "Perfect for decoration",
+      "Traditional craftsmanship"
+    ];
+  }
+
+  return features;
+};
 
 export default function HandicraftPage() {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [handicraftProducts, setHandicraftProducts] = useState<HandicraftProduct[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoaded(true);
+    fetchHandicraftProducts();
   }, []);
+
+  const fetchHandicraftProducts = async () => {
+    try {
+      const handicraftProductsCollection = collection(db, 'handicraftProducts');
+      const querySnapshot = await getDocs(handicraftProductsCollection);
+
+      const handicraftProductsData: HandicraftProduct[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log('Handicraft product data:', {
+          id: doc.id,
+          name: data.name,
+          imageUrl: data.imageUrl,
+          featured: data.featured
+        });
+        handicraftProductsData.push({
+          id: doc.id,
+          name: data.name,
+          description: data.description,
+          imageUrl: data.imageUrl,
+          featured: data.featured,
+          price: data.price,
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+          createdBy: data.createdBy,
+          createdByEmail: data.createdByEmail,
+        });
+      });
+
+      // Sort by creation date (newest first)
+      handicraftProductsData.sort((a, b) => {
+        if (a.createdAt && b.createdAt) {
+          return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+        }
+        return 0;
+      });
+
+      setHandicraftProducts(handicraftProductsData);
+    } catch (error) {
+      console.error('Error fetching handicraft products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen">
@@ -231,65 +235,94 @@ export default function HandicraftPage() {
             </div>
           </motion.div>
 
-          <div className="space-y-24">
-            {products.map((product, index) => (
-              <motion.div
-                key={product.name}
-                className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12`}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: index * 0.1 }}
-              >
-                {/* Image Section */}
-                <div className="w-full md:w-1/2">
-                  <motion.div 
-                    className="relative h-[500px] rounded-lg overflow-hidden shadow-xl"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
-                  </motion.div>
-                </div>
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading our handcrafted treasures...</p>
+            </div>
+          ) : handicraftProducts.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600 text-lg">No handicraft products available at the moment.</p>
+            </div>
+          ) : (
+            <div className="space-y-24">
+              {handicraftProducts.map((product, index) => {
+                const features = extractFeaturesFromDescription(product.description);
 
-                {/* Content Section */}
-                <div className="w-full md:w-1/2">
+                return (
                   <motion.div
-                    initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    key={product.id}
+                    className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12`}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
+                    transition={{ duration: 0.7, delay: index * 0.1 }}
                   >
-                    <h3 className="text-3xl font-bold mb-6">{product.name}</h3>
-                    <p className="text-gray-600 text-lg mb-8 leading-relaxed">
-                      {product.description}
-                    </p>
-                    <ul className="space-y-3">
-                      {product.features.map((feature, i) => (
-                        <motion.li 
-                          key={i} 
-                          className="flex items-start"
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.5, delay: 0.3 + (i * 0.1) }}
-                        >
-                          <span className="text-emerald-600 mr-3 text-xl">•</span>
-                          <span className="text-gray-600 text-lg">{feature}</span>
-                        </motion.li>
-                      ))}
-                    </ul>
+                    {/* Image Section */}
+                    <div className="w-full md:w-1/2">
+                      <motion.div
+                        className="relative h-[500px] rounded-lg overflow-hidden shadow-xl"
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <Image
+                          src={product.imageUrl || defaultHandicraftImage}
+                          alt={product.name}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          onError={(e) => {
+                            console.error('Image failed to load:', product.imageUrl);
+                            e.currentTarget.src = defaultHandicraftImage;
+                          }}
+                        />
+                        {product.featured && (
+                          <div className="absolute top-4 right-4">
+                            <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                              Featured
+                            </span>
+                          </div>
+                        )}
+                      </motion.div>
+                    </div>
+
+                    {/* Content Section */}
+                    <div className="w-full md:w-1/2">
+                      <motion.div
+                        initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7, delay: 0.2 }}
+                      >
+                        <h3 className="text-3xl font-bold mb-6">{product.name}</h3>
+                        <div
+                          className="text-gray-600 text-lg mb-8 leading-relaxed product-description"
+                          dangerouslySetInnerHTML={{
+                            __html: product.description.replace(/<ul[\s\S]*?<\/ul>/g, '')
+                          }}
+                        />
+                        <ul className="space-y-3">
+                          {features.map((feature, i) => (
+                            <motion.li
+                              key={i}
+                              className="flex items-start"
+                              initial={{ opacity: 0, x: -20 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              viewport={{ once: true }}
+                              transition={{ duration: 0.5, delay: 0.3 + (i * 0.1) }}
+                            >
+                              <span className="text-emerald-600 mr-3 text-xl">•</span>
+                              <span className="text-gray-600 text-lg">{feature}</span>
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    </div>
                   </motion.div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
 

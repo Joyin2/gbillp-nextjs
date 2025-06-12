@@ -4,102 +4,127 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { collection, getDocs, Timestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
-// Import rice images from Supabase
-const kalijira = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/kalijira.jpg";
-const hariNarayan = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/hari%20narayan.jpg";
-const whiteSticky = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/white%20sticky%20rice.jpg";
-const redSticky = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/red%20sticky%20rice.jpg";
-const steamRice = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/steam%20rice.jpg";
-const gobindobhog = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/gobindobhog.jpg";
-const sugandhaBasmati = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/sugandha%20basmati.jpg";
-const basmatiWhiteSella = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/basmati%20white%20sella.jpg";
-const basmatiGoldenSella = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/basmati%20golden%20sella.jpg";
-const basmatiRaw = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/basmati%20raw.jpg";
-const pusa1718 = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/pusa%201718.jpg";
-const redRiceKaliMukri = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/rice/red%20rice%20kali%20mukri.jpg";
+// Fallback rice image - using a simple placeholder
+const defaultRiceImage = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIiBmaWxsPSIjOWNhM2FmIj5SaWNlIFByb2R1Y3Q8L3RleHQ+PC9zdmc+";
 
-const riceVarieties = [
-  {
-    name: "Kalijira Rice",
-    description: "Often called the 'prince of rice,' this premium Bangladeshi variety is known for its small, aromatic grains and delicate texture. Perfect for festive dishes like pulao and biryani.",
-    image: kalijira,
-    features: ["Small aromatic grains", "Delicate texture", "Quick cooking time", "Subtle fragrance"]
-  },
-  {
-    name: "Hari Narayan Rice",
-    description: "A premium-quality rice known for its superior taste, aroma, and texture. Sourced from the finest paddy fields, it ensures a rich culinary experience.",
-    image: hariNarayan,
-    features: ["Superior taste", "Rich aroma", "Premium quality", "Versatile usage"]
-  },
-  {
-    name: "White Sticky Rice (Gondi Biroin)",
-    description: "A traditional delicacy cherished for its soft, sticky texture and unique taste. Perfect for steaming and pairing with curries or sweet toppings.",
-    image: whiteSticky,
-    features: ["Soft texture", "Sticky consistency", "Traditional delicacy", "Cultural significance"]
-  },
-  {
-    name: "Red Sticky Rice (Kaki Biroin)",
-    description: "A traditional delicacy from Northeast India, featuring a natural reddish hue due to anthocyanins. Rich in antioxidants and perfect for desserts and festive dishes.",
-    image: redSticky,
-    features: ["Antioxidant-rich", "Natural red hue", "Nutrient-dense", "Festive favorite"]
-  },
-  {
-    name: "Steam Rice",
-    description: "A staple dish prepared by cooking rice with water vapor, resulting in soft, fluffy grains. Versatile and perfect for various cuisines.",
-    image: steamRice,
-    features: ["Soft texture", "Fluffy grains", "Gluten-free", "Nutrient-retaining"]
-  },
-  {
-    name: "Gobindobhog Rice",
-    description: "A premium, aromatic variety of short-grain rice native to West Bengal. Renowned for its rich flavor and delicate fragrance.",
-    image: gobindobhog,
-    features: ["Rich flavor", "Delicate fragrance", "Short-grain", "Traditional favorite"]
-  },
-  {
-    name: "Sugandha Basmati Rice",
-    description: "A premium long-grain rice known for its rich aroma and delightful taste. Perfect for biryanis, pulao, and gourmet dishes.",
-    image: sugandhaBasmati,
-    features: ["Rich aroma", "Long-grain", "Non-sticky", "Gourmet quality"]
-  },
-  {
-    name: "Basmati Rice (White Sella)",
-    description: "A premium parboiled variety known for its distinct aroma and non-sticky texture. Ideal for biryanis and festive dishes.",
-    image: basmatiWhiteSella,
-    features: ["Parboiled", "Distinct aroma", "Non-sticky", "Nutrient-rich"]
-  },
-  {
-    name: "Basmati Rice (Golden Sella)",
-    description: "A premium variety known for its golden hue and enticing aroma. Parboiled to enhance nutritional value while maintaining perfect grain shape.",
-    image: basmatiGoldenSella,
-    features: ["Golden hue", "Enticing aroma", "Parboiled", "Shape-retaining"]
-  },
-  {
-    name: "Basmati Rice (Raw)",
-    description: "A premium, long-grain variety known for its unique aroma and delicate flavor. Perfect for biryanis and global cuisines.",
-    image: basmatiRaw,
-    features: ["Unique aroma", "Delicate flavor", "Long-grain", "Gluten-free"]
-  },
-  {
-    name: "PUSA - Basmati Rice",
-    description: "An authentic basmati variety known for its premium quality and traditional taste. Perfect for special occasions and gourmet cooking.",
-    image: pusa1718,
-    features: ["Authentic variety", "Premium quality", "Traditional taste", "Special occasions"]
-  },
-  {
-    name: "Red Rice (Kali Mukri)",
-    description: "A nutrient-rich variety with a reddish-brown hue due to its anthocyanin content. Packed with antioxidants and essential minerals.",
-    image: redRiceKaliMukri,
-    features: ["Antioxidant-rich", "Nutrient-dense", "Heart-healthy", "Traditional variety"]
-  }
-];
-
-export default function RicePage() {
-  const [isLoaded, setIsLoaded] = useState(false);
+// Custom Image component with better error handling
+const RiceImage = ({ src, alt, className }: { src: string; alt: string; className?: string }) => {
+  const [imgSrc, setImgSrc] = useState(src);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    setIsLoaded(true);
+    setImgSrc(src);
+    setIsLoading(true);
+    setHasError(false);
+  }, [src]);
+
+  const handleError = () => {
+    console.error('Failed to load image:', src);
+    setHasError(true);
+    setImgSrc(defaultRiceImage);
+    setIsLoading(false);
+  };
+
+  const handleLoad = () => {
+    setIsLoading(false);
+  };
+
+  return (
+    <div className="relative w-full h-full">
+      {isLoading && (
+        <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+          <div className="text-gray-400">Loading...</div>
+        </div>
+      )}
+      <Image
+        src={imgSrc}
+        alt={alt}
+        fill
+        className={`object-cover transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'} ${className || ''}`}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        onError={handleError}
+        onLoad={handleLoad}
+        priority={false}
+      />
+      {hasError && (
+        <div className="absolute bottom-2 left-2 bg-red-100 text-red-600 text-xs px-2 py-1 rounded">
+          Image failed to load
+        </div>
+      )}
+    </div>
+  );
+};
+
+interface RiceProduct {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+  featured: boolean;
+  price: number | null;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+  createdBy: string;
+  createdByEmail: string;
+}
+
+
+
+export default function RicePage() {
+  const [riceProducts, setRiceProducts] = useState<RiceProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchRiceProducts();
   }, []);
+
+  const fetchRiceProducts = async () => {
+    try {
+      const riceProductsCollection = collection(db, 'riceProducts');
+      const querySnapshot = await getDocs(riceProductsCollection);
+
+      const riceProductsData: RiceProduct[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log('Rice product data:', {
+          id: doc.id,
+          name: data.name,
+          imageUrl: data.imageUrl,
+          featured: data.featured
+        });
+        riceProductsData.push({
+          id: doc.id,
+          name: data.name,
+          description: data.description,
+          imageUrl: data.imageUrl,
+          featured: data.featured,
+          price: data.price,
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+          createdBy: data.createdBy,
+          createdByEmail: data.createdByEmail,
+        });
+      });
+
+      // Sort by creation date (newest first)
+      riceProductsData.sort((a, b) => {
+        if (a.createdAt && b.createdAt) {
+          return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+        }
+        return 0;
+      });
+
+      setRiceProducts(riceProductsData);
+    } catch (error) {
+      console.error('Error fetching rice products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen">
@@ -209,43 +234,51 @@ export default function RicePage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {riceVarieties.map((rice, index) => (
-              <motion.div
-                key={rice.name}
-                className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="relative h-80 w-full">
-                  <Image
-                    src={rice.image}
-                    alt={rice.name}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                </div>
-                <div className="p-8">
-                  <h3 className="text-2xl font-bold mb-4">{rice.name}</h3>
-                  <p className="text-gray-600 mb-6">{rice.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {rice.features.map((feature, idx) => (
-                      <span
-                        key={idx}
-                        className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-sm"
-                      >
-                        {feature}
-                      </span>
-                    ))}
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading our premium rice collection...</p>
+            </div>
+          ) : riceProducts.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600 text-lg">No rice products available at the moment.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {riceProducts.map((rice, index) => (
+                <motion.div
+                  key={rice.id}
+                  className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <div className="relative h-80 w-full">
+                    <RiceImage
+                      src={rice.imageUrl || defaultRiceImage}
+                      alt={rice.name}
+                    />
+                    {rice.featured && (
+                      <div className="absolute top-4 right-4 z-10">
+                        <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                          Featured
+                        </span>
+                      </div>
+                    )}
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                  <div className="p-8">
+                    <h3 className="text-2xl font-bold mb-4">{rice.name}</h3>
+                    <div
+                      className="text-gray-600 product-description"
+                      dangerouslySetInnerHTML={{ __html: rice.description }}
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

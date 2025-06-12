@@ -4,71 +4,97 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { collection, getDocs, Timestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
-// Import pickle images from Supabase
+// Import pickle images from Supabase (fallback images)
 const boromar = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickle/boromar.jpeg";
-const indianOlive = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickle/indian%20olive%20pickles.jpg";
-const freshGarlic = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickle/fresh%20garlic%20pickle.jpg";
-const bambooShoot = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickle/bamboo%20shoot.jpg";
-const freshGinger = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/pickle/fresh%20ginger.jpg";
 
-const pickleVarieties = [
-  {
-    name: "Indian Olive Pickles",
-    description: "Indian Olive Pickles capture the authentic flavors of traditional Indian cuisine, bringing a taste of heritage to your table. Made with fresh, hand-picked Indian olives and blended with a unique mix of spices, these pickles offer a tangy and spicy taste experience that is truly unparalleled. Crafted using only natural ingredients and mustard oil, Boromar's pickles ensure quality and taste in every bite.",
-    image: indianOlive,
-    features: [
-      "Made with fresh, hand-picked Indian olives",
-      "Blended with unique mix of spices",
-      "Tangy and spicy taste experience",
-      "Natural ingredients and mustard oil",
-      "Perfect as a condiment or side dish"
-    ]
-  },
-  {
-    name: "Fresh Garlic Pickle",
-    description: "Fresh Garlic Pickle is a culinary delight that brings a burst of flavor to your meals. Made from the finest fresh garlic, this pickle is blended with a unique mix of spices and preserved in mustard oil to maintain its robust taste. Each jar captures the essence of traditional Northeastern Indian pickling methods, ensuring authenticity in every bite.",
-    image: freshGarlic,
-    features: [
-      "Made from finest fresh garlic",
-      "Preserved in mustard oil",
-      "Traditional Northeastern Indian methods",
-      "Perfect accompaniment to rice and bread",
-      "Robust and authentic taste"
-    ]
-  },
-  {
-    name: "Bamboo Shoot Pickle",
-    description: "Bamboo Shoot Pickle offers a unique and exotic taste experience. Crafted from tender bamboo shoots and traditional spices, this pickle combines a delightful crunch with tangy and spicy flavors. Made with natural ingredients and no artificial preservatives, it reflects our commitment to quality and authenticity.",
-    image: bambooShoot,
-    features: [
-      "Made from tender bamboo shoots",
-      "Combines crunch with tangy flavors",
-      "No artificial preservatives",
-      "Natural ingredients",
-      "Unique and exotic taste"
-    ]
-  },
-  {
-    name: "Fresh Ginger Pickle",
-    description: "Fresh Ginger Pickle is a delightful blend of fresh, crisp ginger and traditional spices, creating a perfect balance of tangy and spicy flavors. Made with all-natural ingredients and mustard oil, this pickle captures the essence of homemade goodness. Each bite offers a burst of invigorating flavor, making it a versatile addition to any meal.",
-    image: freshGinger,
-    features: [
-      "Made with fresh, crisp ginger",
-      "Perfect balance of tangy and spicy",
-      "All-natural ingredients",
-      "Preserved in mustard oil",
-      "Versatile addition to any meal"
-    ]
+interface Product {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+  featured: boolean;
+  price: number | null;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+  createdBy: string;
+  createdByEmail: string;
+}
+
+// Helper function to extract features from HTML description
+const extractFeaturesFromDescription = (htmlDescription: string): string[] => {
+  // Extract list items from HTML
+  const listItemRegex = /<li><p>(.*?)<\/p><\/li>/g;
+  const features: string[] = [];
+  let match;
+
+  while ((match = listItemRegex.exec(htmlDescription)) !== null) {
+    features.push(match[1]);
   }
-];
+
+  // If no list items found, return some default features
+  if (features.length === 0) {
+    return [
+      "Made with finest ingredients",
+      "Traditional preparation methods",
+      "Authentic taste and quality",
+      "Perfect for any meal",
+      "Natural and preservative-free"
+    ];
+  }
+
+  return features;
+};
 
 export default function PicklesPage() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setIsLoaded(true);
+    fetchProducts();
   }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const productsCollection = collection(db, 'products');
+      const querySnapshot = await getDocs(productsCollection);
+
+      const productsData: Product[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        productsData.push({
+          id: doc.id,
+          name: data.name,
+          description: data.description,
+          imageUrl: data.imageUrl,
+          featured: data.featured,
+          price: data.price,
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+          createdBy: data.createdBy,
+          createdByEmail: data.createdByEmail,
+        });
+      });
+
+      // Sort by creation date (newest first)
+      productsData.sort((a, b) => {
+        if (a.createdAt && b.createdAt) {
+          return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+        }
+        return 0;
+      });
+
+      setProducts(productsData);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen">
@@ -225,66 +251,93 @@ export default function PicklesPage() {
             </p>
           </motion.div>
 
-          <div className="space-y-20">
-            {pickleVarieties.map((pickle, index) => (
-              <motion.div
-                key={pickle.name}
-                className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12`}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                {/* Image Section */}
-                <div className="w-full md:w-1/2">
-                  <motion.div
-                    className="relative h-[400px] w-full rounded-lg overflow-hidden shadow-xl"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Image
-                      src={pickle.image}
-                      alt={pickle.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
-                  </motion.div>
-                </div>
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading our delicious pickles...</p>
+            </div>
+          ) : products.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600 text-lg">No pickles available at the moment.</p>
+            </div>
+          ) : (
+            <div className="space-y-20">
+              {products.map((product, index) => {
+                const features = extractFeaturesFromDescription(product.description);
 
-                {/* Content Section */}
-                <div className="w-full md:w-1/2">
+                return (
                   <motion.div
-                    className="bg-white p-8 rounded-lg shadow-lg"
-                    initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    key={product.id}
+                    className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12`}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
-                    <h3 className="text-3xl font-bold mb-4 text-emerald-800">{pickle.name}</h3>
-                    <p className="text-gray-600 text-lg mb-6 leading-relaxed">
-                      {pickle.description}
-                    </p>
-                    <ul className="space-y-3">
-                      {pickle.features.map((feature, i) => (
-                        <motion.li 
-                          key={i} 
-                          className="flex items-start"
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.3, delay: i * 0.1 }}
-                        >
-                          <span className="text-emerald-600 mr-2 text-xl">•</span>
-                          <span className="text-gray-600">{feature}</span>
-                        </motion.li>
-                      ))}
-                    </ul>
+                    {/* Image Section */}
+                    <div className="w-full md:w-1/2">
+                      <motion.div
+                        className="relative h-[400px] w-full rounded-lg overflow-hidden shadow-xl"
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <Image
+                          src={product.imageUrl || boromar}
+                          alt={product.name}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      </motion.div>
+                    </div>
+
+                    {/* Content Section */}
+                    <div className="w-full md:w-1/2">
+                      <motion.div
+                        className="bg-white p-8 rounded-lg shadow-lg"
+                        initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
+                      >
+                        <div className="flex items-center justify-between mb-4">
+                          <h3 className="text-3xl font-bold text-emerald-800">{product.name}</h3>
+                          {product.featured && (
+                            <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                              Featured
+                            </span>
+                          )}
+                        </div>
+
+                        <div
+                          className="text-gray-600 text-lg mb-6 leading-relaxed product-description"
+                          dangerouslySetInnerHTML={{
+                            __html: product.description.replace(/<ul[\s\S]*?<\/ul>/g, '')
+                          }}
+                        />
+
+                        <ul className="space-y-3">
+                          {features.map((feature, i) => (
+                            <motion.li
+                              key={i}
+                              className="flex items-start"
+                              initial={{ opacity: 0, x: -20 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              viewport={{ once: true }}
+                              transition={{ duration: 0.3, delay: i * 0.1 }}
+                            >
+                              <span className="text-emerald-600 mr-2 text-xl">•</span>
+                              <span className="text-gray-600">{feature}</span>
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    </div>
                   </motion.div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
 
