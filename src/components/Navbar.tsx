@@ -61,8 +61,8 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="relative h-18 w-18 overflow-hidden">
+            <Link href="/" className="flex items-center space-x-2 sm:space-x-3">
+              <div className="relative h-12 w-12 sm:h-16 sm:w-16 lg:h-18 lg:w-18 overflow-hidden">
                 <Image
                   src="https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/logo.png"
                   alt="Green Business Initiative Logo"
@@ -71,7 +71,7 @@ const Navbar = () => {
                   className="object-cover"
                 />
               </div>
-              <div className="text-lg font-bold text-white hidden sm:block uppercase leading-normal">
+              <div className="text-sm sm:text-base lg:text-lg font-bold text-white hidden sm:block uppercase leading-normal">
                 <div className="light-gradient-text" style={{ wordSpacing: '0.3em' }}>Green Business</div>
                 <div className="light-gradient-text" style={{ wordSpacing: '0.5em' }}>Initiative LLP</div>
               </div>

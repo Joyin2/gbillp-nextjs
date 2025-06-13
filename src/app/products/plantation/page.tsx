@@ -62,25 +62,41 @@ export default function PlantationPage() {
           transition={{ duration: 1 }}
         >
           <motion.div
-            className="absolute left-1/4 top-1/3 text-7xl"
+            className="absolute left-1/4 top-1/3 w-16 h-16 bg-green-500/30 rounded-full flex items-center justify-center"
             animate={{ y: [0, 40, 0], rotate: [0, 10, -10, 0] }}
             transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          >🌱</motion.div>
+          >
+            <svg className="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+          </motion.div>
           <motion.div
-            className="absolute right-1/4 top-1/4 text-6xl"
+            className="absolute right-1/4 top-1/4 w-14 h-14 bg-yellow-500/30 rounded-full flex items-center justify-center"
             animate={{ y: [0, -30, 0], rotate: [0, -10, 10, 0] }}
             transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          >☀️</motion.div>
+          >
+            <svg className="w-7 h-7 text-yellow-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          </motion.div>
           <motion.div
-            className="absolute left-1/3 bottom-1/4 text-8xl"
+            className="absolute left-1/3 bottom-1/4 w-18 h-18 bg-emerald-500/30 rounded-full flex items-center justify-center"
             animate={{ y: [0, 50, 0], rotate: [0, 15, -15, 0] }}
             transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-          >🌳</motion.div>
+          >
+            <svg className="w-9 h-9 text-emerald-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+          </motion.div>
           <motion.div
-            className="absolute right-1/2 bottom-1/3 text-7xl"
+            className="absolute right-1/2 bottom-1/3 w-16 h-16 bg-teal-500/30 rounded-full flex items-center justify-center"
             animate={{ y: [0, 30, 0], rotate: [0, 5, -5, 0] }}
             transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-          >🍃</motion.div>
+          >
+            <svg className="w-8 h-8 text-teal-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          </motion.div>
         </motion.div>
         <div className="container mx-auto px-6 relative z-10 text-center">
           <motion.h1

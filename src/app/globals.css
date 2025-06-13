@@ -127,6 +127,45 @@ h1, h2, h3, h4, h5, h6 {
   @apply mb-4 text-gray-600 leading-relaxed;
 }
 
+/* Responsive utilities */
+@media (max-width: 640px) {
+  .container {
+    @apply px-4;
+  }
+
+  /* Mobile-specific text sizing */
+  h1 {
+    @apply text-2xl;
+  }
+
+  h2 {
+    @apply text-xl;
+  }
+
+  h3 {
+    @apply text-lg;
+  }
+
+  /* Mobile-specific spacing */
+  .section-padding {
+    @apply py-8;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  /* Tablet-specific styles */
+  .section-padding {
+    @apply py-12;
+  }
+}
+
+@media (min-width: 769px) {
+  /* Desktop-specific styles */
+  .section-padding {
+    @apply py-16;
+  }
+}
+
 .product-description strong, .product-description b {
   @apply font-semibold text-gray-800;
 }

@@ -142,17 +142,29 @@ const missionItems = [
   {
     title: "Sustainable Agriculture",
     description: "Promoting eco-friendly farming practices that preserve natural resources and biodiversity while producing high-quality crops.",
-    icon: "🌱",
+    icon: (
+      <svg className="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+    ),
   },
   {
     title: "Community Empowerment",
     description: "Supporting local farmers with fair trade practices, education, and resources to build self-sustaining communities.",
-    icon: "👨‍🌾",
+    icon: (
+      <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M16 7c0-2.21-1.79-4-4-4S8 4.79 8 7s1.79 4 4 4 4-1.79 4-4zm-4 6c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/>
+      </svg>
+    ),
   },
   {
     title: "Global Market Access",
     description: "Creating pathways for premium local products to reach international markets while maintaining authenticity and quality.",
-    icon: "🌎",
+    icon: (
+      <svg className="w-8 h-8 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+      </svg>
+    ),
   },
   {
     title: "Environmental Conservation",
@@ -387,7 +399,7 @@ export default function AboutPage() {
             </motion.h2>
             <div className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 w-24">
               <motion.div 
-                className="h-full w-full bg-gradient-to-r from-green-800 to-emerald-600"
+                className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#31cc20]"
                 initial={{ width: 0 }}
                 whileInView={{ width: "100%" }}
                 viewport={{ once: true }}
@@ -416,7 +428,9 @@ export default function AboutPage() {
                 transition={{ duration: 0.5, delay: 0.1 * index }}
                 whileHover={{ scale: 1.02 }}
               >
-                <div className="text-4xl mb-4">{item.icon}</div>
+                <div className="w-16 h-16 bg-gradient-to-br from-[#b2e63a]/20 to-[#31cc20]/20 rounded-full flex items-center justify-center mb-4">
+                  {item.icon}
+                </div>
                 <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
                 <p className="text-gray-600">{item.description}</p>
               </motion.div>
@@ -771,7 +785,7 @@ export default function AboutPage() {
             <h2 className="text-4xl md:text-5xl font-bold mb-6">OUR ETHICS AND COMPLIANCES</h2>
             <div className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 w-24">
               <motion.div 
-                className="h-full w-full bg-gradient-to-r from-green-800 to-emerald-600"
+                className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#31cc20]"
                 initial={{ width: 0 }}
                 whileInView={{ width: "100%" }}
                 viewport={{ once: true }}

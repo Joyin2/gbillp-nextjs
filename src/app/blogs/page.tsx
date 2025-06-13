@@ -74,7 +74,7 @@ export default function BlogPage() {
         {/* Animated Gradient Background */}
         <div className="absolute inset-0 z-0">
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-green-900 via-emerald-800 to-green-900"
+            className="absolute inset-0 bg-gradient-to-r from-[#31cc20] via-[#b2e63a] to-[#31cc20]"
             animate={{
               backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
             }}
@@ -170,7 +170,7 @@ export default function BlogPage() {
           >
             <div className="relative group">
               <motion.div
-                className="absolute -inset-0.5 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"
+                className="absolute -inset-0.5 bg-gradient-to-r from-[#b2e63a] to-[#31cc20] rounded-full blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"
                 animate={{
                   scale: [1, 1.02, 1],
                 }}

@@ -142,7 +142,7 @@ const ProductsSection = () => {
             viewport={{ once: true }}
             className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200"
           >
-            <div className="h-full w-full bg-gradient-to-r from-green-800 to-emerald-600"></div>
+            <div className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#31cc20]"></div>
           </motion.div>
           <motion.p 
             initial={{ opacity: 0, y: 10 }}
@@ -156,12 +156,12 @@ const ProductsSection = () => {
         </motion.div>
         
         {/* Product grid with enhanced animations */}
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
         >
           {products.map((product, index) => (
             <motion.div 
@@ -226,17 +226,17 @@ const ProductsSection = () => {
                       viewport={{ once: true }}
                       className="flex justify-between items-center"
                     >
-                      <span className="text-emerald-600 font-medium text-sm">Green Business Initiative LLP</span>
+                      <span className="text-[#31cc20] font-medium text-sm">Green Business Initiative LLP</span>
                       <motion.div 
                         className="relative overflow-hidden inline-flex rounded-full"
                         whileHover={{ scale: 1.05 }}
                       >
-                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-teal-500/20"></div>
-                        <motion.span 
-                          className="relative z-10 px-3 py-1 text-xs font-medium text-emerald-800"
-                          whileHover={{ 
-                            color: "#065f46", 
-                            transition: { duration: 0.2 } 
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#b2e63a]/20 to-[#31cc20]/20"></div>
+                        <motion.span
+                          className="relative z-10 px-3 py-1 text-xs font-medium text-[#31cc20]"
+                          whileHover={{
+                            color: "#1a5e1a",
+                            transition: { duration: 0.2 }
                           }}
                         >
                           View Details

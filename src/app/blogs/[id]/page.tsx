@@ -131,7 +131,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ id: strin
     <div className="min-h-screen bg-gray-50">
       {/* Dark background for navbar visibility - fades out when scrolling */}
       <div
-        className={`bg-gradient-to-r from-emerald-800 to-teal-700 h-20 fixed top-0 left-0 right-0 z-40 transition-opacity duration-300 ${
+        className={`bg-gradient-to-r from-[#31cc20] to-[#b2e63a] h-20 fixed top-0 left-0 right-0 z-40 transition-opacity duration-300 ${
           scrolled ? 'opacity-0' : 'opacity-100'
         }`}
       ></div>

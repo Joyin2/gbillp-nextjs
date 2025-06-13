@@ -155,7 +155,7 @@ const AboutSection = () => {
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">KNOW US BETTER</h2>
           <div className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 w-24">
-            <div className="h-full w-full bg-gradient-to-r from-green-800 to-emerald-600"></div>
+            <div className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#31cc20]"></div>
           </div>
         </div>
 

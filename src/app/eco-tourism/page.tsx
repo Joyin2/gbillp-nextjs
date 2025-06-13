@@ -19,32 +19,56 @@ const features = [
   {
     title: "Organic Farming",
     description: "Experience our sustainable farming practices and learn about organic cultivation methods. Our gardens are filled with fresh fruits and vegetables.",
-    icon: "🌱"
+    icon: (
+      <svg className="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+    )
   },
   {
     title: "Nature Walks",
     description: "Explore scenic trails through our pristine natural setting with stunning views of surrounding mountains, tea gardens, and forests.",
-    icon: "🏃‍♂️"
+    icon: (
+      <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L9 8.3V13h2V9.6l-.2-.7z"/>
+      </svg>
+    )
   },
   {
     title: "Yoga & Meditation",
     description: "Find inner peace in our dedicated spaces for yoga and meditation practice, perfect for disconnecting from city life.",
-    icon: "🧘‍♀️"
+    icon: (
+      <svg className="w-8 h-8 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+      </svg>
+    )
   },
   {
     title: "Natural Showers",
     description: "Experience refreshing showers in our natural fountain and rocky river areas, connecting with nature's elements.",
-    icon: "💧"
+    icon: (
+      <svg className="w-8 h-8 text-cyan-600" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+    )
   },
   {
     title: "Eco Accommodations",
     description: "Stay in our comfortable eco tents and huts designed with sustainability in mind, using locally sourced materials.",
-    icon: "🏕️"
+    icon: (
+      <svg className="w-8 h-8 text-emerald-600" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+      </svg>
+    )
   },
   {
     title: "Tea Garden Views",
     description: "Enjoy panoramic views of our beautiful tea gardens and surrounding landscapes, perfect for nature photography.",
-    icon: "🍃"
+    icon: (
+      <svg className="w-8 h-8 text-teal-600" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+    )
   }
 ];
 
@@ -223,7 +247,9 @@ export default function EcoTourismPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.02 }}
               >
-                <div className="text-4xl mb-4">{feature.icon}</div>
+                <div className="w-16 h-16 bg-gradient-to-br from-[#b2e63a]/20 to-[#31cc20]/20 rounded-full flex items-center justify-center mb-4">
+                  {feature.icon}
+                </div>
                 <h3 className="text-2xl font-bold mb-4 text-green-800">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
               </motion.div>

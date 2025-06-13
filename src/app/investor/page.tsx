@@ -101,7 +101,7 @@ export default function InvestorPage() {
       <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-green-900 via-emerald-800 to-green-900"
+            className="absolute inset-0 bg-gradient-to-r from-[#31cc20] via-[#b2e63a] to-[#31cc20]"
             animate={{
               backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
             }}

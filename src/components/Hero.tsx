@@ -83,14 +83,14 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 relative z-10 h-full flex flex-col justify-center">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full flex flex-col justify-center">
         <div className="max-w-4xl lg:max-w-5xl text-center w-full mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white drop-shadow-lg">
-            <span className="block md:inline mb-2 md:mb-0 md:mr-2">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 text-white drop-shadow-lg">
+            <span className="block sm:block md:inline mb-2 md:mb-0 md:mr-2">
               Transforming local agri-products
             </span>
-            <br />
-            <span className="text-3xl md:text-4xl lg:text-5xl" style={{
+            <br className="hidden sm:block" />
+            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl" style={{
               background: "linear-gradient(45deg, #b2e63a, #31cc20, #ffffff)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
@@ -100,7 +100,7 @@ const Hero = () => {
               for the global market.
             </span>
           </h1>
-          <p className="text-gray-200 text-lg md:text-xl mb-12 leading-relaxed drop-shadow-md">
+          <p className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed drop-shadow-md px-4 sm:px-0">
             We brand premium agro products, crafted with care, into global market sensations.
             Sustainable, eco-friendly treasures enhance lives, empower rural communities, and nurture a greener future.
           </p>

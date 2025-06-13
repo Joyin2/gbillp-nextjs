@@ -36,7 +36,7 @@ const BlogsSection = () => {
         <div className="text-center mb-6">
         <h2 className="text-4xl md:text-5xl font-bold mb-6">OUR LATEST BLOGS</h2>
           <div className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 w-24">
-            <div className="h-full w-full bg-gradient-to-r from-green-800 to-emerald-600"></div>
+            <div className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#31cc20]"></div>
           </div>
           <p className="text-gray-600 max-w-3xl mx-auto">
             Discover our curated collection of innovative and sustainable design ideas. From eco-friendly crafts to inspiring creations, explore how Green Business Initiative blends creativity with sustainability.
