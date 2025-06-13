@@ -54,8 +54,8 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ${scrolled
-        ? 'bg-black/40 backdrop-blur-xl py-4'
-        : 'bg-transparent py-4'}`}
+        ? 'bg-black/40 backdrop-blur-xl py-2'
+        : 'bg-transparent py-2'}`}
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
@@ -71,7 +71,7 @@ const Navbar = () => {
                   className="object-cover"
                 />
               </div>
-              <div className="text-lg font-bold text-white hidden sm:block uppercase leading-tight">
+              <div className="text-lg font-bold text-white hidden sm:block uppercase leading-normal">
                 <div className="light-gradient-text" style={{ wordSpacing: '0.3em' }}>Green Business</div>
                 <div className="light-gradient-text" style={{ wordSpacing: '0.5em' }}>Initiative LLP</div>
               </div>

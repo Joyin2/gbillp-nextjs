@@ -5,6 +5,16 @@ import { motion, useScroll, useSpring } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import Script from 'next/script';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+
+// Contact form interface
+interface ContactFormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
 
 // Import images for particles
 const productImages = {
@@ -74,12 +84,78 @@ const Particle = ({ image, index }: { image: any; index: number }) => {
 
 export default function ContactPage() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [formData, setFormData] = useState<ContactFormData>({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-  
+
   useEffect(() => {
     setIsLoaded(true);
   }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Validate form data
+      if (!formData.name.trim() || !formData.email.trim() || !formData.subject.trim() || !formData.message.trim()) {
+        throw new Error('Please fill in all fields');
+      }
+
+      // Add to Firestore
+      const contactsCollection = collection(db, 'contacts');
+      await addDoc(contactsCollection, {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        subject: formData.subject.trim(),
+        message: formData.message.trim(),
+        createdAt: Timestamp.now(),
+        status: 'new', // For tracking purposes
+        read: false // For admin dashboard
+      });
+
+      // Reset form and show success
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+      setSubmitStatus('success');
+
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 5000);
+
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      setSubmitStatus('error');
+
+      // Reset error message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen font-sans bg-gray-50">
@@ -187,7 +263,7 @@ export default function ContactPage() {
 
         {/* Scroll Indicator */}
         <motion.div
-          className="absolute bottom-18 left-1/2 transform -translate-x-1/2 z-20"
+          className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20"
           animate={{
             y: [0, 10, 0],
           }}
@@ -250,7 +326,7 @@ export default function ContactPage() {
                 <p className="text-gray-600 mb-8 text-center text-lg font-medium">
                   Drop us a message, and let's start a conversation.
                 </p>
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <motion.div
                       initial={{ opacity: 0, x: -20 }}
@@ -263,6 +339,10 @@ export default function ContactPage() {
                         <input
                           type="text"
                           id="name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          required
                           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 shadow-sm hover:shadow-lg"
                           placeholder="Your name"
                         />
@@ -280,6 +360,10 @@ export default function ContactPage() {
                         <input
                           type="email"
                           id="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          required
                           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 shadow-sm hover:shadow-lg"
                           placeholder="Your email"
                         />
@@ -298,6 +382,10 @@ export default function ContactPage() {
                       <input
                         type="text"
                         id="subject"
+                        name="subject"
+                        value={formData.subject}
+                        onChange={handleInputChange}
+                        required
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 shadow-sm hover:shadow-lg"
                         placeholder="Message subject"
                       />
@@ -314,10 +402,14 @@ export default function ContactPage() {
                     <div className="relative group">
                       <textarea
                         id="message"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        required
                         rows={6}
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 shadow-sm hover:shadow-lg resize-none"
                         placeholder="Your message"
-                      ></textarea>
+                      />
                       <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                     </div>
                   </motion.div>
@@ -330,10 +422,54 @@ export default function ContactPage() {
                   >
                     <button
                       type="submit"
-                      className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-semibold hover:shadow-2xl hover:shadow-emerald-500/40 transition-all duration-300 transform hover:-translate-y-1 active:scale-95"
+                      disabled={isSubmitting}
+                      className={`w-full md:w-auto px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-semibold hover:shadow-2xl hover:shadow-emerald-500/40 transition-all duration-300 transform hover:-translate-y-1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
+                        isSubmitting ? 'animate-pulse' : ''
+                      }`}
                     >
-                      Send Message
+                      {isSubmitting ? (
+                        <span className="flex items-center">
+                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Sending...
+                        </span>
+                      ) : (
+                        'Send Message'
+                      )}
                     </button>
+
+                    {/* Status Messages */}
+                    {submitStatus === 'success' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-4 p-4 bg-green-50 border border-green-200 rounded-xl"
+                      >
+                        <div className="flex items-center">
+                          <svg className="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                          <p className="text-green-700 font-medium">Message sent successfully! We'll get back to you soon.</p>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {submitStatus === 'error' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl"
+                      >
+                        <div className="flex items-center">
+                          <svg className="h-5 w-5 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                          <p className="text-red-700 font-medium">Failed to send message. Please try again.</p>
+                        </div>
+                      </motion.div>
+                    )}
                   </motion.div>
                 </form>
               </motion.div>

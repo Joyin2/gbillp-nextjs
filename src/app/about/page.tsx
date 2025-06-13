@@ -5,6 +5,8 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import Image from 'next/image';
 import Link from 'next/link';
 import { aboutImages, productImages, teamImages } from '@/lib/imageUrls';
+import { collection, getDocs, Timestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 // TypeScript interfaces
 interface ParticleProps {
@@ -28,9 +30,12 @@ interface ValueCardProps {
 }
 
 interface TeamMember {
+  id: string;
   name: string;
-  role: string;
-  image: string;
+  designation: string;
+  photoUrl: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 }
 
 // Array of images for particles
@@ -156,49 +161,8 @@ const missionItems = [
   },
 ];
 
-// Update the team members array to use Supabase URLs
-const teamMembers = [
-  {
-    name: "Dwijadas Chatterjee",
-    role: "Finance and Business Advisor",
-    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/Chatterje%20.jpeg"
-  },
-  {
-    name: "Tooba Ahmed Laskar",
-    role: "Co-ordinator, Arts and Crafts Unit",
-    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/tooba.jpg"
-  },
-  {
-    name: "Saiyra Begom",
-    role: "Unit Head, Pickle Production & Development",
-    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/saiyra.jpg"
-  },
-  {
-    name: "Sudipta Dawn",
-    role: "Advisor, Pickle Marketing & Business Development",
-    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/sudipta.jpg"
-  },
-  {
-    name: "Reema Pathomi",
-    role: "Manager, Lekhicheera Eco-Village",
-    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/reema.jpg"
-  },
-  {
-    name: "Ch. Adnan Alig",
-    role: "Business Coordinator/ Analyst",
-    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/adnan.jpeg"
-  },
-  {
-    name: "Joyin Mahmmad Aslam Laskar",
-    role: "IT Advisor",
-    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/joyin.jpg"
-  },
-  {
-    name: "Mehboob Hasan Barbhuiya",
-    role: "Advisor, Finance",
-    image: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/team/team%20member/mehboob.jpg"
-  }
-];
+// Fallback team member image
+const defaultTeamImage = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PGNpcmNsZSBjeD0iMTAwIiBjeT0iNzAiIHI9IjMwIiBmaWxsPSIjOWNhM2FmIi8+PHBhdGggZD0iTTUwIDEzMGMwLTI3LjYxNCAyMi4zODYtNTAgNTAtNTBzNTAgMjIuMzg2IDUwIDUwdjcwSDUweiIgZmlsbD0iIzljYTNhZiIvPjwvc3ZnPg==";
 
 // Update the authorized logos array
 const authorisedLogos = {
@@ -212,16 +176,18 @@ const authorisedLogos = {
 
 export default function AboutPage() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+  const [teamLoading, setTeamLoading] = useState(true);
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"]
   });
-  
+
   // Parallax effects
   const y = useTransform(scrollYProgress, [0, 1], [0, 300]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  
+
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const handleParticleHover = (index: number) => {
@@ -230,7 +196,46 @@ export default function AboutPage() {
 
   useEffect(() => {
     setIsLoaded(true);
+    fetchTeamMembers();
   }, []);
+
+  const fetchTeamMembers = async () => {
+    try {
+      const teamCollection = collection(db, 'team');
+      const querySnapshot = await getDocs(teamCollection);
+
+      const teamData: TeamMember[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+
+        // Validate required fields
+        if (data.name && data.designation) {
+          teamData.push({
+            id: doc.id,
+            name: data.name || 'Unknown',
+            designation: data.designation || 'Team Member',
+            photoUrl: data.photoUrl || '',
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+          });
+        }
+      });
+
+      // Sort by creation date (newest first)
+      teamData.sort((a, b) => {
+        if (a.createdAt && b.createdAt) {
+          return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+        }
+        return 0;
+      });
+
+      setTeamMembers(teamData);
+    } catch (error) {
+      console.error('Error fetching team members:', error);
+    } finally {
+      setTeamLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen">
@@ -961,33 +966,61 @@ export default function AboutPage() {
             </motion.p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamMembers.map((member, index) => (
-              <motion.div
-                key={member.name}
-                className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="relative h-64 w-full">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  />
-                </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-bold mb-2">{member.name}</h3>
-                  <p className="text-gray-600">{member.role}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {teamLoading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading our exceptional team...</p>
+            </div>
+          ) : teamMembers.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600 text-lg">No team members available at the moment.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {teamMembers.map((member, index) => (
+                <motion.div
+                  key={member.id}
+                  className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <div className="relative h-64 w-full">
+                    {member.photoUrl && member.photoUrl.trim() !== '' ? (
+                      <Image
+                        src={member.photoUrl}
+                        alt={member.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                        onError={(e) => {
+                          console.error('Team photo failed to load:', member.photoUrl);
+                          e.currentTarget.src = defaultTeamImage;
+                        }}
+                      />
+                    ) : (
+                      <div
+                        className="w-full h-full bg-gray-200 flex items-center justify-center"
+                        style={{
+                          backgroundImage: `url("${defaultTeamImage}")`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: 'center'
+                        }}
+                      >
+                        <span className="text-gray-500 text-sm">No Photo</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6 text-center">
+                    <h3 className="text-xl font-bold mb-2">{member.name}</h3>
+                    <p className="text-gray-600">{member.designation}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

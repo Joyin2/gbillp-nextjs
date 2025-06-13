@@ -4,6 +4,16 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { collection, getDocs, Timestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+
+interface EcovillagePhoto {
+  id: string;
+  name: string;
+  imageUrl: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
 
 const features = [
   {
@@ -41,6 +51,8 @@ const features = [
 export default function EcoTourismPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [videosLoaded, setVideosLoaded] = useState(false);
+  const [ecovillagePhotos, setEcovillagePhotos] = useState<EcovillagePhoto[]>([]);
+  const [photosLoading, setPhotosLoading] = useState(true);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -48,8 +60,45 @@ export default function EcoTourismPage() {
     const timer = setTimeout(() => {
       setVideosLoaded(true);
     }, 100);
+
+    // Fetch ecovillage photos
+    fetchEcovillagePhotos();
+
     return () => clearTimeout(timer);
   }, []);
+
+  const fetchEcovillagePhotos = async () => {
+    try {
+      const ecovillageCollection = collection(db, 'ecovillage');
+      const querySnapshot = await getDocs(ecovillageCollection);
+
+      const photosData: EcovillagePhoto[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        photosData.push({
+          id: doc.id,
+          name: data.name,
+          imageUrl: data.imageUrl,
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+        });
+      });
+
+      // Sort by creation date (newest first)
+      photosData.sort((a, b) => {
+        if (a.createdAt && b.createdAt) {
+          return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+        }
+        return 0;
+      });
+
+      setEcovillagePhotos(photosData);
+    } catch (error) {
+      console.error('Error fetching ecovillage photos:', error);
+    } finally {
+      setPhotosLoading(false);
+    }
+  };
 
   if (!isLoaded) {
     return null;
@@ -342,6 +391,85 @@ export default function EcoTourismPage() {
               </p>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* Photo Gallery Section - Firestore Data */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-4xl font-bold mb-4 text-green-800">Eco-Village Photo Gallery</h2>
+            <motion.div
+              className="w-24 h-1 bg-green-500 mx-auto rounded-full mb-6"
+              initial={{ width: 0 }}
+              whileInView={{ width: 96 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            />
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Discover the beauty and serenity of our eco-village through these stunning photographs
+            </p>
+          </motion.div>
+
+          {photosLoading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading photo gallery...</p>
+            </div>
+          ) : ecovillagePhotos.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600 text-lg">No photos available at the moment.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {ecovillagePhotos.map((photo, index) => (
+                <motion.div
+                  key={photo.id}
+                  className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <div className="relative h-80 w-full overflow-hidden">
+                    <Image
+                      src={photo.imageUrl}
+                      alt={photo.name}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-110"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      onError={(e) => {
+                        console.error('Photo failed to load:', photo.imageUrl);
+                        e.currentTarget.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIiBmaWxsPSIjOWNhM2FmIj5FY28tVmlsbGFnZTwvdGV4dD48L3N2Zz4=";
+                      }}
+                    />
+
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                    {/* Photo Name */}
+                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                      <h3 className="text-xl font-bold mb-2">{photo.name}</h3>
+                      <p className="text-sm text-gray-200">
+                        {photo.createdAt?.toDate ? new Date(photo.createdAt.toDate()).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        }) : 'Eco-Village'}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
