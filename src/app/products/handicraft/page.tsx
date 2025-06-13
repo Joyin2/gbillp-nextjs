@@ -102,8 +102,8 @@ export default function HandicraftPage() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
+      {/* Hero Section - Rice Page Style */}
+      <section className="relative w-full h-screen flex items-center overflow-hidden">
         {/* Animated colorful artisan gradient background */}
         <motion.div
           className="absolute inset-0 z-0"
@@ -116,152 +116,182 @@ export default function HandicraftPage() {
           ] }}
           transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
         />
-        {/* Animated floating artisan icons and swirls */}
+
+        {/* Responsive Animated falling art elements and sparkles */}
         <motion.div
-          className="absolute inset-0 z-10 pointer-events-none"
+          className="absolute inset-0 z-10 pointer-events-none hidden lg:block"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.18 }}
+          animate={{ opacity: 0.15 }}
           transition={{ duration: 1 }}
         >
           <motion.div
-            className="absolute left-1/4 top-1/3 text-7xl"
-            animate={{ y: [0, 40, 0], rotate: [0, 10, -10, 0] }}
+            className="absolute left-1/4 top-1/3 text-6xl"
+            animate={{ y: [0, 60, 0], rotate: [0, 10, -10, 0] }}
             transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          >🖌️</motion.div>
-          <motion.div
-            className="absolute right-1/4 top-1/4 text-6xl"
-            animate={{ y: [0, -30, 0], rotate: [0, -10, 10, 0] }}
-            transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          >🏺</motion.div>
-          <motion.div
-            className="absolute left-1/3 bottom-1/4 text-8xl"
-            animate={{ y: [0, 50, 0], rotate: [0, 15, -15, 0] }}
-            transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
           >🎨</motion.div>
           <motion.div
-            className="absolute right-1/2 bottom-1/3 text-7xl"
-            animate={{ y: [0, 30, 0], rotate: [0, 5, -5, 0] }}
-            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-          >🌀</motion.div>
-        </motion.div>
-        
-        {/* Content */}
-        <div className="container mx-auto px-6 relative z-10 text-center">
-          <motion.h1
-            className="text-5xl md:text-7xl font-bold mb-6 text-purple-900 drop-shadow-lg"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <motion.span
-              initial={{ letterSpacing: '0.1em' }}
-              animate={{ letterSpacing: ['0.1em', '0.25em', '0.1em'] }}
-              transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
-            >Decorative Handicraft</motion.span>
-          </motion.h1>
-          <motion.p
-            className="text-xl md:text-2xl text-purple-900 max-w-2xl mx-auto mb-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            <motion.span
-              initial={{ opacity: 0.7 }}
-              animate={{ opacity: [0.7, 1, 0.7] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            >Unique Artistry, Timeless Craft</motion.span>
-          </motion.p>
+            className="absolute right-1/4 top-1/4 text-5xl"
+            animate={{ y: [0, 80, 0], rotate: [0, -10, 10, 0] }}
+            transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+          >✨</motion.div>
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            <a
-              href="#categories"
-              className="inline-block button-gradient text-white py-3 px-8 rounded-full font-medium transition-all duration-300 shadow-lg hover:shadow-green-500/20 transform hover:-translate-y-1"
+            className="absolute left-1/3 bottom-1/4 text-7xl"
+            animate={{ y: [0, 100, 0], rotate: [0, 15, -15, 0] }}
+            transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+          >🏺</motion.div>
+          <motion.div
+            className="absolute right-1/2 bottom-1/3 text-6xl"
+            animate={{ y: [0, 90, 0], rotate: [0, 5, -5, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+          >✨</motion.div>
+        </motion.div>
+
+        {/* Hero Content - Rice Page Style */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full flex flex-col justify-center">
+          <div className="max-w-4xl lg:max-w-5xl text-center w-full mx-auto">
+            <motion.h1
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 text-white drop-shadow-lg"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Discover More
-            </a>
-          </motion.div>
+              <motion.span
+                initial={{ letterSpacing: '0.05em' }}
+                animate={{ letterSpacing: ['0.05em', '0.15em', '0.05em'] }}
+                transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
+                className="hidden md:inline"
+              >Decorative Handicraft</motion.span>
+              <span className="md:hidden">Decorative Handicraft</span>
+            </motion.h1>
+            <motion.p
+              className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed drop-shadow-md px-4 sm:px-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              Unique Artistry, Timeless Craft
+            </motion.p>
+          </div>
         </div>
       </section>
 
-      {/* Vision Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
+      {/* Vision Section - Rice Page Style */}
+      <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-br from-white via-gray-50/30 to-emerald-50/50 overflow-hidden">
+        {/* Background elements like rice page */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(178,230,58,0.05),transparent_50%)] pointer-events-none"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(27,175,10,0.05),transparent_50%)] pointer-events-none"></div>
+
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Header with rice page animations */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            className="text-center mb-12 sm:mb-16 lg:mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Our Vision</h2>
-            <div className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 w-24">
-              <motion.div 
-                className="h-full w-full bg-gradient-to-r from-green-800 to-emerald-600"
-                initial={{ width: 0 }}
-                whileInView={{ width: "100%" }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-              />
-            </div>
-            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+            <motion.h2
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 px-4"
+            >
+              Our Vision
+            </motion.h2>
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: "6rem" }}
+              transition={{ duration: 1.2, ease: "easeInOut", delay: 0.4 }}
+              viewport={{ once: true }}
+              className="h-1 mx-auto mb-4 sm:mb-6 rounded-full overflow-hidden bg-gray-200"
+            >
+              <div className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#1baf0a]"></div>
+            </motion.div>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              viewport={{ once: true }}
+              className="text-sm sm:text-base md:text-lg text-gray-600 max-w-xs sm:max-w-md md:max-w-4xl mx-auto px-4 leading-relaxed"
+            >
               Our vision is to inspire and nurture creativity by providing unique, handcrafted art pieces that celebrate cultural heritage and foster a connection to artistry and craftsmanship, creating lasting value for our community and future generations. We aim to promote environmentally friendly practices by using sustainable materials and processes in all our creations.
-            </p>
+            </motion.p>
           </motion.div>
         </div>
       </section>
 
-      {/* Products Section */}
-      <section id="products" className="py-20 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
+      {/* Products Section - Rice Page Style */}
+      <section id="products" className="relative py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-br from-white via-gray-50/30 to-emerald-50/50 overflow-hidden">
+        {/* Background elements like rice page */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(178,230,58,0.05),transparent_50%)] pointer-events-none"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(27,175,10,0.05),transparent_50%)] pointer-events-none"></div>
+
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Header with rice page animations */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            className="text-center mb-12 sm:mb-16 lg:mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Our Handcrafted Treasures</h2>
-            <div className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 w-24">
-              <motion.div 
-                className="h-full w-full bg-gradient-to-r from-green-800 to-emerald-600"
-                initial={{ width: 0 }}
-                whileInView={{ width: "100%" }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-              />
-            </div>
+            <motion.h2
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 px-4"
+            >
+              Our Handcrafted Treasures
+            </motion.h2>
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: "6rem" }}
+              transition={{ duration: 1.2, ease: "easeInOut", delay: 0.4 }}
+              viewport={{ once: true }}
+              className="h-1 mx-auto mb-4 sm:mb-6 rounded-full overflow-hidden bg-gray-200"
+            >
+              <div className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#1baf0a]"></div>
+            </motion.div>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              viewport={{ once: true }}
+              className="text-sm sm:text-base md:text-lg text-gray-600 max-w-xs sm:max-w-md md:max-w-2xl mx-auto px-4"
+            >
+              Discover our collection of unique, handcrafted treasures that celebrate traditional artistry and cultural heritage.
+            </motion.p>
           </motion.div>
 
           {loading ? (
-            <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading our handcrafted treasures...</p>
+            <div className="text-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500 mx-auto mb-3"></div>
+              <p className="text-gray-600 text-sm">Loading our handcrafted treasures...</p>
             </div>
           ) : handicraftProducts.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-gray-600 text-lg">No handicraft products available at the moment.</p>
+            <div className="text-center py-8">
+              <p className="text-gray-600">No handicraft products available at the moment.</p>
             </div>
           ) : (
-            <div className="space-y-24">
+            <div className="space-y-8 sm:space-y-12 md:space-y-16">
               {handicraftProducts.map((product, index) => {
                 const features = extractFeaturesFromDescription(product.description);
 
                 return (
                   <motion.div
                     key={product.id}
-                    className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12`}
-                    initial={{ opacity: 0, y: 50 }}
+                    className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-stretch gap-4 sm:gap-6 md:gap-8 lg:gap-12`}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: index * 0.1 }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
                   >
-                    {/* Image Section */}
-                    <div className="w-full md:w-1/2">
+                    {/* Responsive Image Section - Rice Page Style */}
+                    <div className="w-full lg:w-2/5">
                       <motion.div
-                        className="relative h-[500px] rounded-lg overflow-hidden shadow-xl"
+                        className="relative h-64 sm:h-80 md:h-96 lg:h-[400px] xl:h-[500px] w-full rounded-lg sm:rounded-xl overflow-hidden shadow-xl mx-auto max-w-md sm:max-w-lg md:max-w-xl lg:max-w-none bg-white p-3 sm:p-4 md:p-6"
                         whileHover={{ scale: 1.02 }}
                         transition={{ duration: 0.3 }}
                       >
@@ -269,16 +299,17 @@ export default function HandicraftPage() {
                           src={product.imageUrl || defaultHandicraftImage}
                           alt={product.name}
                           fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 100vw, 50vw"
+                          className="object-contain"
+                          sizes="(max-width: 480px) 90vw, (max-width: 768px) 80vw, (max-width: 1024px) 45vw, 40vw"
+                          priority={index === 0}
                           onError={(e) => {
                             console.error('Image failed to load:', product.imageUrl);
                             e.currentTarget.src = defaultHandicraftImage;
                           }}
                         />
                         {product.featured && (
-                          <div className="absolute top-4 right-4">
-                            <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                          <div className="absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4">
+                            <span className="bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
                               Featured
                             </span>
                           </div>
@@ -286,36 +317,48 @@ export default function HandicraftPage() {
                       </motion.div>
                     </div>
 
-                    {/* Content Section */}
-                    <div className="w-full md:w-1/2">
+                    {/* Responsive Content Section - Rice Page Style */}
+                    <div className="w-full lg:w-3/5 flex flex-col justify-center">
                       <motion.div
+                        className="bg-white p-6 sm:p-8 md:p-10 lg:p-8 xl:p-10 rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 h-full"
                         initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.7, delay: 0.2 }}
+                        transition={{ duration: 0.7, delay: index * 0.1 }}
                       >
-                        <h3 className="text-3xl font-bold mb-6">{product.name}</h3>
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 sm:mb-6 gap-2">
+                          <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl font-bold leading-tight px-4 lg:px-0">{product.name}</h3>
+                          {product.featured && (
+                            <span className="bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] text-white text-xs font-medium px-3 py-1 rounded-full self-start">
+                              Featured
+                            </span>
+                          )}
+                        </div>
+
                         <div
-                          className="text-gray-600 text-lg mb-8 leading-relaxed product-description"
+                          className="text-gray-600 text-sm sm:text-base md:text-lg lg:text-base xl:text-lg mb-4 sm:mb-6 leading-relaxed product-description px-4 lg:px-0 max-w-2xl mx-auto lg:mx-0"
                           dangerouslySetInnerHTML={{
                             __html: product.description.replace(/<ul[\s\S]*?<\/ul>/g, '')
                           }}
                         />
-                        <ul className="space-y-3">
-                          {features.map((feature, i) => (
-                            <motion.li
-                              key={i}
-                              className="flex items-start"
-                              initial={{ opacity: 0, x: -20 }}
-                              whileInView={{ opacity: 1, x: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 0.5, delay: 0.3 + (i * 0.1) }}
-                            >
-                              <span className="text-emerald-600 mr-3 text-xl">•</span>
-                              <span className="text-gray-600 text-lg">{feature}</span>
-                            </motion.li>
-                          ))}
-                        </ul>
+
+                        {features.length > 0 && (
+                          <ul className="space-y-3 sm:space-y-4 px-4 lg:px-0">
+                            {features.slice(0, 4).map((feature, i) => (
+                              <motion.li
+                                key={i}
+                                className="flex items-start"
+                                initial={{ opacity: 0, x: -10 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.3, delay: i * 0.05 }}
+                              >
+                                <div className="w-2 h-2 rounded-full bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] mr-3 mt-2 flex-shrink-0"></div>
+                                <span className="text-gray-600 text-sm sm:text-base md:text-lg lg:text-base xl:text-lg leading-relaxed">{feature}</span>
+                              </motion.li>
+                            ))}
+                          </ul>
+                        )}
                       </motion.div>
                     </div>
                   </motion.div>
@@ -326,45 +369,45 @@ export default function HandicraftPage() {
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="py-20 bg-gradient-to-r from-green-800 to-emerald-600 text-white">
-        <div className="container mx-auto px-6 text-center">
-          <motion.h2 
-            className="text-4xl md:text-5xl font-bold mb-6"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            Join Us in Preserving Heritage
-          </motion.h2>
-          
-          <motion.p 
-            className="text-xl text-gray-100 max-w-3xl mx-auto mb-10"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            Support our artisans and help preserve traditional craftsmanship while bringing unique, handcrafted pieces to your space.
-          </motion.p>
-          
-          <motion.div
-            className="flex flex-col sm:flex-row justify-center gap-4"
+      {/* Call to Action - Rice Page Style */}
+      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-r from-green-800 to-emerald-600 text-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.h2
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ duration: 0.5 }}
           >
-            <Link 
+            Join Us in Preserving Heritage
+          </motion.h2>
+
+          <motion.p
+            className="text-base sm:text-lg md:text-xl text-gray-100 max-w-2xl mx-auto mb-6 sm:mb-8 md:mb-10 leading-relaxed"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            Support our artisans and help preserve traditional craftsmanship while bringing unique, handcrafted pieces to your space.
+          </motion.p>
+
+          <motion.div
+            className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4"
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.4 }}
+          >
+            <Link
               href="/contact"
-              className="bg-white text-emerald-700 hover:bg-gray-100 py-3 px-8 rounded-full font-medium transition duration-300 transform hover:-translate-y-1 shadow-lg"
+              className="bg-white text-emerald-700 hover:bg-gray-100 py-2.5 px-6 sm:py-3 sm:px-8 rounded-full font-medium transition duration-300 transform hover:-translate-y-0.5 shadow-lg uppercase text-sm sm:text-base"
             >
               Contact Us
             </Link>
-            <Link 
+            <Link
               href="/products"
-              className="bg-transparent border-2 border-white text-white hover:bg-white/10 py-3 px-8 rounded-full font-medium transition duration-300 transform hover:-translate-y-1"
+              className="bg-transparent border-2 border-white text-white hover:bg-white/10 py-2.5 px-6 sm:py-3 sm:px-8 rounded-full font-medium transition duration-300 transform hover:-translate-y-0.5 uppercase text-sm sm:text-base"
             >
               View All Products
             </Link>

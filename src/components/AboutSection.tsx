@@ -150,72 +150,72 @@ const AboutSection = () => {
   }, []);
 
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">Know Us Better</h2>
-          <div className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 w-24">
+    <section className="py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24 bg-gray-50">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-16">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 px-4">Know Us Better</h2>
+          <div className="h-1 mx-auto mb-4 sm:mb-6 rounded-full overflow-hidden bg-gray-200 w-16 sm:w-20 md:w-24">
             <div className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#1baf0a]"></div>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row md:space-x-12 items-center">
+        <div className="flex flex-col lg:flex-row lg:space-x-8 xl:space-x-12 items-center gap-6 sm:gap-8 md:gap-10 lg:gap-0">
           {/* Image Section with Amazing Animation */}
-          <div className="md:w-1/2 mb-8 md:mb-0">
-            <div className="rounded-lg overflow-hidden shadow-lg h-96 bg-gradient-to-br from-emerald-50 to-teal-50 relative">
-              {/* Decorative elements */}
-              <motion.div 
-                className="absolute top-10 left-10 w-20 h-20 rounded-full bg-emerald-500/10 z-0"
+          <div className="w-full lg:w-1/2 order-2 lg:order-1">
+            <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg h-64 sm:h-80 md:h-96 lg:h-80 xl:h-96 bg-gradient-to-br from-emerald-50 to-teal-50 relative mx-auto max-w-md sm:max-w-lg md:max-w-xl lg:max-w-none">
+              {/* Responsive decorative elements */}
+              <motion.div
+                className="absolute top-4 sm:top-6 md:top-10 left-4 sm:left-6 md:left-10 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-emerald-500/10 z-0 hidden sm:block"
                 variants={decorVariants}
                 initial="initial"
                 animate="animate"
               />
-              <motion.div 
-                className="absolute bottom-10 right-10 w-32 h-32 rounded-full bg-teal-500/10 z-0"
+              <motion.div
+                className="absolute bottom-4 sm:bottom-6 md:bottom-10 right-4 sm:right-6 md:right-10 w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full bg-teal-500/10 z-0 hidden sm:block"
                 variants={decorVariants}
                 initial="initial"
                 animate="animate"
                 transition={{ delay: 1 }}
               />
-              <motion.div 
-                className="absolute top-1/2 right-10 w-16 h-16 rounded-full bg-green-500/10 z-0"
+              <motion.div
+                className="absolute top-1/2 right-4 sm:right-6 md:right-10 w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-full bg-green-500/10 z-0 hidden md:block"
                 variants={decorVariants}
                 initial="initial"
                 animate="animate"
                 transition={{ delay: 2 }}
               />
               
-              {/* Main image carousel */}
+              {/* Responsive main image carousel */}
               <div className="relative h-full w-full flex items-center justify-center">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentImageIndex}
-                    className="absolute inset-0 flex items-center justify-center p-6"
+                    className="absolute inset-0 flex items-center justify-center p-3 sm:p-4 md:p-6"
                     variants={imageVariants[currentVariantIndex]}
                     initial="hidden"
                     animate="visible"
                     exit="exit"
                   >
-                    <div className="relative w-full h-full max-w-sm mx-auto">
-                      <Image 
+                    <div className="relative w-full h-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-sm xl:max-w-md mx-auto">
+                      <Image
                         src={images[currentImageIndex].src}
                         alt={images[currentImageIndex].alt}
                         fill
                         className="object-contain"
-                        sizes="(max-width: 768px) 100vw, 50vw"
+                        sizes="(max-width: 480px) 90vw, (max-width: 768px) 80vw, (max-width: 1024px) 45vw, 40vw"
                         priority={currentImageIndex === 0}
                       />
                     </div>
                   </motion.div>
                 </AnimatePresence>
               </div>
-              
-              {/* Animated indicator dots */}
-              <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+
+              {/* Responsive animated indicator dots */}
+              <div className="absolute bottom-2 sm:bottom-3 md:bottom-4 left-0 right-0 flex justify-center space-x-1 sm:space-x-2">
                 {images.map((_, index) => (
                   <motion.div
                     key={index}
-                    className={`h-2 w-2 rounded-full ${
+                    className={`h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full ${
                       index === currentImageIndex ? 'bg-emerald-500' : 'bg-gray-300'
                     }`}
                     animate={{
@@ -233,18 +233,21 @@ const AboutSection = () => {
             </div>
           </div>
 
-          {/* Text Section */}
-          <div className="md:w-1/2">
-            <h3 className="text-2xl font-bold mb-4">EMPOWERING COMMUNITIES FOR A GREENER FUTURE</h3>
-            <p className="text-gray-600 text-lg mb-6 leading-relaxed">
+          {/* Responsive Text Section */}
+          <div className="w-full lg:w-1/2 order-1 lg:order-2 text-center lg:text-left">
+            <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl font-bold mb-3 sm:mb-4 md:mb-6 px-4 lg:px-0">Empowering Communities For A Greener Future</h3>
+            <p className="text-gray-600 text-sm sm:text-base md:text-lg lg:text-base xl:text-lg mb-4 sm:mb-6 md:mb-8 leading-relaxed px-4 lg:px-0 max-w-2xl mx-auto lg:mx-0">
               Green Business Initiative LLP is committed to fostering sustainable agriculture, empowering local farmers, and promoting eco-friendly Products. Join us in shaping a greener, more prosperous future for all.
             </p>
-            <Link 
-              href="/about" 
-              className="inline-block button-gradient text-white py-3 px-8 rounded-full font-medium hover:bg-green-700 transition duration-300"
-            >
-              Discover More
-            </Link>
+            <div className="flex justify-center lg:justify-start">
+              <Link
+                href="/about"
+                className="inline-block button-gradient text-white py-2.5 sm:py-3 md:py-3.5 px-6 sm:px-8 md:px-10 rounded-full font-medium text-sm sm:text-base hover:bg-green-700 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              >
+                <span className="hidden sm:inline">Discover More</span>
+                <span className="sm:hidden">Learn More</span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

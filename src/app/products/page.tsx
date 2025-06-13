@@ -222,38 +222,38 @@ export default function ProductsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section className="relative h-[60vh] w-full overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-green-900 via-emerald-800 to-green-900">
-          <div className="absolute inset-0 bg-black/30" />
+      {/* Responsive Hero Section */}
+      <section className="relative h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] w-full overflow-hidden min-h-[400px] sm:min-h-[500px] md:min-h-[600px]">
+        <div className="absolute inset-0 bg-gradient-to-br from-green-900 via-emerald-800 to-green-900">
+          <div className="absolute inset-0 bg-black/20 sm:bg-black/25 md:bg-black/30" />
         </div>
-        <div className="container mx-auto px-6 h-full flex items-center justify-center relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center"
+            className="text-center max-w-4xl mx-auto"
           >
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 px-4">
               Our Products
             </h1>
-            <p className="text-xl text-white/90 max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/90 max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-3xl mx-auto px-4 leading-relaxed">
               Discover our premium selection of organic products, carefully crafted with traditional methods
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Products Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          {/* Category Navigation */}
-          <div className="flex flex-wrap gap-4 justify-center mb-12">
+      {/* Responsive Products Section */}
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Responsive Category Navigation */}
+          <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4 justify-center mb-8 sm:mb-10 md:mb-12 px-4">
             {products.map((product) => (
               <motion.button
                 key={product.id}
                 onClick={() => setSelectedCategory(product)}
-                className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
+                className={`px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-full text-xs sm:text-sm md:text-base font-medium transition-all duration-300 ${
                   selectedCategory.id === product.id
                     ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/30'
                     : 'bg-white text-gray-600 hover:bg-emerald-50'
@@ -266,30 +266,30 @@ export default function ProductsPage() {
             ))}
           </div>
 
-          {/* Selected Category Products */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {/* Responsive Selected Category Products */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {selectedCategory.items.map((item, index) => (
               <motion.div
                 key={item.name}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+                className="bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
-                <div className="relative h-64">
+                <div className="relative h-48 sm:h-56 md:h-64">
                   <Image
                     src={item.image}
                     alt={item.name}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                   />
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                <div className="p-4 sm:p-5 md:p-6">
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2">
                     {item.name}
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
                     {item.description}
                   </p>
                 </div>

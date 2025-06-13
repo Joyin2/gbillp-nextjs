@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Green Business",
   description: "Green Business - Sustainable Solutions",
+  viewport: "width=device-width, initial-scale=1",
 };
 
 export default function RootLayout({

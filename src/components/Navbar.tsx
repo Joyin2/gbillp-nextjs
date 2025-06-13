@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { logo } from '@/lib/imageUrls';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,9 +10,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+
 
   const toggleDropdown = (name: string) => {
     setActiveDropdown(activeDropdown === name ? '' : name);
@@ -22,16 +19,52 @@ const Navbar = () => {
   // Handle clicks outside of mobile menu to close it
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      const target = event.target as Element;
+
+      // Don't close if clicking inside the menu or on the hamburger button
+      if (isMenuOpen && menuRef.current) {
+        // Check if click is inside the menu
+        if (menuRef.current.contains(target)) {
+          return; // Don't close if clicking inside menu
+        }
+
+        // Check if click is on the hamburger button or its children
+        const hamburgerButton = document.getElementById('mobile-menu-button');
+        if (hamburgerButton && (hamburgerButton === target || hamburgerButton.contains(target))) {
+          return; // Don't close if clicking hamburger button - let the button handle it
+        }
+
+        // Close menu if clicking outside
         setIsMenuOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    // Only add listener when menu is open
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [isMenuOpen]);
+
+  // Handle escape key to close menu
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('keydown', handleEscapeKey);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [isMenuOpen]);
 
   // Add scroll event listener to change navbar background
   useEffect(() => {
@@ -54,15 +87,15 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ${scrolled
-        ? 'bg-black/40 backdrop-blur-xl py-2'
-        : 'bg-transparent py-2'}`}
+        ? 'bg-black/40 backdrop-blur-xl py-2 sm:py-2.5 md:py-2'
+        : 'bg-transparent py-3 sm:py-4 md:py-4'}`}
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2 sm:space-x-3">
-              <div className="relative h-12 w-12 sm:h-16 sm:w-16 lg:h-18 lg:w-18 overflow-hidden">
+            <Link href="/" className="flex items-center space-x-3 sm:space-x-4">
+              <div className="relative h-16 w-16 sm:h-20 sm:w-20 md:h-18 md:w-18 lg:h-18 lg:w-18 overflow-hidden">
                 <Image
                   src="https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/logo.png"
                   alt="Green Business Initiative Logo"
@@ -71,7 +104,7 @@ const Navbar = () => {
                   className="object-cover"
                 />
               </div>
-              <div className="text-sm sm:text-base lg:text-lg font-bold text-white hidden sm:block uppercase leading-normal">
+              <div className="text-base sm:text-lg md:text-base lg:text-lg font-bold text-white hidden sm:block uppercase leading-normal">
                 <div className="light-gradient-text" style={{ wordSpacing: '0.3em' }}>Green Business</div>
                 <div className="light-gradient-text" style={{ wordSpacing: '0.5em' }}>Initiative LLP</div>
               </div>
@@ -112,7 +145,7 @@ const Navbar = () => {
             <NavLink href="/eco-tourism" scrolled={scrolled}>Eco-Tourism</NavLink>
             <NavLink href="/blogs" scrolled={scrolled}>Blogs</NavLink>
             <NavLink href="/investor" scrolled={scrolled}>Investor</NavLink>
-            <NavLink href="/internship" scrolled={scrolled}>Internship</NavLink>
+            <NavLink href="/internship" scrolled={scrolled}>Career</NavLink>
             
             {/* Contact Button with highlight */}
             <Link
@@ -126,25 +159,34 @@ const Navbar = () => {
           {/* Mobile menu button */}
           <div className="lg:hidden flex items-center">
             <button
-              className="outline-none p-2 rounded-md transition-colors duration-200 hover:bg-white/10"
-              onClick={toggleMenu}
-              aria-label="Toggle menu"
+              id="mobile-menu-button"
+              className="outline-none p-2 sm:p-2.5 md:p-2 rounded-md transition-colors duration-200 hover:bg-white/10 focus:bg-white/10 focus:outline-none relative z-[70]"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsMenuOpen(!isMenuOpen);
+              }}
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMenuOpen}
             >
-              <svg
-                className={`w-6 h-6 ${scrolled ? 'text-white' : 'text-white'}`}
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {isMenuOpen ? (
-                  <path d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
+              <div className="relative w-7 h-7 sm:w-8 sm:h-8 md:w-6 md:h-6">
+                {/* Hamburger Lines */}
+                <span
+                  className={`absolute left-0 top-1 w-full h-0.5 bg-white transition-all duration-300 ease-in-out ${
+                    isMenuOpen ? 'rotate-45 translate-y-3' : 'rotate-0 translate-y-0'
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 top-3 w-full h-0.5 bg-white transition-all duration-300 ease-in-out ${
+                    isMenuOpen ? 'opacity-0' : 'opacity-100'
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 top-5 w-full h-0.5 bg-white transition-all duration-300 ease-in-out ${
+                    isMenuOpen ? '-rotate-45 -translate-y-3' : 'rotate-0 translate-y-0'
+                  }`}
+                />
+              </div>
             </button>
           </div>
         </div>
@@ -153,11 +195,33 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div
-          ref={menuRef}
-          className="lg:hidden fixed inset-0 z-50 mt-20 bg-black bg-opacity-50 overflow-y-auto"
-          onClick={(e) => e.target === e.currentTarget && setIsMenuOpen(false)}
+          className="lg:hidden fixed inset-0 z-[60] bg-black bg-opacity-50 overflow-y-auto"
+          style={{
+            top: scrolled ? '56px' : '72px', // Adjusted values for better positioning
+            paddingTop: '8px', // Small padding for better visual spacing
+            height: scrolled ? 'calc(100vh - 56px)' : 'calc(100vh - 72px)' // Ensure full height coverage
+          }}
+          onClick={(e) => {
+            // Only close if clicking the backdrop (not the menu content)
+            if (e.target === e.currentTarget) {
+              setIsMenuOpen(false);
+            }
+          }}
         >
-          <div className="bg-gradient-to-b from-emerald-800 to-teal-600 text-white rounded-t-xl shadow-xl max-w-sm mx-auto overflow-hidden transform transition-all">
+          <div
+            ref={menuRef}
+            className="bg-gradient-to-b from-emerald-800 to-teal-600 text-white rounded-t-xl shadow-xl max-w-sm mx-auto overflow-hidden transform transition-all relative z-[65] mt-0"
+            style={{
+              position: 'sticky',
+              top: '0px'
+            }}
+            onClick={(e) => {
+              // Prevent clicks inside menu from bubbling up
+              e.stopPropagation();
+            }}
+          >
+
+
             <div className="px-4 py-4 space-y-3">
               <MobileNavLink href="/" onClick={() => setIsMenuOpen(false)}>Home</MobileNavLink>
               <MobileNavLink href="/about" onClick={() => setIsMenuOpen(false)}>About GBI</MobileNavLink>
@@ -166,7 +230,11 @@ const Navbar = () => {
               <div className="border-b border-emerald-500/30 pb-2">
                 <button
                   className="w-full flex justify-between items-center px-3 py-2 text-white hover:bg-emerald-700/50 rounded-md transition-colors duration-200 uppercase"
-                  onClick={() => toggleDropdown('products')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleDropdown('products');
+                  }}
                 >
                   <span className="font-medium">Products</span>
                   <svg 
@@ -197,7 +265,7 @@ const Navbar = () => {
               <MobileNavLink href="/eco-tourism" onClick={() => setIsMenuOpen(false)}>Eco-Tourism</MobileNavLink>
               <MobileNavLink href="/blogs" onClick={() => setIsMenuOpen(false)}>Blogs & News</MobileNavLink>
               <MobileNavLink href="/investor" onClick={() => setIsMenuOpen(false)}>Investor</MobileNavLink>
-              <MobileNavLink href="/internship" onClick={() => setIsMenuOpen(false)}>Internship</MobileNavLink>
+              <MobileNavLink href="/internship" onClick={() => setIsMenuOpen(false)}>Career</MobileNavLink>
               
               {/* Contact Button */}
               <div className="pt-4">

@@ -20,7 +20,8 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
-/* Premium heading styles with exact gradient as specified */
+/* Premium heading styles with exact gradient as specified - DISABLED FOR RESPONSIVENESS */
+
 h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(45deg, #b2e63a, #1baf0a);
   -webkit-background-clip: text;
@@ -28,6 +29,7 @@ h1, h2, h3, h4, h5, h6 {
   background-clip: text;
   font-weight: bold;
 }
+
 
 /* Alternative light gradient for dark backgrounds */
 .light-gradient-text {
@@ -197,26 +199,11 @@ h1, h2, h3, h4, h5, h6 {
   @apply mb-4 text-gray-600 leading-relaxed;
 }
 
-/* Responsive utilities */
+/* Responsive utilities - Updated to not conflict with component-level responsive classes */
 @media (max-width: 640px) {
-  .container {
-    @apply px-4;
-  }
+  /* Removed container override to prevent conflicts with component-level responsive padding */
 
-  /* Mobile-specific text sizing */
-  h1 {
-    @apply text-2xl;
-  }
-
-  h2 {
-    @apply text-xl;
-  }
-
-  h3 {
-    @apply text-lg;
-  }
-
-  /* Mobile-specific spacing */
+  /* Only apply to elements that don't have responsive classes */
   .section-padding {
     @apply py-8;
   }
@@ -243,3 +230,5 @@ h1, h2, h3, h4, h5, h6 {
 .product-description em, .product-description i {
   @apply italic;
 }
+
+/* Responsive typography now works properly without global heading interference */
