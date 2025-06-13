@@ -56,7 +56,7 @@ const features = [
     title: "Eco Accommodations",
     description: "Stay in our comfortable eco tents and huts designed with sustainability in mind, using locally sourced materials.",
     icon: (
-      <svg className="w-8 h-8 text-emerald-600" fill="currentColor" viewBox="0 0 24 24">
+      <svg className="w-8 h-8 premium-icon" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
       </svg>
     )
@@ -65,7 +65,7 @@ const features = [
     title: "Tea Garden Views",
     description: "Enjoy panoramic views of our beautiful tea gardens and surrounding landscapes, perfect for nature photography.",
     icon: (
-      <svg className="w-8 h-8 text-teal-600" fill="currentColor" viewBox="0 0 24 24">
+      <svg className="w-8 h-8 premium-icon" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
       </svg>
     )
@@ -247,8 +247,11 @@ export default function EcoTourismPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.02 }}
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-[#b2e63a]/20 to-[#31cc20]/20 rounded-full flex items-center justify-center mb-4">
-                  {feature.icon}
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 relative bg-gradient-to-br from-[#b2e63a]/7 via-emerald-50 to-[#1baf0a]/7 border border-[#b2e63a]/14 hover:border-[#1baf0a]/22 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#1baf0a]/14 group">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#b2e63a]/3 to-[#1baf0a]/3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative z-10 transition-transform duration-300 group-hover:scale-110">
+                    {feature.icon}
+                  </div>
                 </div>
                 <h3 className="text-2xl font-bold mb-4 text-green-800">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>

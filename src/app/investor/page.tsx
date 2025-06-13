@@ -101,7 +101,7 @@ export default function InvestorPage() {
       <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-[#31cc20] via-[#b2e63a] to-[#31cc20]"
+            className="absolute inset-0 bg-gradient-to-r from-[#1baf0a] via-[#b2e63a] to-[#1baf0a]"
             animate={{
               backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
             }}
@@ -198,13 +198,13 @@ export default function InvestorPage() {
               <svg
                 className="w-5 h-5 ml-2"
                 fill="none"
-                stroke="currentColor"
+                stroke="white"
                 viewBox="0 0 24 24"
+                strokeWidth={2.5}
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
                   d="M19 9l-7 7-7-7"
                 />
               </svg>
@@ -310,13 +310,13 @@ export default function InvestorPage() {
                         <svg
                           className="w-4 h-4 ml-2"
                           fill="none"
-                          stroke="currentColor"
+                          stroke="white"
                           viewBox="0 0 24 24"
+                          strokeWidth={2.5}
                         >
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            strokeWidth={2}
                             d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                           />
                         </svg>
@@ -389,13 +389,13 @@ export default function InvestorPage() {
                         <svg
                           className="w-4 h-4 ml-2"
                           fill="none"
-                          stroke="currentColor"
+                          stroke="white"
                           viewBox="0 0 24 24"
+                          strokeWidth={2.5}
                         >
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            strokeWidth={2}
                             d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                           />
                         </svg>

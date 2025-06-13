@@ -22,7 +22,7 @@ body {
 
 /* Premium heading styles with exact gradient as specified */
 h1, h2, h3, h4, h5, h6 {
-  background: linear-gradient(45deg, #b2e63a, #31cc20);
+  background: linear-gradient(45deg, #b2e63a, #1baf0a);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Alternative light gradient for dark backgrounds */
 .light-gradient-text {
-  background: linear-gradient(45deg, #b2e63a, #31cc20, #b2e63a);
+  background: linear-gradient(45deg, #b2e63a, #1baf0a, #b2e63a);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -39,16 +39,86 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Premium gradient backgrounds */
 .premium-gradient-bg {
-  background: linear-gradient(45deg, #31cc20, #b2e63a);
+  background: linear-gradient(45deg, #1baf0a, #b2e63a);
 }
 
 .premium-gradient-bg-light {
-  background: linear-gradient(45deg, #b2e63a, #31cc20, #b2e63a);
+  background: linear-gradient(45deg, #b2e63a, #1baf0a, #b2e63a);
 }
 
 /* New button gradient */
 .button-gradient {
-  background: linear-gradient(to right,#31cc20, #b2e63a);
+  background: linear-gradient(to right,#1baf0a, #b2e63a);
+}
+
+/* Premium icon styles with smart gradient */
+.premium-icon {
+  background: linear-gradient(135deg, #b2e63a 0%, #1baf0a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 1px 2px rgba(27, 175, 10, 0.15));
+  transition: all 0.3s ease;
+}
+
+.premium-icon:hover {
+  filter: drop-shadow(0 2px 4px rgba(27, 175, 10, 0.25));
+  transform: scale(1.05);
+}
+
+.premium-icon svg {
+  background: linear-gradient(135deg, #b2e63a 0%, #1baf0a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 1px 2px rgba(27, 175, 10, 0.15));
+  transition: all 0.3s ease;
+}
+
+/* Premium icon container with subtle gradient background */
+.premium-icon-container {
+  background: linear-gradient(135deg, rgba(178, 230, 58, 0.1) 0%, rgba(27, 175, 10, 0.05) 100%);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 50%;
+  padding: 12px;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.premium-icon-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  background: linear-gradient(135deg, #b2e63a, #1baf0a);
+  border-radius: inherit;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  -webkit-mask-composite: xor;
+}
+
+.premium-icon-container:hover {
+  transform: translateY(-2px) scale(1.05);
+  background: linear-gradient(135deg, rgba(178, 230, 58, 0.15) 0%, rgba(27, 175, 10, 0.1) 100%);
+  box-shadow: 0 8px 25px rgba(27, 175, 10, 0.2);
+}
+
+.premium-icon-container svg {
+  background: linear-gradient(135deg, #b2e63a 0%, #1baf0a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 1px 2px rgba(27, 175, 10, 0.2));
+  transition: all 0.3s ease;
+  z-index: 1;
+  position: relative;
+}
+
+.premium-icon-container:hover svg {
+  filter: drop-shadow(0 2px 4px rgba(27, 175, 10, 0.3));
+  transform: scale(1.1);
 }
 
 /* Blog content styles */

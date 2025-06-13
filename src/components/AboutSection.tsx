@@ -153,9 +153,9 @@ const AboutSection = () => {
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">KNOW US BETTER</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">Know Us Better</h2>
           <div className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 w-24">
-            <div className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#31cc20]"></div>
+            <div className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#1baf0a]"></div>
           </div>
         </div>
 

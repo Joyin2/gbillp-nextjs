@@ -117,7 +117,7 @@ const Navbar = () => {
             {/* Contact Button with highlight */}
             <Link
               href="/contact"
-              className={`ml-2 px-4 py-2 rounded-full font-medium transition-all duration-300 bg-gradient-to-r from-[#b2e63a] to-[#31cc20] text-white hover:shadow-emerald-500/20 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 uppercase`}
+              className={`ml-2 px-4 py-2 rounded-full font-medium transition-all duration-300 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] text-white hover:shadow-emerald-500/20 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 uppercase`}
             >
               Contact Us
             </Link>
@@ -203,7 +203,7 @@ const Navbar = () => {
               <div className="pt-4">
                 <Link
                   href="/contact"
-                  className="block w-full text-center px-4 py-3 rounded-md bg-gradient-to-r from-[#b2e63a] to-[#31cc20] text-white font-medium hover:shadow-lg transition-all duration-200 shadow-md uppercase"
+                  className="block w-full text-center px-4 py-3 rounded-md bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] text-white font-medium hover:shadow-lg transition-all duration-200 shadow-md uppercase"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Contact Us

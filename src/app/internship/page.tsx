@@ -295,15 +295,15 @@ export default function InternshipPage() {
                     className="flex items-start"
                   >
                     <svg
-                      className="w-6 h-6 text-green-500 mr-3 mt-1"
+                      className="w-6 h-6 premium-icon mr-3 mt-1"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      strokeWidth={2.5}
                     >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        strokeWidth={2}
                         d="M5 13l4 4L19 7"
                       />
                     </svg>
@@ -382,9 +382,9 @@ export default function InternshipPage() {
 
                   <div className="flex items-center justify-between pt-6 border-t border-green-200">
                     <div className="flex items-center text-sm text-gray-600">
-                      <svg className="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <svg className="w-5 h-5 mr-2 premium-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
                       Remote Position
                     </div>
@@ -397,8 +397,8 @@ export default function InternshipPage() {
                       className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full font-medium hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl"
                     >
                       Apply Now
-                      <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      <svg className="w-4 h-4 ml-2" fill="none" stroke="white" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
                     </motion.a>
                   </div>
@@ -448,17 +448,18 @@ export default function InternshipPage() {
                   className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                 >
                   <div className="flex items-start">
-                    <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center mr-4 relative bg-gradient-to-br from-[#b2e63a]/85 via-[#b2e63a]/90 to-[#1baf0a]/85 shadow-md shadow-[#1baf0a]/20 hover:shadow-lg hover:shadow-[#1baf0a]/30 hover:scale-105 transition-all duration-300 group">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#b2e63a] to-[#1baf0a] opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                       <svg
-                        className="w-6 h-6 text-green-600"
+                        className="w-6 h-6 text-white relative z-10 transition-transform duration-300 group-hover:scale-110"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
+                        strokeWidth={2.5}
                       >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          strokeWidth={2}
                           d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>

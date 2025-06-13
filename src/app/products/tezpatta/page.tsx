@@ -13,7 +13,7 @@ const features = [
     title: 'Aromatic Excellence',
     description: 'Infuses dishes with a rich, distinctive aroma and flavor, elevating every meal.',
     icon: (
-      <svg className="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+      <svg className="w-8 h-8 premium-icon" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
       </svg>
     ),
@@ -22,7 +22,7 @@ const features = [
     title: 'Pure & Organic',
     description: 'Naturally cultivated by local farmers, ensuring authenticity and quality.',
     icon: (
-      <svg className="w-8 h-8 text-emerald-600" fill="currentColor" viewBox="0 0 24 24">
+      <svg className="w-8 h-8 premium-icon" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
       </svg>
     ),
@@ -31,7 +31,7 @@ const features = [
     title: 'Culinary Versatility',
     description: 'Perfect for tea, rice, biryani, curries, and desserts—an essential in every kitchen.',
     icon: (
-      <svg className="w-8 h-8 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
+      <svg className="w-8 h-8 premium-icon" fill="currentColor" viewBox="0 0 24 24">
         <path d="M18.5 3H6c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h12.5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM18 19H6V5h12v14z"/>
       </svg>
     ),
@@ -40,7 +40,7 @@ const features = [
     title: 'Traditional Heritage',
     description: 'Preserves the essence of regional culinary heritage from Northeast India and Sylhet.',
     icon: (
-      <svg className="w-8 h-8 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+      <svg className="w-8 h-8 premium-icon" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
       </svg>
     ),
@@ -236,8 +236,11 @@ export default function TezpattaPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.02 }}
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-[#b2e63a]/20 to-[#31cc20]/20 rounded-full flex items-center justify-center mb-4">
-                  {feature.icon}
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 relative bg-gradient-to-br from-[#b2e63a]/8 via-white to-[#1baf0a]/8 border border-[#b2e63a]/15 hover:border-[#1baf0a]/25 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#1baf0a]/15 group">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#b2e63a]/3 to-[#1baf0a]/3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative z-10 transition-transform duration-300 group-hover:scale-110">
+                    {feature.icon}
+                  </div>
                 </div>
                 <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>

@@ -316,7 +316,7 @@ export default function ContactPage() {
                   transition={{ duration: 5, repeat: Infinity, repeatType: 'reverse' }}
                 />
                 <motion.h2
-                  className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4 sm:mb-6 bg-gradient-to-r from-[#b2e63a] to-[#31cc20] bg-clip-text text-transparent text-center"
+                  className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4 sm:mb-6 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] bg-clip-text text-transparent text-center"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
@@ -410,7 +410,7 @@ export default function ContactPage() {
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 shadow-sm hover:shadow-lg resize-none"
                         placeholder="Your message"
                       />
-                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#b2e63a]/20 to-[#31cc20]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#b2e63a]/20 to-[#1baf0a]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                     </div>
                   </motion.div>
                   <motion.div
@@ -423,7 +423,7 @@ export default function ContactPage() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className={`w-full md:w-auto px-8 py-4 bg-gradient-to-r from-[#b2e63a] to-[#31cc20] text-white rounded-xl font-semibold hover:shadow-2xl hover:shadow-emerald-500/40 transition-all duration-300 transform hover:-translate-y-1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
+                      className={`w-full md:w-auto px-8 py-4 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] text-white rounded-xl font-semibold hover:shadow-2xl hover:shadow-emerald-500/40 transition-all duration-300 transform hover:-translate-y-1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
                         isSubmitting ? 'animate-pulse' : ''
                       }`}
                     >
@@ -484,7 +484,7 @@ export default function ContactPage() {
               >
                 <div className="bg-white/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-2xl border border-emerald-100/50">
                   <motion.h3
-                    className="text-2xl sm:text-3xl font-extrabold mb-4 sm:mb-6 bg-gradient-to-r from-[#b2e63a] to-[#31cc20] bg-clip-text text-transparent text-center"
+                    className="text-2xl sm:text-3xl font-extrabold mb-4 sm:mb-6 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] bg-clip-text text-transparent text-center"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
@@ -498,11 +498,12 @@ export default function ContactPage() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#b2e63a]/5 to-[#31cc20]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#b2e63a]/5 to-[#1baf0a]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="relative flex items-start space-x-4">
-                        <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-[#b2e63a] to-[#31cc20] rounded-xl flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        <div className="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center transform group-hover:rotate-6 transition-all duration-300 relative bg-gradient-to-br from-[#b2e63a]/90 via-[#b2e63a]/95 to-[#1baf0a]/90 shadow-lg shadow-[#1baf0a]/25 hover:shadow-xl hover:shadow-[#1baf0a]/35 group-hover:scale-105">
+                          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#b2e63a] to-[#1baf0a] opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white relative z-10 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                           </svg>
                         </div>
                         <div className="flex-1">
@@ -525,9 +526,10 @@ export default function ContactPage() {
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="relative flex items-start space-x-4">
-                        <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-[#b2e63a] to-[#31cc20] rounded-xl flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        <div className="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center transform group-hover:rotate-6 transition-all duration-300 relative bg-gradient-to-br from-[#b2e63a]/90 via-[#b2e63a]/95 to-[#1baf0a]/90 shadow-lg shadow-[#1baf0a]/25 hover:shadow-xl hover:shadow-[#1baf0a]/35 group-hover:scale-105">
+                          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#b2e63a] to-[#1baf0a] opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white relative z-10 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                           </svg>
                         </div>
                         <div className="flex-1">
@@ -550,10 +552,11 @@ export default function ContactPage() {
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="relative flex items-start space-x-4">
-                        <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-[#b2e63a] to-[#31cc20] rounded-xl flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <div className="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center transform group-hover:rotate-6 transition-all duration-300 relative bg-gradient-to-br from-[#b2e63a]/90 via-[#b2e63a]/95 to-[#1baf0a]/90 shadow-lg shadow-[#1baf0a]/25 hover:shadow-xl hover:shadow-[#1baf0a]/35 group-hover:scale-105">
+                          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#b2e63a] to-[#1baf0a] opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white relative z-10 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                           </svg>
                         </div>
                         <div className="flex-1">
@@ -603,7 +606,7 @@ export default function ContactPage() {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <div className="bg-white/95 backdrop-blur-xl rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-2xl border border-emerald-100/50">
-              <h3 className="text-xl sm:text-2xl font-extrabold mb-3 sm:mb-4 bg-gradient-to-r from-[#b2e63a] to-[#31cc20] bg-clip-text text-transparent">
+              <h3 className="text-xl sm:text-2xl font-extrabold mb-3 sm:mb-4 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] bg-clip-text text-transparent">
                 Our Location
               </h3>
               <p className="text-gray-600 leading-relaxed mb-6">
@@ -615,7 +618,7 @@ export default function ContactPage() {
                 href="https://maps.google.com/?q=Gumra+Bazar+Khelma+Pt+VII+Assam"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block px-6 py-3 bg-gradient-to-r from-[#b2e63a] to-[#31cc20] text-white rounded-xl font-semibold hover:shadow-2xl hover:shadow-emerald-500/40 transition-all duration-300 transform hover:-translate-y-1 active:scale-95"
+                className="inline-block px-6 py-3 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] text-white rounded-xl font-semibold hover:shadow-2xl hover:shadow-emerald-500/40 transition-all duration-300 transform hover:-translate-y-1 active:scale-95"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
               >

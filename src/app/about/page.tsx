@@ -143,7 +143,7 @@ const missionItems = [
     title: "Sustainable Agriculture",
     description: "Promoting eco-friendly farming practices that preserve natural resources and biodiversity while producing high-quality crops.",
     icon: (
-      <svg className="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+      <svg className="w-8 h-8 premium-icon" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
       </svg>
     ),
@@ -152,7 +152,7 @@ const missionItems = [
     title: "Community Empowerment",
     description: "Supporting local farmers with fair trade practices, education, and resources to build self-sustaining communities.",
     icon: (
-      <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+      <svg className="w-8 h-8 premium-icon" fill="currentColor" viewBox="0 0 24 24">
         <path d="M16 7c0-2.21-1.79-4-4-4S8 4.79 8 7s1.79 4 4 4 4-1.79 4-4zm-4 6c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/>
       </svg>
     ),
@@ -161,7 +161,7 @@ const missionItems = [
     title: "Global Market Access",
     description: "Creating pathways for premium local products to reach international markets while maintaining authenticity and quality.",
     icon: (
-      <svg className="w-8 h-8 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+      <svg className="w-8 h-8 premium-icon" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
       </svg>
     ),
@@ -342,8 +342,8 @@ export default function AboutPage() {
               repeatType: "reverse"
             }}
           >
-            <span className="block mb-4">GREEN BUSINESS</span>
-            <span className="text-5xl md:text-7xl">INITIATIVE LLP</span>
+            <span className="block mb-4">Green Business</span>
+            <span className="text-5xl md:text-7xl">Initiative LLP</span>
           </motion.h1>
           
           <motion.p 
@@ -395,11 +395,11 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              OUR MISSION
+              Our Mission
             </motion.h2>
             <div className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 w-24">
               <motion.div 
-                className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#31cc20]"
+                className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#1baf0a]"
                 initial={{ width: 0 }}
                 whileInView={{ width: "100%" }}
                 viewport={{ once: true }}
@@ -428,8 +428,11 @@ export default function AboutPage() {
                 transition={{ duration: 0.5, delay: 0.1 * index }}
                 whileHover={{ scale: 1.02 }}
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-[#b2e63a]/20 to-[#31cc20]/20 rounded-full flex items-center justify-center mb-4">
-                  {item.icon}
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 relative bg-gradient-to-br from-[#b2e63a]/10 via-[#b2e63a]/5 to-[#1baf0a]/10 border border-[#b2e63a]/20 hover:border-[#1baf0a]/30 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#1baf0a]/20">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#b2e63a]/5 to-[#1baf0a]/5 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative z-10">
+                    {item.icon}
+                  </div>
                 </div>
                 <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
                 <p className="text-gray-600">{item.description}</p>
@@ -487,7 +490,7 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
               >
-                EMPOWERING LOCAL COMMUNITIES AND PRODUCTS
+                Empowering Local Communities And Products
               </motion.h3>
               
               <motion.div
@@ -556,7 +559,7 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
               >
-                MAKING OUR LOCAL AGRI-TREASURES GLOBAL
+                Making Our Local Agri-Treasures Global
               </motion.h3>
               
               <motion.div
@@ -625,7 +628,7 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
               >
-                MOVING TOGETHER WITH ECOLOGY AND ECONOMY
+                Moving Together With Ecology And Economy
               </motion.h3>
               
               <motion.div
@@ -680,7 +683,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">OUR CAREER AND PARTNERSHIP OPPORTUNITIES</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Our Career And Partnership Opportunities</h2>
             <div className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 w-24">
               <motion.div 
                 className="h-full w-full bg-gradient-to-r from-green-800 to-emerald-600"
@@ -727,7 +730,7 @@ export default function AboutPage() {
           </motion.div>
           
           <div className="mt-16">
-            <h3 className="text-3xl font-bold mb-10 text-center">OPEN POSITIONS</h3>
+            <h3 className="text-3xl font-bold mb-10 text-center">Open Positions</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <motion.div 
                 className="bg-gray-50 rounded-lg p-8 shadow-md hover:shadow-lg transition-shadow duration-300"
@@ -738,7 +741,7 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.02 }}
               >
                 <div className="text-4xl font-bold text-emerald-700 mb-4">01</div>
-                <h4 className="text-2xl font-bold mb-3">MARKETING</h4>
+                <h4 className="text-2xl font-bold mb-3">Marketing</h4>
                 <p className="text-gray-600">Join our marketing team and help amplify our message of sustainability to a global audience.</p>
               </motion.div>
               
@@ -751,7 +754,7 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.02 }}
               >
                 <div className="text-4xl font-bold text-emerald-700 mb-4">02</div>
-                <h4 className="text-2xl font-bold mb-3">FRANCHISE OPPORTUNITIES</h4>
+                <h4 className="text-2xl font-bold mb-3">Franchise Opportunities</h4>
                 <p className="text-gray-600">Explore franchise opportunities and expand your business with us.</p>
               </motion.div>
               
@@ -764,7 +767,7 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.02 }}
               >
                 <div className="text-4xl font-bold text-emerald-700 mb-4">03</div>
-                <h4 className="text-2xl font-bold mb-3">BUSINESS OPPORTUNITIES</h4>
+                <h4 className="text-2xl font-bold mb-3">Business Opportunities</h4>
                 <p className="text-gray-600">Collaborate with us to create impactful business partnerships.</p>
               </motion.div>
             </div>
@@ -782,10 +785,10 @@ export default function AboutPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">OUR ETHICS AND COMPLIANCES</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Our Ethics And Compliances</h2>
             <div className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 w-24">
               <motion.div 
-                className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#31cc20]"
+                className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#1baf0a]"
                 initial={{ width: 0 }}
                 whileInView={{ width: "100%" }}
                 viewport={{ once: true }}
@@ -839,7 +842,7 @@ export default function AboutPage() {
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
-      <h2 className="text-4xl md:text-5xl font-bold mb-6">AUTHORISED BY</h2>
+      <h2 className="text-4xl md:text-5xl font-bold mb-6">Authorised By</h2>
       <div className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 w-24">
         <motion.div 
           className="h-full w-full bg-gradient-to-r from-green-800 to-emerald-600"
@@ -896,7 +899,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">OUR VALUES</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Our Values</h2>
             <div className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 w-24">
               <motion.div 
                 className="h-full w-full bg-gradient-to-r from-green-800 to-emerald-600"
@@ -959,7 +962,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">MEET OUR EXCEPTIONAL TEAM</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Meet Our Exceptional Team</h2>
             <div className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 w-24">
               <motion.div 
                 className="h-full w-full bg-gradient-to-r from-green-800 to-emerald-600"
@@ -976,7 +979,7 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              EXCELS TOGETHER
+              Excels Together
             </motion.p>
           </motion.div>
 
@@ -1047,7 +1050,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            JOIN OUR MISSION
+            Join Our Mission
           </motion.h2>
           
           <motion.p 

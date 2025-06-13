@@ -133,7 +133,7 @@ const ProductsSection = () => {
             viewport={{ once: true }}
             className="text-4xl md:text-5xl font-bold mb-6"
           >
-            WE BROUGHT TO YOU
+            We Brought To You
           </motion.h2>
           <motion.div 
             initial={{ width: 0 }}
@@ -142,7 +142,7 @@ const ProductsSection = () => {
             viewport={{ once: true }}
             className="h-1 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200"
           >
-            <div className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#31cc20]"></div>
+            <div className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#1baf0a]"></div>
           </motion.div>
           <motion.p 
             initial={{ opacity: 0, y: 10 }}
@@ -226,16 +226,16 @@ const ProductsSection = () => {
                       viewport={{ once: true }}
                       className="flex justify-between items-center"
                     >
-                      <span className="text-[#31cc20] font-medium text-sm">Green Business Initiative LLP</span>
+                      <span className="text-[#1baf0a] font-medium text-sm">Green Business Initiative LLP</span>
                       <motion.div 
                         className="relative overflow-hidden inline-flex rounded-full"
                         whileHover={{ scale: 1.05 }}
                       >
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#b2e63a]/20 to-[#31cc20]/20"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#b2e63a]/20 to-[#1baf0a]/20"></div>
                         <motion.span
-                          className="relative z-10 px-3 py-1 text-xs font-medium text-[#31cc20]"
+                          className="relative z-10 px-3 py-1 text-xs font-medium text-[#1baf0a]"
                           whileHover={{
-                            color: "#1a5e1a",
+                            color: "#0d5c04",
                             transition: { duration: 0.2 }
                           }}
                         >

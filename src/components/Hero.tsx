@@ -91,7 +91,7 @@ const Hero = () => {
             </span>
             <br className="hidden sm:block" />
             <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl" style={{
-              background: "linear-gradient(45deg, #b2e63a, #31cc20, #ffffff)",
+              background: "linear-gradient(45deg, #b2e63a, #1baf0a, #ffffff)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",

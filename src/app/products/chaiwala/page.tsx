@@ -12,22 +12,38 @@ const features = [
   {
     title: 'Generational Artistry',
     description: 'Sylheti tea-making is a tradition passed down through generations, ensuring every cup is steeped in heritage.',
-    icon: '🧑‍🍳',
+    icon: (
+      <svg className="w-8 h-8 premium-icon" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+      </svg>
+    ),
   },
   {
     title: 'Distinctive Flavor',
     description: 'Renowned for its unique taste, Sylheti Chai holds a special place in the hearts of tea lovers.',
-    icon: '🍵',
+    icon: (
+      <svg className="w-8 h-8 premium-icon" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+    ),
   },
   {
     title: 'Expert Collaboration',
     description: 'Crafted in collaboration with expert Sylheti tea-makers for an authentic experience.',
-    icon: '🤝',
+    icon: (
+      <svg className="w-8 h-8 premium-icon" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M16 7c0-2.21-1.79-4-4-4S8 4.79 8 7s1.79 4 4 4 4-1.79 4-4zm-4 6c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/>
+      </svg>
+    ),
   },
   {
     title: 'Sensory Delight',
     description: 'From leaf selection to brewing, every step is designed to delight the senses and transport you to Sylhet.',
-    icon: '💨',
+    icon: (
+      <svg className="w-8 h-8 premium-icon" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+      </svg>
+    ),
   },
 ];
 
@@ -202,7 +218,12 @@ export default function SylhetiChaiwalaPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.02 }}
               >
-                <div className="text-4xl mb-4">{feature.icon}</div>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 relative bg-gradient-to-br from-[#b2e63a]/6 via-gray-50 to-[#1baf0a]/6 border border-[#b2e63a]/12 hover:border-[#1baf0a]/20 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#1baf0a]/12 group">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#b2e63a]/2 to-[#1baf0a]/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative z-10 transition-transform duration-300 group-hover:scale-110">
+                    {feature.icon}
+                  </div>
+                </div>
                 <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
               </motion.div>
