@@ -209,22 +209,47 @@ export default function BlogDetailPage({ params }: { params: Promise<{ id: strin
                 }) : 'N/A'}
               </p>
 
-              {/* Responsive Featured Image */}
-              <div className="relative w-full h-48 sm:h-64 md:h-80 lg:h-96 xl:h-[500px] mb-6 sm:mb-8 rounded-lg overflow-hidden shadow-md">
-                <Image
-                  src={blog.imageUrl}
-                  alt={blog.title}
-                  fill
-                  className="object-contain bg-gray-100"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-                  priority
-                />
-              </div>
+              {/* Responsive Featured Media (Image or Video) */}
+              {blog.imageUrl && (
+                <div className="relative w-full h-48 sm:h-64 md:h-80 lg:h-96 xl:h-[500px] mb-6 sm:mb-8 rounded-lg overflow-hidden shadow-md bg-gray-100">
+                  {/* Check if the URL is a video file */}
+                  {blog.imageUrl.match(/\.(mp4|webm|ogg|avi|mov)(\?.*)?$/i) ? (
+                    <video
+                      src={blog.imageUrl}
+                      className="w-full h-full object-contain"
+                      controls
+                      preload="metadata"
+                      onError={() => {
+                        console.log('Featured video failed to load:', blog.imageUrl);
+                      }}
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <Image
+                      src={blog.imageUrl}
+                      alt={blog.title}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+                      priority
+                      onError={() => {
+                        console.log('Featured image failed to load:', blog.imageUrl);
+                      }}
+                    />
+                  )}
+                </div>
+              )}
 
               {/* Responsive Blog Content */}
               <div
                 className="text-gray-700 leading-relaxed space-y-4 sm:space-y-6 blog-content text-sm sm:text-base md:text-lg"
                 dangerouslySetInnerHTML={{ __html: blog.content }}
+                style={{
+                  /* Ensure images and videos are visible */
+                  wordWrap: 'break-word',
+                  overflowWrap: 'break-word'
+                }}
               />
             </div>
           </div>

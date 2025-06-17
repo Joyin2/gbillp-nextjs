@@ -167,7 +167,75 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .blog-content img {
-  @apply rounded-lg shadow-md my-4 max-w-full h-auto;
+  @apply rounded-lg shadow-md my-4 max-w-full h-auto mx-auto block;
+  min-height: 200px;
+  object-fit: cover;
+}
+
+.blog-content video {
+  @apply rounded-lg shadow-md my-4 max-w-full h-auto mx-auto block;
+  min-height: 200px;
+}
+
+.blog-content iframe {
+  @apply rounded-lg shadow-md my-4 max-w-full mx-auto block;
+  min-height: 315px;
+  width: 100%;
+}
+
+/* Ensure embedded content is responsive */
+.blog-content .video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  background: #000;
+  border-radius: 8px;
+  margin: 1rem auto;
+}
+
+.blog-content .video-container iframe,
+.blog-content .video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Ensure all media elements are visible and properly styled */
+.blog-content figure {
+  @apply my-6 text-center;
+}
+
+.blog-content figure img {
+  @apply mx-auto;
+}
+
+.blog-content figcaption {
+  @apply text-sm text-gray-600 mt-2 italic;
+}
+
+/* Handle embedded content like YouTube, Vimeo, etc. */
+.blog-content embed,
+.blog-content object {
+  @apply max-w-full h-auto my-4 mx-auto block rounded-lg;
+}
+
+/* Responsive tables */
+.blog-content table {
+  @apply w-full border-collapse border border-gray-300 my-4;
+}
+
+.blog-content th,
+.blog-content td {
+  @apply border border-gray-300 px-4 py-2 text-left;
+}
+
+.blog-content th {
+  @apply bg-gray-100 font-semibold;
 }
 
 .blog-content strong, .blog-content b {
@@ -198,6 +266,45 @@ h1, h2, h3, h4, h5, h6 {
 /* Product description styles */
 .product-description p {
   @apply mb-4 text-gray-600 leading-relaxed;
+}
+
+.product-description img {
+  @apply rounded-lg shadow-md my-4 max-w-full h-auto mx-auto block;
+  min-height: 200px;
+  object-fit: cover;
+}
+
+.product-description video {
+  @apply rounded-lg shadow-md my-4 max-w-full h-auto mx-auto block;
+  min-height: 200px;
+}
+
+.product-description iframe {
+  @apply rounded-lg shadow-md my-4 max-w-full mx-auto block;
+  min-height: 315px;
+  width: 100%;
+}
+
+/* Responsive video container for product descriptions */
+.product-description .video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  background: #000;
+  border-radius: 8px;
+  margin: 1rem auto;
+}
+
+.product-description .video-container iframe,
+.product-description .video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 /* Responsive utilities - Updated to not conflict with component-level responsive classes */

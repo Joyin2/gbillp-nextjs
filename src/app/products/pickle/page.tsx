@@ -155,23 +155,41 @@ export default function PicklesPage() {
         {/* Hero Content - Home Page Style */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full flex flex-col justify-center">
           <div className="max-w-4xl lg:max-w-5xl text-center w-full mx-auto -mt-8 sm:-mt-12 md:-mt-16 lg:-mt-20 xl:-mt-24">
-            {/* Image Section */}
+            {/* Hero Media Section - Supports both Images and Videos */}
             <motion.div
               className="mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12 mb-6 sm:mb-8 md:mb-10 lg:mb-12"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden">
-                <Image
-                  src="https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/gbi//boromar.png"
-                  alt="Premium Pickles"
-                  width={800}
-                  height={600}
-                  className="object-contain w-full h-auto"
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, (max-width: 1024px) 60vw, 50vw"
-                  priority
-                />
+              <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden bg-gray-100">
+                {/* Check if the hero image is a video file */}
+                {boromar.match(/\.(mp4|webm|ogg|avi|mov)(\?.*)?$/i) ? (
+                  <video
+                    src={boromar}
+                    className="object-contain w-full h-auto"
+                    controls
+                    preload="metadata"
+                    onError={() => {
+                      console.log('Hero video failed to load:', boromar);
+                    }}
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <Image
+                    src={boromar}
+                    alt="Premium Pickles"
+                    width={800}
+                    height={600}
+                    className="object-contain w-full h-auto"
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, (max-width: 1024px) 60vw, 50vw"
+                    priority
+                    onError={() => {
+                      console.log('Hero image failed to load:', boromar);
+                    }}
+                  />
+                )}
               </div>
             </motion.div>
 
@@ -266,20 +284,38 @@ export default function PicklesPage() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
-                    {/* Image Section - Home Page Style */}
+                    {/* Media Section - Supports both Images and Videos */}
                     <div className="w-full md:w-1/2">
                       <motion.div
-                        className="relative h-[300px] sm:h-[400px] w-full rounded-2xl overflow-hidden shadow-xl"
+                        className="relative h-[300px] sm:h-[400px] w-full rounded-2xl overflow-hidden shadow-xl bg-gray-100"
                         whileHover={{ scale: 1.02 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <Image
-                          src={product.imageUrl || boromar}
-                          alt={product.name}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                        />
+                        {/* Check if the URL is a video file */}
+                        {(product.imageUrl && product.imageUrl.match(/\.(mp4|webm|ogg|avi|mov)(\?.*)?$/i)) ? (
+                          <video
+                            src={product.imageUrl}
+                            className="w-full h-full object-cover"
+                            controls
+                            preload="metadata"
+                            onError={() => {
+                              console.log('Video failed to load:', product.imageUrl);
+                            }}
+                          >
+                            Your browser does not support the video tag.
+                          </video>
+                        ) : (
+                          <Image
+                            src={product.imageUrl || boromar}
+                            alt={product.name}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            onError={() => {
+                              console.log('Image failed to load:', product.imageUrl);
+                            }}
+                          />
+                        )}
                       </motion.div>
                     </div>
 

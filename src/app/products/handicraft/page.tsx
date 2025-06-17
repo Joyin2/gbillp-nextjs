@@ -358,18 +358,33 @@ export default function HandicraftPage() {
                         whileHover={{ scale: 1.02 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <Image
-                          src={product.imageUrl || defaultHandicraftImage}
-                          alt={product.name}
-                          fill
-                          className="object-contain"
-                          sizes="(max-width: 480px) 90vw, (max-width: 768px) 80vw, (max-width: 1024px) 45vw, 40vw"
-                          priority={index === 0}
-                          onError={(e) => {
-                            console.error('Image failed to load:', product.imageUrl);
-                            e.currentTarget.src = defaultHandicraftImage;
-                          }}
-                        />
+                        {/* Check if the URL is a video file */}
+                        {(product.imageUrl && product.imageUrl.match(/\.(mp4|webm|ogg|avi|mov)(\?.*)?$/i)) ? (
+                          <video
+                            src={product.imageUrl}
+                            className="w-full h-full object-contain"
+                            controls
+                            preload="metadata"
+                            onError={() => {
+                              console.log('Video failed to load:', product.imageUrl);
+                            }}
+                          >
+                            Your browser does not support the video tag.
+                          </video>
+                        ) : (
+                          <Image
+                            src={product.imageUrl || defaultHandicraftImage}
+                            alt={product.name}
+                            fill
+                            className="object-contain"
+                            sizes="(max-width: 480px) 90vw, (max-width: 768px) 80vw, (max-width: 1024px) 45vw, 40vw"
+                            priority={index === 0}
+                            onError={(e) => {
+                              console.error('Image failed to load:', product.imageUrl);
+                              e.currentTarget.src = defaultHandicraftImage;
+                            }}
+                          />
+                        )}
                         {product.featured && (
                           <div className="absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4">
                             <span className="bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
