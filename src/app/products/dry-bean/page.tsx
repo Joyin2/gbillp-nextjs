@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { doc, getDoc, Timestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 // Import dry bean image from Supabase
 const dryBean = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/dry%20bean/dry%20bean.jpg";
@@ -31,12 +33,53 @@ const features = [
   }
 ];
 
+interface HeroText {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  buttonText: string;
+  buttonLink: string;
+  pageName: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
 export default function DryBeanPage() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [heroText, setHeroText] = useState<HeroText | null>(null);
+  const [heroLoading, setHeroLoading] = useState(true);
 
   useEffect(() => {
     setIsLoaded(true);
+    fetchHeroText();
   }, []);
+
+  const fetchHeroText = async () => {
+    try {
+      const heroTextDoc = doc(db, 'heroTexts', 'products-dry-bean');
+      const docSnap = await getDoc(heroTextDoc);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setHeroText({
+          id: docSnap.id,
+          title: data.title || '',
+          subtitle: data.subtitle || '',
+          description: data.description || '',
+          buttonText: data.buttonText || '',
+          buttonLink: data.buttonLink || '',
+          pageName: data.pageName || '',
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching hero text:', error);
+    } finally {
+      setHeroLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen">
@@ -103,22 +146,44 @@ export default function DryBeanPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <motion.span
-                initial={{ letterSpacing: '0.02em' }}
-                animate={{ letterSpacing: ['0.02em', '0.08em', '0.02em'] }}
-                transition={{ duration: 2.5, repeat: Infinity, repeatType: 'reverse' }}
-                className="hidden lg:inline"
-              >Dry Bean (Forash)</motion.span>
-              <span className="lg:hidden">Dry Bean (Forash)</span>
+              {heroLoading ? (
+                <div className="animate-pulse">
+                  <div className="h-12 sm:h-16 md:h-20 lg:h-24 xl:h-28 bg-green-200/50 rounded-lg"></div>
+                </div>
+              ) : heroText ? (
+                <>
+                  <motion.span
+                    initial={{ letterSpacing: '0.02em' }}
+                    animate={{ letterSpacing: ['0.02em', '0.08em', '0.02em'] }}
+                    transition={{ duration: 2.5, repeat: Infinity, repeatType: 'reverse' }}
+                    className="hidden lg:inline"
+                  >{heroText.title}</motion.span>
+                  <span className="lg:hidden">{heroText.title}</span>
+                </>
+              ) : null}
             </motion.h1>
-            <motion.p
-              className="text-green-800 text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed drop-shadow-sm"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              Nourishing Staple, Hearty & Versatile
-            </motion.p>
+            {heroLoading ? (
+              <motion.div
+                className="mb-4 sm:mb-6 md:mb-8"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                <div className="animate-pulse">
+                  <div className="h-6 sm:h-8 bg-green-200/30 rounded-lg mb-2"></div>
+                  <div className="h-6 sm:h-8 bg-green-200/20 rounded-lg"></div>
+                </div>
+              </motion.div>
+            ) : heroText && heroText.subtitle ? (
+              <motion.p
+                className="text-green-800 text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed drop-shadow-sm text-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                {heroText.subtitle}
+              </motion.p>
+            ) : null}
           </div>
         </div>
       </section>

@@ -1,8 +1,11 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { doc, getDoc, Timestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 // Import tezpatta image from Supabase
 const tezpattaImg = "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/tezpatta.png";
@@ -85,7 +88,52 @@ const culinaryUses = [
   },
 ];
 
+interface HeroText {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  buttonText: string;
+  buttonLink: string;
+  pageName: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
 export default function TezpattaPage() {
+  const [heroText, setHeroText] = useState<HeroText | null>(null);
+  const [heroLoading, setHeroLoading] = useState(true);
+
+  useEffect(() => {
+    fetchHeroText();
+  }, []);
+
+  const fetchHeroText = async () => {
+    try {
+      const heroTextDoc = doc(db, 'heroTexts', 'products-tezpatta');
+      const docSnap = await getDoc(heroTextDoc);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setHeroText({
+          id: docSnap.id,
+          title: data.title || '',
+          subtitle: data.subtitle || '',
+          description: data.description || '',
+          buttonText: data.buttonText || '',
+          buttonLink: data.buttonLink || '',
+          pageName: data.pageName || '',
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching hero text:', error);
+    } finally {
+      setHeroLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen">
       {/* Hero Section - Rice Page Style */}
@@ -140,22 +188,44 @@ export default function TezpattaPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <motion.span
-                initial={{ letterSpacing: '0.05em' }}
-                animate={{ letterSpacing: ['0.05em', '0.15em', '0.05em'] }}
-                transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
-                className="hidden md:inline"
-              >Aromatic Tezpatta</motion.span>
-              <span className="md:hidden">Aromatic Tezpatta</span>
+              {heroLoading ? (
+                <div className="animate-pulse">
+                  <div className="h-12 sm:h-16 md:h-20 lg:h-24 xl:h-28 bg-white/20 rounded-lg"></div>
+                </div>
+              ) : heroText ? (
+                <>
+                  <motion.span
+                    initial={{ letterSpacing: '0.05em' }}
+                    animate={{ letterSpacing: ['0.05em', '0.15em', '0.05em'] }}
+                    transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
+                    className="hidden md:inline"
+                  >{heroText.title}</motion.span>
+                  <span className="md:hidden">{heroText.title}</span>
+                </>
+              ) : null}
             </motion.h1>
-            <motion.p
-              className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed drop-shadow-md px-4 sm:px-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              Essence of Aromatic Delight — Pure, Natural & Organic Nutritional Powerhouse
-            </motion.p>
+            {heroLoading ? (
+              <motion.div
+                className="px-4 sm:px-0 mb-8 sm:mb-12"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                <div className="animate-pulse">
+                  <div className="h-6 sm:h-8 bg-white/20 rounded-lg mb-2"></div>
+                  <div className="h-6 sm:h-8 bg-white/10 rounded-lg"></div>
+                </div>
+              </motion.div>
+            ) : heroText && heroText.subtitle ? (
+              <motion.p
+                className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed drop-shadow-md px-4 sm:px-0 text-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                {heroText.subtitle}
+              </motion.p>
+            ) : null}
           </div>
         </div>
       </section>

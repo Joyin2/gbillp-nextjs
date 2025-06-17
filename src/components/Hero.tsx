@@ -3,12 +3,28 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { heroVideo } from '@/lib/imageUrls';
+import { doc, getDoc, Timestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+
+interface HeroText {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  buttonText: string;
+  buttonLink: string;
+  pageName: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
 
 const Hero = () => {
   const [videoError, setVideoError] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [heroText, setHeroText] = useState<HeroText | null>(null);
+  const [heroLoading, setHeroLoading] = useState(true);
 
   // Handle video loading error
   const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
@@ -24,7 +40,34 @@ const Hero = () => {
 
   useEffect(() => {
     setIsMounted(true);
+    fetchHeroText();
   }, []);
+
+  const fetchHeroText = async () => {
+    try {
+      const heroTextDoc = doc(db, 'heroTexts', 'home');
+      const docSnap = await getDoc(heroTextDoc);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setHeroText({
+          id: docSnap.id,
+          title: data.title || '',
+          subtitle: data.subtitle || '',
+          description: data.description || '',
+          buttonText: data.buttonText || '',
+          buttonLink: data.buttonLink || '',
+          pageName: data.pageName || '',
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching hero text:', error);
+    } finally {
+      setHeroLoading(false);
+    }
+  };
 
   // Separate effect for video handling after mounting
   useEffect(() => {
@@ -145,25 +188,26 @@ const Hero = () => {
       {/* Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full flex flex-col justify-center">
         <div className="max-w-4xl lg:max-w-5xl text-center w-full mx-auto">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 text-white drop-shadow-lg">
-            <span className="block sm:block md:inline mb-2 md:mb-0 md:mr-2">
-              Transforming local agri-products
-            </span>
-            <br className="hidden sm:block" />
-            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl" style={{
-              background: "linear-gradient(45deg, #b2e63a, #1baf0a, #ffffff)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              textShadow: "0 2px 4px rgba(0,0,0,0.1)"
-            }}>
-              for the global market.
-            </span>
-          </h1>
-          <p className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed drop-shadow-md px-4 sm:px-0">
-            We brand premium agro products, crafted with care, into global market sensations.
-            Sustainable, eco-friendly treasures enhance lives, empower rural communities, and nurture a greener future.
-          </p>
+          {heroLoading ? (
+            <div className="animate-pulse mb-4 sm:mb-6">
+              <div className="h-12 sm:h-16 md:h-20 lg:h-24 xl:h-28 bg-white/20 rounded-lg mb-4"></div>
+              <div className="h-6 sm:h-8 bg-white/10 rounded-lg mb-2"></div>
+              <div className="h-6 sm:h-8 bg-white/10 rounded-lg"></div>
+            </div>
+          ) : heroText ? (
+            <>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 text-white drop-shadow-lg">
+                <span className="block sm:block md:inline mb-2 md:mb-0 md:mr-2">
+                  {heroText.title}
+                </span>
+              </h1>
+              {heroText.subtitle && (
+                <p className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed drop-shadow-md px-4 sm:px-0">
+                  {heroText.subtitle}
+                </p>
+              )}
+            </>
+          ) : null}
         </div>
 
         {/* Explore Button positioned at bottom */}

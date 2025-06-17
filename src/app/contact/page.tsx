@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import Image from 'next/image';
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, Timestamp, doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 // Contact form interface
@@ -12,6 +12,18 @@ interface ContactFormData {
   email: string;
   subject: string;
   message: string;
+}
+
+interface HeroText {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  buttonText: string;
+  buttonLink: string;
+  pageName: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 }
 
 // Import images for particles
@@ -91,6 +103,8 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [isMobile, setIsMobile] = useState(false);
+  const [heroText, setHeroText] = useState<HeroText | null>(null);
+  const [heroLoading, setHeroLoading] = useState(true);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
@@ -107,7 +121,34 @@ export default function ContactPage() {
 
   useEffect(() => {
     setIsLoaded(true);
+    fetchHeroText();
   }, []);
+
+  const fetchHeroText = async () => {
+    try {
+      const heroTextDoc = doc(db, 'heroTexts', 'contact');
+      const docSnap = await getDoc(heroTextDoc);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setHeroText({
+          id: docSnap.id,
+          title: data.title || '',
+          subtitle: data.subtitle || '',
+          description: data.description || '',
+          buttonText: data.buttonText || '',
+          buttonLink: data.buttonLink || '',
+          pageName: data.pageName || '',
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching hero text:', error);
+    } finally {
+      setHeroLoading(false);
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -245,24 +286,50 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <motion.span
-                initial={{ letterSpacing: '0.05em' }}
-                animate={!isMobile ? { letterSpacing: ['0.05em', '0.15em', '0.05em'] } : {}}
-                transition={!isMobile ? { duration: 2, repeat: Infinity, repeatType: 'reverse' } : {}}
-                className="hidden md:inline bg-gradient-to-r from-[#b2e63a] to-[#ffffff] bg-clip-text text-transparent"
-              >
-                GET IN<br />TOUCH
-              </motion.span>
-              <span className="md:hidden">GET IN TOUCH</span>
+              {heroLoading ? (
+                <div className="animate-pulse">
+                  <div className="h-12 sm:h-16 md:h-20 lg:h-24 xl:h-28 bg-white/20 rounded-lg"></div>
+                </div>
+              ) : heroText ? (
+                <>
+                  <motion.span
+                    initial={{ letterSpacing: '0.05em' }}
+                    animate={!isMobile ? { letterSpacing: ['0.05em', '0.15em', '0.05em'] } : {}}
+                    transition={!isMobile ? { duration: 2, repeat: Infinity, repeatType: 'reverse' } : {}}
+                    className="hidden md:inline bg-gradient-to-r from-[#b2e63a] to-[#ffffff] bg-clip-text text-transparent"
+                  >
+                    {heroText.title}
+                  </motion.span>
+                  <span className="md:hidden">{heroText.title}</span>
+                </>
+              ) : (
+                <div className="text-white/50">
+                  <span className="block">No hero text available</span>
+                </div>
+              )}
             </motion.h1>
-            <motion.p
-              className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed drop-shadow-md px-4 sm:px-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              Let's connect and explore opportunities together
-            </motion.p>
+            {heroLoading ? (
+              <motion.div
+                className="px-4 sm:px-0 mb-8 sm:mb-12"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                <div className="animate-pulse">
+                  <div className="h-6 sm:h-8 bg-white/20 rounded-lg mb-2"></div>
+                  <div className="h-6 sm:h-8 bg-white/10 rounded-lg"></div>
+                </div>
+              </motion.div>
+            ) : heroText && heroText.subtitle ? (
+              <motion.p
+                className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed drop-shadow-md px-4 sm:px-0"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                {heroText.subtitle}
+              </motion.p>
+            ) : null}
           </div>
         </div>
 
@@ -634,13 +701,13 @@ export default function ContactPage() {
               <div className="mb-6">
                 <p className="text-gray-600 leading-relaxed text-base md:text-lg">
                   <span className="font-semibold text-gray-800">Gumra Bazar</span><br />
-                  <span className="text-sm md:text-base text-gray-500">XGHC+7CH, NH 44, Khelma Pt VII</span><br />
+                  <span className="text-sm md:text-base text-gray-500">Khelma Pt VII, Paikan</span><br />
                   <span className="text-sm md:text-base text-gray-500">Assam 788815, India</span>
                 </p>
               </div>
 
               <motion.a
-                href="https://maps.google.com/?q=Gumra+Bazar+Khelma+Pt+VII+Assam"
+                href="https://maps.google.com/?q=Gumra+Bazar+Paikan+Assam+788815"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center w-auto px-6 py-3 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] text-white rounded-xl font-semibold hover:shadow-2xl hover:shadow-emerald-500/40 transition-all duration-300 transform hover:-translate-y-1 active:scale-95 text-base"
@@ -685,13 +752,13 @@ export default function ContactPage() {
               <div className="mb-4 sm:mb-5">
                 <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
                   <span className="font-semibold text-gray-800">Gumra Bazar</span><br />
-                  <span className="text-xs sm:text-sm text-gray-500">XGHC+7CH, NH 44, Khelma Pt VII</span><br />
+                  <span className="text-xs sm:text-sm text-gray-500">Khelma Pt VII, Paikan</span><br />
                   <span className="text-xs sm:text-sm text-gray-500">Assam 788815, India</span>
                 </p>
               </div>
 
               <motion.a
-                href="https://maps.google.com/?q=Gumra+Bazar+Khelma+Pt+VII+Assam"
+                href="https://maps.google.com/?q=Gumra+Bazar+Paikan+Assam+788815"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center w-full px-4 sm:px-5 py-2.5 sm:py-3 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] text-white rounded-lg sm:rounded-xl font-semibold hover:shadow-lg transition-all duration-300 active:scale-95 text-sm sm:text-base"

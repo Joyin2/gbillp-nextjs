@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { collection, getDocs, Timestamp } from 'firebase/firestore';
+import { collection, getDocs, Timestamp, doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 interface Internship {
@@ -12,6 +12,18 @@ interface Internship {
   description: string;
   applyLink: string;
   active: boolean;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
+interface HeroText {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  buttonText: string;
+  buttonLink: string;
+  pageName: string;
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }
@@ -54,6 +66,8 @@ export default function InternshipPage() {
   const [internships, setInternships] = useState<Internship[]>([]);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [heroText, setHeroText] = useState<HeroText | null>(null);
+  const [heroLoading, setHeroLoading] = useState(true);
 
   // Detect mobile device
   useEffect(() => {
@@ -106,7 +120,34 @@ export default function InternshipPage() {
     };
 
     fetchInternships();
+    fetchHeroText();
   }, []);
+
+  const fetchHeroText = async () => {
+    try {
+      const heroTextDoc = doc(db, 'heroTexts', 'internships');
+      const docSnap = await getDoc(heroTextDoc);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setHeroText({
+          id: docSnap.id,
+          title: data.title || '',
+          subtitle: data.subtitle || '',
+          description: data.description || '',
+          buttonText: data.buttonText || '',
+          buttonLink: data.buttonLink || '',
+          pageName: data.pageName || '',
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching hero text:', error);
+    } finally {
+      setHeroLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen">
@@ -171,180 +212,221 @@ export default function InternshipPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <motion.span
-                initial={{ letterSpacing: '0.05em' }}
-                animate={!isMobile ? { letterSpacing: ['0.05em', '0.15em', '0.05em'] } : {}}
-                transition={!isMobile ? { duration: 2, repeat: Infinity, repeatType: 'reverse' } : {}}
-                className="hidden md:inline bg-gradient-to-r from-[#b2e63a] to-[#ffffff] bg-clip-text text-transparent"
-              >
-                Remote Internship<br />Program 2025
-              </motion.span>
-              <span className="md:hidden">Remote Internship Program 2025</span>
+              {heroLoading ? (
+                <div className="animate-pulse">
+                  <div className="h-12 sm:h-16 md:h-20 lg:h-24 xl:h-28 bg-white/20 rounded-lg"></div>
+                </div>
+              ) : heroText ? (
+                <>
+                  <motion.span
+                    initial={{ letterSpacing: '0.05em' }}
+                    animate={!isMobile ? { letterSpacing: ['0.05em', '0.15em', '0.05em'] } : {}}
+                    transition={!isMobile ? { duration: 6, repeat: Infinity, repeatType: 'reverse' } : {}}
+                    className="hidden md:inline bg-gradient-to-r from-[#b2e63a] to-[#ffffff] bg-clip-text text-transparent"
+                  >
+                    {heroText.title}
+                  </motion.span>
+                  <span className="md:hidden">{heroText.title}</span>
+                </>
+              ) : (
+                <div className="text-white/50">
+                  <span className="block">No hero text available</span>
+                </div>
+              )}
             </motion.h1>
-            <motion.p
-              className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed drop-shadow-md px-4 sm:px-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              Join Green Business Initiative for UG and PG students across India. Dive into market research, product analysis, and professional report writing while contributing to sustainable rural development.
-            </motion.p>
+            {heroLoading ? (
+              <motion.div
+                className="px-4 sm:px-0 mb-8 sm:mb-12"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                <div className="animate-pulse">
+                  <div className="h-6 sm:h-8 bg-white/20 rounded-lg mb-2"></div>
+                  <div className="h-6 sm:h-8 bg-white/10 rounded-lg"></div>
+                </div>
+              </motion.div>
+            ) : heroText && heroText.subtitle ? (
+              <motion.p
+                className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed drop-shadow-md px-4 sm:px-0 text-center"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                {heroText.subtitle}
+              </motion.p>
+            ) : null}
+
           </div>
         </div>
       </section>
 
-      {/* Responsive About Section */}
-      <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-br from-white via-gray-50/30 to-emerald-50/50 overflow-hidden">
-        {/* Background elements like rice page */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(178,230,58,0.05),transparent_50%)] pointer-events-none"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(27,175,10,0.05),transparent_50%)] pointer-events-none"></div>
-
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* Career and Partnership Opportunities Section */}
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-br from-white via-gray-50/30 to-emerald-50/50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto"
+            className="text-center mb-12 sm:mb-16 lg:mb-20"
           >
-            {/* Header with rice page animations */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+            <motion.h2
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
-              className="text-center mb-12 sm:mb-16 lg:mb-20"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 px-4"
             >
-              <motion.h2
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true }}
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 px-4"
-              >
-                About the Internship
-              </motion.h2>
-              <motion.div
-                initial={{ width: 0 }}
-                whileInView={{ width: "6rem" }}
-                transition={{ duration: 1.2, ease: "easeInOut", delay: 0.4 }}
-                viewport={{ once: true }}
-                className="h-1 mx-auto mb-4 sm:mb-6 rounded-full overflow-hidden bg-gray-200"
-              >
-                <div className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#1baf0a]"></div>
-              </motion.div>
+              Our Career And Partnership Opportunities
+            </motion.h2>
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: "6rem" }}
+              transition={{ duration: 1.2, ease: "easeInOut", delay: 0.4 }}
+              viewport={{ once: true }}
+              className="h-1 mx-auto mb-4 sm:mb-6 rounded-full overflow-hidden bg-gray-200"
+            >
+              <div className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#1baf0a]"></div>
             </motion.div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-12">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="bg-white p-4 sm:p-6 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="flex items-center mb-3 sm:mb-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#1baf0a] to-[#b2e63a] rounded-lg flex items-center justify-center mr-3 sm:mr-4">
-                    <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-800">Market Research</h3>
-                </div>
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">Conduct in-depth research on rural organic products, analyzing market trends and consumer behavior to drive sustainable business growth.</p>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-                className="bg-white p-4 sm:p-6 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="flex items-center mb-3 sm:mb-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#1baf0a] to-[#b2e63a] rounded-lg flex items-center justify-center mr-3 sm:mr-4">
-                    <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-800">Product Analysis</h3>
-                </div>
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">Evaluate unique traditional goods, identifying their competitive edge and potential in local and global markets.</p>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4 }}
-                className="bg-white p-4 sm:p-6 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="flex items-center mb-3 sm:mb-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#1baf0a] to-[#b2e63a] rounded-lg flex items-center justify-center mr-3 sm:mr-4">
-                    <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-800">Report Writing</h3>
-                </div>
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">Craft professional reports that will be published on GBI's platform, showcasing your analytical and communication skills.</p>
-              </motion.div>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.5 }}
-              className="bg-white p-4 sm:p-6 md:p-8 rounded-lg sm:rounded-xl shadow-lg"
+              className="text-sm sm:text-base md:text-lg text-gray-600 max-w-xs sm:max-w-md md:max-w-4xl mx-auto px-4 leading-relaxed"
             >
-              <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800 flex items-center">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-[#1baf0a] to-[#b2e63a] rounded-lg flex items-center justify-center mr-3">
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                  </svg>
-                </div>
-                Your Tasks
-              </h3>
-              <ul className="space-y-3 sm:space-y-4">
-                {internshipDetails.tasks.map((task, index) => (
-                  <motion.li
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-start"
+              Green Business Initiative LLP offers diverse career and partnership avenues. Join our mission of sustainability and community support.
+            </motion.p>
+          </motion.div>
+
+          {/* Description Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto mb-12 sm:mb-16 lg:mb-20"
+          >
+            <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 md:p-10">
+              <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed mb-6">
+                Explore opportunities to contribute to our eco-friendly initiatives or collaborate with us for mutual growth. Contact us today to learn more about joining our team or partnering to promote environmental stewardship and sustainable practices in communities worldwide.
+              </p>
+              <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed mb-6">
+                Together, we can make a significant impact by fostering innovation, supporting local artisans, and enhancing our product offerings. Whether you're looking to build a career or establish a business relationship, we welcome you to be part of our green journey.
+              </p>
+              <div className="text-center">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300 uppercase"
                   >
-                    <div className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-r from-[#1baf0a] to-[#b2e63a] rounded-full flex items-center justify-center mr-3 mt-0.5">
-                      <svg
-                        className="w-3 h-3 sm:w-4 sm:h-4 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        strokeWidth={3}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                    </div>
-                    <span className="text-gray-600 text-sm sm:text-base leading-relaxed">{task}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
+                    Discover More
+                  </Link>
+                </motion.div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Responsive Internship Details Section - Firestore Data */}
-      {!loading && internships.length > 0 && (
+      {/* Open Positions Section */}
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50/50 via-gray-50/30 to-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-12 sm:mb-16 lg:mb-20"
+          >
+            <motion.h2
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 px-4"
+            >
+              Open Positions
+            </motion.h2>
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: "6rem" }}
+              transition={{ duration: 1.2, ease: "easeInOut", delay: 0.4 }}
+              viewport={{ once: true }}
+              className="h-1 mx-auto mb-4 sm:mb-6 rounded-full overflow-hidden bg-gray-200"
+            >
+              <div className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#1baf0a]"></div>
+            </motion.div>
+          </motion.div>
+
+          {/* Opportunities Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
+            {/* Marketing */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 sm:p-8"
+            >
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] rounded-lg flex items-center justify-center text-white font-bold text-xl mr-4">
+                  01
+                </div>
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Marketing</h3>
+              </div>
+              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                Join our marketing team and help amplify our message of sustainability to a global audience.
+              </p>
+            </motion.div>
+
+            {/* Franchise Opportunities */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 sm:p-8"
+            >
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] rounded-lg flex items-center justify-center text-white font-bold text-xl mr-4">
+                  02
+                </div>
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Franchise Opportunities</h3>
+              </div>
+              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                Explore franchise opportunities and expand your business with us.
+              </p>
+            </motion.div>
+
+            {/* Business Opportunities */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 sm:p-8 md:col-span-2 lg:col-span-1"
+            >
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] rounded-lg flex items-center justify-center text-white font-bold text-xl mr-4">
+                  03
+                </div>
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Business Opportunities</h3>
+              </div>
+              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                Collaborate with us to create impactful business partnerships.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+       {/* Responsive Internship Details Section - Firestore Data */}
+       {!loading && internships.length > 0 && (
         <section className="py-12 sm:py-16 md:py-20 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
@@ -442,7 +524,7 @@ export default function InternshipPage() {
           </div>
         </section>
       )}
-
+      
       {/* Responsive Benefits Section */}
       <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-green-50 via-emerald-50/50 to-teal-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">

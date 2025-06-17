@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { collection, getDocs, Timestamp } from 'firebase/firestore';
+import { collection, getDocs, Timestamp, doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 // Fallback eco-village image - using a simple placeholder
@@ -17,13 +17,21 @@ const EcoImage = ({ src, alt, className }: { src: string; alt: string; className
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    setImgSrc(src);
-    setIsLoading(true);
-    setHasError(false);
+    // Check if src is valid before setting it
+    if (!src || src.trim() === '' || src === defaultEcoImage) {
+      setImgSrc(defaultEcoImage);
+      setHasError(true);
+      setIsLoading(false);
+    } else {
+      setImgSrc(src);
+      setIsLoading(true);
+      setHasError(false);
+    }
   }, [src]);
 
   const handleError = () => {
-    console.error('Failed to load image:', src);
+    // Silently handle the error to avoid console spam
+    // console.error('Failed to load image:', src);
     setHasError(true);
     setImgSrc(defaultEcoImage);
     setIsLoading(false);
@@ -51,8 +59,8 @@ const EcoImage = ({ src, alt, className }: { src: string; alt: string; className
         priority={false}
       />
       {hasError && (
-        <div className="absolute bottom-2 left-2 bg-red-100 text-red-600 text-xs px-2 py-1 rounded">
-          Image failed to load
+        <div className="absolute bottom-2 left-2 bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded opacity-75">
+          Default image
         </div>
       )}
     </div>
@@ -67,15 +75,56 @@ interface EcovillagePhoto {
   updatedAt: Timestamp;
 }
 
+interface HeroText {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  buttonText: string;
+  buttonLink: string;
+  pageName: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
 
 
 export default function EcoTourismPage() {
   const [ecovillagePhotos, setEcovillagePhotos] = useState<EcovillagePhoto[]>([]);
   const [loading, setLoading] = useState(true);
+  const [heroText, setHeroText] = useState<HeroText | null>(null);
+  const [heroLoading, setHeroLoading] = useState(true);
 
   useEffect(() => {
     fetchEcovillagePhotos();
+    fetchHeroText();
   }, []);
+
+  const fetchHeroText = async () => {
+    try {
+      const heroTextDoc = doc(db, 'heroTexts', 'ecovillage');
+      const docSnap = await getDoc(heroTextDoc);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setHeroText({
+          id: docSnap.id,
+          title: data.title || '',
+          subtitle: data.subtitle || '',
+          description: data.description || '',
+          buttonText: data.buttonText || '',
+          buttonLink: data.buttonLink || '',
+          pageName: data.pageName || '',
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching hero text:', error);
+    } finally {
+      setHeroLoading(false);
+    }
+  };
 
   const fetchEcovillagePhotos = async () => {
     try {
@@ -85,18 +134,24 @@ export default function EcoTourismPage() {
       const photosData: EcovillagePhoto[] = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log('Eco-village photo data:', {
-          id: doc.id,
-          name: data.name,
-          imageUrl: data.imageUrl
-        });
-        photosData.push({
-          id: doc.id,
-          name: data.name,
-          imageUrl: data.imageUrl,
-          createdAt: data.createdAt,
-          updatedAt: data.updatedAt,
-        });
+
+        // Validate that we have required fields
+        if (data.name && data.imageUrl) {
+          console.log('Eco-village photo data:', {
+            id: doc.id,
+            name: data.name,
+            imageUrl: data.imageUrl
+          });
+          photosData.push({
+            id: doc.id,
+            name: data.name || 'Eco-Village Photo',
+            imageUrl: data.imageUrl || defaultEcoImage,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+          });
+        } else {
+          console.warn('Skipping invalid photo data:', { id: doc.id, data });
+        }
       });
 
       // Sort by creation date (newest first)
@@ -143,26 +198,52 @@ export default function EcoTourismPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <motion.span
-                initial={{ letterSpacing: '0.05em' }}
-                animate={{ letterSpacing: ['0.05em', '0.15em', '0.05em'] }}
-                transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
-                className="hidden md:inline bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] bg-clip-text text-transparent"
-              >
-                Welcome to Lakhicheera<br />Eco-Village
-              </motion.span>
-              <span className="md:hidden bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] bg-clip-text text-transparent">
-                Welcome to Lakhicheera<br />Eco-Village
-              </span>
+              {heroLoading ? (
+                <div className="animate-pulse">
+                  <div className="h-12 sm:h-16 md:h-20 lg:h-24 xl:h-28 bg-white/20 rounded-lg"></div>
+                </div>
+              ) : heroText ? (
+                <>
+                  <motion.span
+                    initial={{ letterSpacing: '0.05em' }}
+                    animate={{ letterSpacing: ['0.05em', '0.15em', '0.05em'] }}
+                    transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
+                    className="hidden md:inline bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] bg-clip-text text-transparent"
+                  >
+                    {heroText.title}
+                  </motion.span>
+                  <span className="md:hidden bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] bg-clip-text text-transparent">
+                    {heroText.title}
+                  </span>
+                </>
+              ) : (
+                <div className="text-white/50">
+                  <span className="block">No hero text available</span>
+                </div>
+              )}
             </motion.h1>
-            <motion.p
-              className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed drop-shadow-md px-4 sm:px-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              A sustainable sanctuary nestled in nature's embrace
-            </motion.p>
+            {heroLoading ? (
+              <motion.div
+                className="px-4 sm:px-0 mb-8 sm:mb-12"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                <div className="animate-pulse">
+                  <div className="h-6 sm:h-8 bg-white/20 rounded-lg mb-2"></div>
+                  <div className="h-6 sm:h-8 bg-white/10 rounded-lg"></div>
+                </div>
+              </motion.div>
+            ) : heroText && heroText.subtitle ? (
+              <motion.p
+                className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed drop-shadow-md px-4 sm:px-0 text-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                {heroText.subtitle}
+              </motion.p>
+            ) : null}
           </div>
         </div>
       </section>

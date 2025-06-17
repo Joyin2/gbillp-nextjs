@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { collection, getDocs, query, orderBy, Timestamp } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, Timestamp, doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 interface Blog {
@@ -18,10 +18,24 @@ interface Blog {
   updatedAt: Timestamp;
 }
 
+interface HeroText {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  buttonText: string;
+  buttonLink: string;
+  pageName: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
 export default function BlogPage() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [heroText, setHeroText] = useState<HeroText | null>(null);
+  const [heroLoading, setHeroLoading] = useState(true);
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -71,7 +85,34 @@ export default function BlogPage() {
       }
     };
 
+    const fetchHeroText = async () => {
+      try {
+        const heroTextDoc = doc(db, 'heroTexts', 'blogs');
+        const docSnap = await getDoc(heroTextDoc);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setHeroText({
+            id: docSnap.id,
+            title: data.title || '',
+            subtitle: data.subtitle || '',
+            description: data.description || '',
+            buttonText: data.buttonText || '',
+            buttonLink: data.buttonLink || '',
+            pageName: data.pageName || '',
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching hero text:', error);
+      } finally {
+        setHeroLoading(false);
+      }
+    };
+
     fetchBlogs();
+    fetchHeroText();
   }, []);
 
   // For now, show all blogs since category filtering is not implemented in Firestore
@@ -162,28 +203,43 @@ export default function BlogPage() {
                 repeatType: "reverse"
               } : {}}
             >
-              <span className="block sm:block md:inline mb-2 md:mb-0">
-                Explore Insights, Ideas,
-              </span>
-              <br className="hidden sm:block" />
-              <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl" style={{
-                background: "linear-gradient(45deg, #b2e63a, #1baf0a, #ffffff)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                textShadow: "0 2px 4px rgba(0,0,0,0.1)"
-              }}>
-                and Inspiration
-              </span>
+              {heroLoading ? (
+                <div className="animate-pulse">
+                  <div className="h-12 sm:h-16 md:h-20 lg:h-24 xl:h-28 bg-white/20 rounded-lg mb-2"></div>
+                  <div className="h-8 sm:h-10 md:h-12 lg:h-16 xl:h-20 bg-white/10 rounded-lg"></div>
+                </div>
+              ) : heroText ? (
+                <span className="block sm:block md:inline mb-2 md:mb-0">
+                  {heroText.title}
+                </span>
+              ) : (
+                <div className="text-white/50">
+                  <span className="block">No hero text available</span>
+                </div>
+              )}
             </motion.h1>
-            <motion.p
-              className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed drop-shadow-md px-4 sm:px-0 max-w-4xl mx-auto"
-              initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              Discover the latest news, stories, and updates from Green Business Initiative LLP
-            </motion.p>
+            {heroLoading ? (
+              <motion.div
+                className="px-4 sm:px-0 max-w-4xl mx-auto mb-8 sm:mb-12"
+                initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                <div className="animate-pulse">
+                  <div className="h-6 sm:h-8 bg-white/20 rounded-lg mb-2"></div>
+                  <div className="h-6 sm:h-8 bg-white/10 rounded-lg"></div>
+                </div>
+              </motion.div>
+            ) : heroText && heroText.subtitle ? (
+              <motion.p
+                className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 leading-relaxed drop-shadow-md px-4 sm:px-0 max-w-4xl mx-auto text-center"
+                initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                {heroText.subtitle}
+              </motion.p>
+            ) : null}
           </motion.div>
 
           {/* Enhanced Responsive Animated Search Bar */}

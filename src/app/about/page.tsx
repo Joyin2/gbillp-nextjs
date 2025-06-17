@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import Image from 'next/image';
 import Link from 'next/link';
 import { aboutImages, productImages, teamImages } from '@/lib/imageUrls';
-import { collection, getDocs, Timestamp } from 'firebase/firestore';
+import { collection, getDocs, Timestamp, doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 // TypeScript interfaces
@@ -34,6 +34,18 @@ interface TeamMember {
   name: string;
   designation: string;
   photoUrl: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
+interface HeroText {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  buttonText: string;
+  buttonLink: string;
+  pageName: string;
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }
@@ -190,6 +202,8 @@ export default function AboutPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [teamLoading, setTeamLoading] = useState(true);
+  const [heroText, setHeroText] = useState<HeroText | null>(null);
+  const [heroLoading, setHeroLoading] = useState(true);
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -209,6 +223,7 @@ export default function AboutPage() {
   useEffect(() => {
     setIsLoaded(true);
     fetchTeamMembers();
+    fetchHeroText();
   }, []);
 
   const fetchTeamMembers = async () => {
@@ -246,6 +261,32 @@ export default function AboutPage() {
       console.error('Error fetching team members:', error);
     } finally {
       setTeamLoading(false);
+    }
+  };
+
+  const fetchHeroText = async () => {
+    try {
+      const heroTextDoc = doc(db, 'heroTexts', 'about');
+      const docSnap = await getDoc(heroTextDoc);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setHeroText({
+          id: docSnap.id,
+          title: data.title || '',
+          subtitle: data.subtitle || '',
+          description: data.description || '',
+          buttonText: data.buttonText || '',
+          buttonLink: data.buttonLink || '',
+          pageName: data.pageName || '',
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching hero text:', error);
+    } finally {
+      setHeroLoading(false);
     }
   };
 
@@ -342,18 +383,41 @@ export default function AboutPage() {
               repeatType: "reverse"
             }}
           >
-            <span className="block mb-2 sm:mb-4">Green Business</span>
-            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">Initiative LLP</span>
+            {heroLoading ? (
+              <div className="animate-pulse px-4">
+                <div className="h-16 sm:h-20 md:h-24 lg:h-28 xl:h-32 bg-white/20 rounded-lg"></div>
+              </div>
+            ) : heroText ? (
+              <span className="block mb-2 sm:mb-4">{heroText.title}</span>
+            ) : (
+              <div className="text-white/50 px-4">
+                <span className="block">No hero text available</span>
+              </div>
+            )}
           </motion.h1>
 
-          <motion.p
-            className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/90 max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto mb-6 sm:mb-8 text-center px-4 leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            Transforming local agri-products for the global market while empowering communities and fostering sustainable practices.
-          </motion.p>
+          {heroLoading ? (
+            <motion.div
+              className="max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto mb-6 sm:mb-8 px-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <div className="animate-pulse">
+                <div className="h-6 sm:h-8 bg-white/20 rounded-lg mb-2"></div>
+                <div className="h-6 sm:h-8 bg-white/10 rounded-lg"></div>
+              </div>
+            </motion.div>
+          ) : heroText && heroText.subtitle ? (
+            <motion.p
+              className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/90 max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto mb-6 sm:mb-8 text-center px-4 leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              {heroText.subtitle}
+            </motion.p>
+          ) : null}
         </motion.div>
 
         {/* Responsive Scroll Indicator */}
@@ -667,108 +731,6 @@ export default function AboutPage() {
                     </Link>
                   </motion.div>
                 </div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Responsive Career and Partnership Section */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-12 sm:mb-16 lg:mb-20"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 px-4">Our Career And Partnership Opportunities</h2>
-            <div className="h-1 mx-auto mb-4 sm:mb-6 rounded-full overflow-hidden bg-gray-200 w-16 sm:w-20 md:w-24">
-              <motion.div
-                className="h-full w-full bg-gradient-to-r from-green-800 to-emerald-600"
-                initial={{ width: 0 }}
-                whileInView={{ width: "100%" }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-              />
-            </div>
-            <motion.p
-              className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-3xl mx-auto mb-6 sm:mb-8 px-4 leading-relaxed"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              Green Business Initiative LLP offers diverse career and partnership avenues. Join our mission of sustainability and community support.
-            </motion.p>
-
-            <motion.p
-              className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-3xl mx-auto mb-8 sm:mb-10 px-4 leading-relaxed"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
-              Explore opportunities to contribute to our eco-friendly initiatives or collaborate with us for mutual growth. Contact us today to learn more about joining our team or partnering to promote environmental stewardship and sustainable practices in communities worldwide. Together, we can make a significant impact by fostering innovation, supporting local artisans, and enhancing our product offerings. Whether you're looking to build a career or establish a business relationship, we welcome you to be part of our green journey.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="flex justify-center px-4"
-            >
-              <Link
-                href="/contact"
-                className="inline-block button-gradient text-white py-2.5 sm:py-3 px-6 sm:px-8 rounded-full font-medium hover:shadow-lg transition duration-300 transform hover:-translate-y-1 text-sm sm:text-base"
-              >
-                Discover More
-              </Link>
-            </motion.div>
-          </motion.div>
-          
-          <div className="mt-12 sm:mt-16">
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-8 sm:mb-10 text-center px-4">Open Positions</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-              <motion.div
-                className="bg-gray-50 rounded-lg sm:rounded-xl p-4 sm:p-6 md:p-8 shadow-md hover:shadow-lg transition-shadow duration-300"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-emerald-700 mb-3 sm:mb-4">01</div>
-                <h4 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3">Marketing</h4>
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">Join our marketing team and help amplify our message of sustainability to a global audience.</p>
-              </motion.div>
-
-              <motion.div
-                className="bg-gray-50 rounded-lg sm:rounded-xl p-4 sm:p-6 md:p-8 shadow-md hover:shadow-lg transition-shadow duration-300"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-emerald-700 mb-3 sm:mb-4">02</div>
-                <h4 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3">Franchise Opportunities</h4>
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">Explore franchise opportunities and expand your business with us.</p>
-              </motion.div>
-
-              <motion.div
-                className="bg-gray-50 rounded-lg sm:rounded-xl p-4 sm:p-6 md:p-8 shadow-md hover:shadow-lg transition-shadow duration-300 sm:col-span-2 lg:col-span-1"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-emerald-700 mb-3 sm:mb-4">03</div>
-                <h4 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3">Business Opportunities</h4>
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">Collaborate with us to create impactful business partnerships.</p>
               </motion.div>
             </div>
           </div>
