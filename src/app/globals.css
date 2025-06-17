@@ -28,6 +28,7 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-weight: bold;
+  padding-bottom: 0.5rem; /* 8px */
 }
 
 
@@ -129,7 +130,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .blog-content h1, .blog-content h2, .blog-content h3, .blog-content h4, .blog-content h5, .blog-content h6 {
-  @apply font-bold text-gray-900 mb-3 mt-6;
+  @apply font-bold text-gray-900 mb-3 mt-6 pb-2;
   background: none;
   -webkit-background-clip: unset;
   -webkit-text-fill-color: unset;

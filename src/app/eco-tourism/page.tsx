@@ -312,7 +312,7 @@ export default function EcoTourismPage() {
               <div className="absolute -inset-4 bg-gradient-to-r from-[#b2e63a]/20 via-[#1baf0a]/20 to-[#b2e63a]/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
               {/* Main image container with enhanced effects */}
-              <div className="relative h-64 sm:h-80 md:h-96 lg:h-[500px] xl:h-[600px] w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-white via-gray-50 to-white p-3 sm:p-4 md:p-6 lg:p-8 transform transition-transform duration-500 group-hover:scale-[1.02]">
+              <div className="relative h-56 sm:h-64 md:h-72 lg:h-80 xl:h-96 w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-white via-gray-50 to-white p-3 sm:p-4 md:p-6 lg:p-8 transform transition-transform duration-500 group-hover:scale-[1.02]">
                 {/* Inner glow effect with brand colors */}
                 <div className="absolute inset-3 sm:inset-4 md:inset-6 lg:inset-8 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#b2e63a]/10 to-[#1baf0a]/10 pointer-events-none"></div>
 

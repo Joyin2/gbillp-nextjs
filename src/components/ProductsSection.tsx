@@ -222,7 +222,7 @@ const ProductsSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-8 xl:gap-10 auto-rows-fr"
+          className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6 lg:gap-5 xl:gap-6 auto-rows-fr"
         >
           {products.map((product, index) => (
             <motion.div
@@ -282,14 +282,14 @@ const ProductsSection = () => {
                   </div>
 
                   {/* Enhanced content section */}
-                  <div className="relative p-4 sm:p-5 md:p-6 lg:p-7 flex-1 flex flex-col z-10">
+                  <div className="relative p-3 sm:p-4 md:p-4 lg:p-5 flex-1 flex flex-col z-10">
                     {/* Title with permanent gradient effect */}
                     <motion.h3
                       initial={{ opacity: 0, y: 10 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3, duration: 0.5 }}
                       viewport={{ once: true }}
-                      className="text-lg sm:text-xl md:text-2xl lg:text-2xl font-bold mb-3 line-clamp-2 bg-gradient-to-r from-[#1baf0a] to-[#0d5c04] bg-clip-text text-transparent"
+                      className="text-lg sm:text-xl md:text-2xl lg:text-2xl font-bold mb-2 line-clamp-2 bg-gradient-to-r from-[#1baf0a] to-[#0d5c04] bg-clip-text text-transparent"
                     >
                       {product.name}
                     </motion.h3>
@@ -300,7 +300,7 @@ const ProductsSection = () => {
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4, duration: 0.5 }}
                       viewport={{ once: true }}
-                      className="text-gray-600 group-hover:text-gray-700 mb-4 sm:mb-5 text-sm sm:text-base md:text-base line-clamp-2 sm:line-clamp-3 flex-1 leading-relaxed transition-colors duration-300"
+                      className="text-gray-600 group-hover:text-gray-700 mb-3 sm:mb-3 text-sm sm:text-base md:text-base line-clamp-2 sm:line-clamp-3 flex-1 leading-relaxed transition-colors duration-300"
                     >
                       {product.description}
                     </motion.p>
@@ -311,7 +311,7 @@ const ProductsSection = () => {
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.5, duration: 0.5 }}
                       viewport={{ once: true }}
-                      className="flex justify-start items-center mt-auto pt-2"
+                      className="flex justify-start items-center mt-auto pt-1"
                     >
                       {/* Ultra attractive gradient button */}
                       <motion.button

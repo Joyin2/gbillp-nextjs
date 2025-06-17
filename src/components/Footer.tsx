@@ -87,7 +87,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
           {/* Column 1 - About */}
           <div className="text-center sm:text-left mb-6 sm:mb-0">
-            <h6 className="font-bold mb-3 sm:mb-4 uppercase text-sm sm:text-base border-b border-gray-300 pb-2" style={{
+            <h6 className="font-bold mb-3 sm:mb-4 uppercase text-sm sm:text-base border-b border-gray-300 pb-4" style={{
               background: 'linear-gradient(45deg, #b2e63a, #1baf0a)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -100,7 +100,7 @@ const Footer = () => {
 
           {/* Column 2 - Products */}
           <div className="text-center sm:text-left mb-6 sm:mb-0">
-            <h6 className="font-bold mb-3 sm:mb-4 uppercase text-sm sm:text-base border-b border-gray-300 pb-2" style={{
+            <h6 className="font-bold mb-3 sm:mb-4 uppercase text-sm sm:text-base border-b border-gray-300 pb-4" style={{
               background: 'linear-gradient(45deg, #b2e63a, #1baf0a)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -152,7 +152,7 @@ const Footer = () => {
 
           {/* Column 3 - Useful Links */}
           <div className="text-center sm:text-left mb-6 sm:mb-0">
-            <h6 className="font-bold mb-3 sm:mb-4 capitalize text-sm sm:text-base border-b border-gray-300 pb-2" style={{
+            <h6 className="font-bold mb-3 sm:mb-4 capitalize text-sm sm:text-base border-b border-gray-300 pb-4" style={{
               background: 'linear-gradient(45deg, #b2e63a, #1baf0a)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -189,7 +189,7 @@ const Footer = () => {
 
           {/* Column 4 - Contact */}
           <div className="text-center sm:text-left">
-            <h6 className="font-bold mb-3 sm:mb-4 uppercase text-sm sm:text-base border-b border-gray-300 pb-2" style={{
+            <h6 className="font-bold mb-3 sm:mb-4 uppercase text-sm sm:text-base border-b border-gray-300 pb-4" style={{
               background: 'linear-gradient(45deg, #b2e63a, #1baf0a)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
