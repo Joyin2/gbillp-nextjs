@@ -162,7 +162,7 @@ export default function PicklesPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden bg-gray-100">
+              <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden">
                 {/* Check if the hero image is a video file */}
                 {boromar.match(/\.(mp4|webm|ogg|avi|mov)(\?.*)?$/i) ? (
                   <video

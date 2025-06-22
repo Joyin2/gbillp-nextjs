@@ -8,13 +8,14 @@ import ScrollToTop from './ScrollToTop';
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdminRoute = pathname?.startsWith('/admin');
+  const isShowcaseRoute = pathname === '/showcase';
 
   return (
     <div className="min-h-full">
       {!isAdminRoute && <Navbar />}
       <main className="flex-grow">{children}</main>
-      {!isAdminRoute && <Footer />}
-      {!isAdminRoute && <ScrollToTop />}
+      {!isAdminRoute && !isShowcaseRoute && <Footer />}
+      {!isAdminRoute && !isShowcaseRoute && <ScrollToTop />}
     </div>
   );
-} 
+}

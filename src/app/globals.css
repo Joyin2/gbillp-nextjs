@@ -14,10 +14,34 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Smooth scrolling for showcase page */
+.showcase-scroll {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+}
+
+.showcase-section {
+  scroll-snap-align: start;
+  height: 100vh;
+}
+
+/* Showcase page styles */
+.showcase-page {
+  width: 100vw;
+  min-height: 100vh;
+  background: #000000;
+  margin: 0;
+  padding: 0;
 }
 
 /* Premium heading styles with exact gradient as specified - DISABLED FOR RESPONSIVENESS */

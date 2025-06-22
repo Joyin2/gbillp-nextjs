@@ -95,13 +95,13 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-3 sm:space-x-4">
-              <div className="relative h-16 w-16 sm:h-20 sm:w-20 md:h-18 md:w-18 lg:h-18 lg:w-18 overflow-hidden">
+              <div className="relative h-16 w-16 sm:h-20 sm:w-20 md:h-18 md:w-18 lg:h-18 lg:w-18 overflow-hidden rounded-full bg-white p-1">
                 <Image
                   src="https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/logo.png"
                   alt="Green Business Initiative Logo"
-                  width={96}
-                  height={96}
-                  className="object-cover"
+                  width={110}
+                  height={110}
+                  className="object-cover rounded-full"
                 />
               </div>
               <div className="text-base sm:text-lg md:text-base lg:text-lg font-bold text-white hidden sm:block uppercase leading-normal">
@@ -116,6 +116,7 @@ const Navbar = () => {
             <NavLink href="/" scrolled={scrolled}>Home</NavLink>
             <NavLink href="/about" scrolled={scrolled}>About</NavLink>
             
+
             {/* Products Dropdown */}
             <div className="relative group">
               <button
@@ -225,7 +226,7 @@ const Navbar = () => {
             <div className="px-4 py-4 space-y-3">
               <MobileNavLink href="/" onClick={() => setIsMenuOpen(false)}>Home</MobileNavLink>
               <MobileNavLink href="/about" onClick={() => setIsMenuOpen(false)}>About GBI</MobileNavLink>
-              
+
               {/* Mobile Products Dropdown */}
               <div className="border-b border-emerald-500/30 pb-2">
                 <button
