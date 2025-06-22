@@ -417,7 +417,7 @@ export default function InternshipPage() {
       </section>
 
       {/* Career and Partnership Opportunities Section */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-br from-white via-gray-50/30 to-emerald-50/50">
+      <section className="py-8 sm:py-10 md:py-12 lg:py-16 bg-gradient-to-br from-white via-gray-50/30 to-emerald-50/50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {careerIntroLoading ? (
             <div className="animate-pulse">
@@ -475,7 +475,7 @@ export default function InternshipPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 viewport={{ once: true }}
-                className="max-w-4xl mx-auto mb-12 sm:mb-16 lg:mb-20"
+                className="max-w-4xl mx-auto mb-8 sm:mb-10 lg:mb-12"
               >
                 <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 md:p-10">
                   <div 
@@ -540,14 +540,14 @@ export default function InternshipPage() {
       </section>
 
       {/* Open Positions Section */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50/50 via-gray-50/30 to-white">
+      <section className="pt-2 pb-8 sm:pt-3 sm:pb-10 md:pt-4 md:pb-12 lg:pt-6 lg:pb-16 bg-gradient-to-br from-emerald-50/50 via-gray-50/30 to-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-12 sm:mb-16 lg:mb-20"
+            className="text-center mb-8 sm:mb-10 lg:mb-12"
           >
             <motion.h2
               initial={{ opacity: 0, scale: 0.9 }}
@@ -668,14 +668,14 @@ export default function InternshipPage() {
       </section>
 
       {/* Our Interns Section */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
+      <section className="py-8 sm:py-10 md:py-12 lg:py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-12 sm:mb-16 lg:mb-20"
+            className="text-center mb-8 sm:mb-10 lg:mb-12"
           >
             <motion.h2
               initial={{ opacity: 0, scale: 0.9 }}
@@ -723,7 +723,7 @@ export default function InternshipPage() {
               ))}
             </div>
           ) : interns.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto">
               {interns.map((intern, index) => (
                 <motion.div
                   key={intern.id}
@@ -731,46 +731,68 @@ export default function InternshipPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 sm:p-8 group"
+                  className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:border-green-200 transform hover:-translate-y-2 hover:scale-105"
+                  whileHover={{ y: -8 }}
                 >
-                  {/* Intern Image */}
-                  <div className="relative w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 sm:mb-6">
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-50/0 via-emerald-50/20 to-teal-50/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                  
+                  {/* Intern Image - Full Width */}
+                  <div className="relative w-full h-48 sm:h-56 overflow-hidden">
                     {intern.imageUrl ? (
                       <img
                         src={intern.imageUrl}
                         alt={intern.name}
-                        className="w-full h-full object-cover rounded-full border-4 border-gradient-to-r from-[#b2e63a] to-[#1baf0a] group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(intern.name)}&background=b2e63a&color=ffffff&size=128`;
+                          target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(intern.name)}&background=b2e63a&color=ffffff&size=200`;
                         }}
                       />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] rounded-full flex items-center justify-center text-white font-bold text-xl group-hover:scale-105 transition-transform duration-300">
+                      <div className="w-full h-full bg-gradient-to-br from-[#b2e63a] via-[#9dd132] to-[#1baf0a] flex items-center justify-center text-white font-bold text-2xl sm:text-3xl group-hover:scale-110 transition-transform duration-700">
                         {intern.name.charAt(0).toUpperCase()}
                       </div>
                     )}
+                    
+                    {/* Image Overlay Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    {/* Active Status Badge */}
+                    <div className="absolute top-3 right-3">
+                      <div className="flex items-center px-2 py-1 bg-green-500/90 backdrop-blur-sm rounded-full text-xs font-medium text-white shadow-lg">
+                        <div className="w-1.5 h-1.5 bg-white rounded-full mr-1.5 animate-pulse"></div>
+                        Active
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Intern Info */}
-                  <div className="text-center">
-                    <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 group-hover:text-green-700 transition-colors duration-200 capitalize">
-                      {intern.name}
-                    </h3>
-                    <p className="text-sm sm:text-base text-green-600 font-medium mb-3 sm:mb-4 capitalize">
-                      {intern.designation}
-                    </p>
-                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed line-clamp-3">
-                      {intern.about}
-                    </p>
+                  {/* Card Content */}
+                  <div className="relative p-5 sm:p-6">
+                    {/* Intern Info */}
+                    <div className="text-center space-y-3">
+                      <h3 className="text-base sm:text-lg font-bold text-gray-800 group-hover:text-green-700 transition-colors duration-300 capitalize leading-tight">
+                        {intern.name}
+                      </h3>
+                      <p className="text-sm sm:text-base text-green-600 font-semibold capitalize bg-green-50 px-3 py-1.5 rounded-full inline-block">
+                        {intern.designation}
+                      </p>
+                      <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 mt-3">
+                        {intern.about}
+                      </p>
+                    </div>
+
+                    {/* Decorative Bottom Border */}
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 group-hover:w-3/4 h-0.5 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] transition-all duration-500 rounded-full"></div>
                   </div>
 
-                  {/* Intern Badge */}
-                  <div className="mt-4 sm:mt-6 text-center">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
-                      Active Intern
-                    </span>
+                  {/* Floating Action Button */}
+                  <div className="absolute -bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
+                    <div className="w-8 h-8 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -801,14 +823,14 @@ export default function InternshipPage() {
 
        {/* Responsive Internship Details Section - Firestore Data */}
        {!loading && internships.length > 0 && (
-        <section className="py-12 sm:py-16 md:py-20 bg-white">
+        <section className="py-8 sm:py-10 md:py-12 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-center mb-8 sm:mb-12"
+              className="text-center mb-6 sm:mb-8"
             >
               <motion.h2
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-gray-800 px-4"
@@ -900,7 +922,7 @@ export default function InternshipPage() {
       )}
       
       {/* Responsive Benefits Section */}
-      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-green-50 via-emerald-50/50 to-teal-50">
+      <section className="py-8 sm:py-10 md:py-12 bg-gradient-to-br from-green-50 via-emerald-50/50 to-teal-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -911,20 +933,20 @@ export default function InternshipPage() {
           >
             {/* Header with rice page animations */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+                          initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="text-center mb-8 sm:mb-10 lg:mb-12"
+          >
+            <motion.h2
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
-              className="text-center mb-12 sm:mb-16 lg:mb-20"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 px-4"
             >
-              <motion.h2
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true }}
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 px-4"
-              >
-                Why Join Us?
+              Why Join Us?
               </motion.h2>
               <motion.div
                 initial={{ width: 0 }}
@@ -974,7 +996,7 @@ export default function InternshipPage() {
       </section>
 
       {/* Mobile-Optimized Call to Action */}
-      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-r from-green-800 to-emerald-600 text-white">
+      <section className="py-8 sm:py-10 md:py-12 bg-gradient-to-r from-green-800 to-emerald-600 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h2
             className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6"
