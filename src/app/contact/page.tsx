@@ -26,6 +26,18 @@ interface HeroText {
   updatedAt: Timestamp;
 }
 
+interface ContactSettings {
+  address: string;
+  email: string;
+  phone: string;
+  socialLinks: {
+    facebook: string;
+    instagram: string;
+    linkedin: string;
+    twitter: string;
+  };
+}
+
 // Import images for particles
 const productImages = {
   pickle: "https://uufjafllhnhjzqvasyxj.supabase.co/storage/v1/object/public/products/products/pickle.png",
@@ -105,6 +117,8 @@ export default function ContactPage() {
   const [isMobile, setIsMobile] = useState(false);
   const [heroText, setHeroText] = useState<HeroText | null>(null);
   const [heroLoading, setHeroLoading] = useState(true);
+  const [contactSettings, setContactSettings] = useState<ContactSettings | null>(null);
+  const [contactLoading, setContactLoading] = useState(true);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
@@ -122,6 +136,7 @@ export default function ContactPage() {
   useEffect(() => {
     setIsLoaded(true);
     fetchHeroText();
+    fetchContactSettings();
   }, []);
 
   const fetchHeroText = async () => {
@@ -147,6 +162,57 @@ export default function ContactPage() {
       console.error('Error fetching hero text:', error);
     } finally {
       setHeroLoading(false);
+    }
+  };
+
+  const fetchContactSettings = async () => {
+    try {
+      const contactDoc = doc(db, 'contactSettings', 'fXZoUuc38Jm3OTcuqOUn');
+      const docSnap = await getDoc(contactDoc);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setContactSettings({
+          address: data.address || 'Paikan, Gumra, Assam 788815',
+          email: data.email || 'info@gbillp.com',
+          phone: data.phone || '+91 99571 16126',
+          socialLinks: {
+            facebook: data.socialLinks?.facebook || '',
+            instagram: data.socialLinks?.instagram || '',
+            linkedin: data.socialLinks?.linkedin || '',
+            twitter: data.socialLinks?.twitter || '',
+          }
+        });
+      } else {
+        // Fallback to default values
+        setContactSettings({
+          address: 'Paikan, Gumra, Assam 788815',
+          email: 'info@gbillp.com',
+          phone: '+91 99571 16126',
+          socialLinks: {
+            facebook: '',
+            instagram: '',
+            linkedin: '',
+            twitter: '',
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching contact settings:', error);
+      // Fallback to default values on error
+      setContactSettings({
+        address: 'Paikan, Gumra, Assam 788815',
+        email: 'info@gbillp.com',
+        phone: '+91 99571 16126',
+        socialLinks: {
+          facebook: '',
+          instagram: '',
+          linkedin: '',
+          twitter: '',
+        }
+      });
+    } finally {
+      setContactLoading(false);
     }
   };
 
@@ -585,12 +651,16 @@ export default function ContactPage() {
                         </div>
                         <div className="flex-1">
                           <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Email</h4>
-                          <a
-                            href="mailto:info@gbillp.com"
-                            className="text-sm sm:text-base md:text-lg font-medium text-emerald-700 hover:text-teal-600 transition-colors duration-200 group-hover:translate-x-1 inline-block break-all"
-                          >
-                            info@gbillp.com
-                          </a>
+                          {contactLoading ? (
+                            <div className="h-5 bg-gray-200 rounded animate-pulse"></div>
+                          ) : (
+                            <a
+                              href={`mailto:${contactSettings?.email}`}
+                              className="text-sm sm:text-base md:text-lg font-medium text-emerald-700 hover:text-teal-600 transition-colors duration-200 group-hover:translate-x-1 inline-block break-all"
+                            >
+                              {contactSettings?.email}
+                            </a>
+                          )}
                         </div>
                       </div>
                     </motion.div>
@@ -611,12 +681,16 @@ export default function ContactPage() {
                         </div>
                         <div className="flex-1">
                           <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Phone</h4>
-                          <a
-                            href="tel:+919957116126"
-                            className="text-sm sm:text-base md:text-lg font-medium text-emerald-700 hover:text-teal-600 transition-colors duration-200 group-hover:translate-x-1 inline-block"
-                          >
-                            +91 99571 16126
-                          </a>
+                          {contactLoading ? (
+                            <div className="h-5 bg-gray-200 rounded animate-pulse"></div>
+                          ) : (
+                            <a
+                              href={`tel:${contactSettings?.phone?.replace(/\s+/g, '')}`}
+                              className="text-sm sm:text-base md:text-lg font-medium text-emerald-700 hover:text-teal-600 transition-colors duration-200 group-hover:translate-x-1 inline-block"
+                            >
+                              {contactSettings?.phone}
+                            </a>
+                          )}
                         </div>
                       </div>
                     </motion.div>
@@ -638,10 +712,21 @@ export default function ContactPage() {
                         </div>
                         <div className="flex-1">
                           <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Address</h4>
-                          <p className="text-sm sm:text-base md:text-lg font-medium text-emerald-700 leading-relaxed group-hover:translate-x-1 transition-transform duration-200">
-                            Paikan, Gumra,<br />
-                            Assam 788815
-                          </p>
+                          {contactLoading ? (
+                            <div className="space-y-2">
+                              <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                              <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4"></div>
+                            </div>
+                          ) : (
+                            <p className="text-sm sm:text-base md:text-lg font-medium text-emerald-700 leading-relaxed group-hover:translate-x-1 transition-transform duration-200">
+                              {contactSettings?.address?.split(',').map((part, index, array) => (
+                                <span key={index}>
+                                  {part.trim()}
+                                  {index < array.length - 1 && <br />}
+                                </span>
+                              ))}
+                            </p>
+                          )}
                         </div>
                       </div>
                     </motion.div>
@@ -675,52 +760,7 @@ export default function ContactPage() {
             ></iframe>
           </motion.div>
 
-          {/* Location Card - Overlaid on larger screens, hidden on mobile */}
-          <motion.div
-            className="hidden md:block absolute bottom-4 md:bottom-8 lg:bottom-16 left-1/2 transform -translate-x-1/2 w-full max-w-md lg:max-w-lg"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <div className="bg-white/95 backdrop-blur-xl rounded-xl md:rounded-2xl p-6 lg:p-8 shadow-2xl border border-emerald-100/50">
-              <div className="flex items-start space-x-4 mb-4">
-                <div className="flex-shrink-0 w-12 md:w-12 h-12 md:h-12 rounded-xl bg-gradient-to-br from-[#b2e63a] to-[#1baf0a] flex items-center justify-center shadow-lg">
-                  <svg className="w-6 md:w-6 h-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-xl md:text-2xl font-extrabold mb-3 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] bg-clip-text text-transparent">
-                    Our Location
-                  </h3>
-                </div>
-              </div>
 
-              <div className="mb-6">
-                <p className="text-gray-600 leading-relaxed text-base md:text-lg">
-                  <span className="font-semibold text-gray-800">Gumra Bazar</span><br />
-                  <span className="text-sm md:text-base text-gray-500">Khelma Pt VII, Paikan</span><br />
-                  <span className="text-sm md:text-base text-gray-500">Assam 788815, India</span>
-                </p>
-              </div>
-
-              <motion.a
-                href="https://maps.google.com/?q=Gumra+Bazar+Paikan+Assam+788815"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-auto px-6 py-3 bg-gradient-to-r from-[#b2e63a] to-[#1baf0a] text-white rounded-xl font-semibold hover:shadow-2xl hover:shadow-emerald-500/40 transition-all duration-300 transform hover:-translate-y-1 active:scale-95 text-base"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                </svg>
-                Get Directions
-              </motion.a>
-            </div>
-          </motion.div>
         </div>
       </section>
 

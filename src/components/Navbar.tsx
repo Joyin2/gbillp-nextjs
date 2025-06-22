@@ -146,7 +146,7 @@ const Navbar = () => {
             <NavLink href="/eco-tourism" scrolled={scrolled}>Eco-Tourism</NavLink>
             <NavLink href="/blogs" scrolled={scrolled}>Blogs</NavLink>
             <NavLink href="/investor" scrolled={scrolled}>Investor</NavLink>
-            <NavLink href="/internship" scrolled={scrolled}>Career</NavLink>
+                            <NavLink href="/career" scrolled={scrolled}>Career</NavLink>
             
             {/* Contact Button with highlight */}
             <Link
@@ -266,7 +266,7 @@ const Navbar = () => {
               <MobileNavLink href="/eco-tourism" onClick={() => setIsMenuOpen(false)}>Eco-Tourism</MobileNavLink>
               <MobileNavLink href="/blogs" onClick={() => setIsMenuOpen(false)}>Blogs & News</MobileNavLink>
               <MobileNavLink href="/investor" onClick={() => setIsMenuOpen(false)}>Investor</MobileNavLink>
-              <MobileNavLink href="/internship" onClick={() => setIsMenuOpen(false)}>Career</MobileNavLink>
+                              <MobileNavLink href="/career" onClick={() => setIsMenuOpen(false)}>Career</MobileNavLink>
               
               {/* Contact Button */}
               <div className="pt-4">

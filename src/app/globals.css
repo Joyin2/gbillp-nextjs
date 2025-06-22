@@ -270,20 +270,20 @@ h1, h2, h3, h4, h5, h6 {
   @apply italic;
 }
 
-/* Internship content styles */
-.internship-content p {
+/* Career content styles */
+.career-content p {
   @apply mb-3 text-gray-600 leading-relaxed;
 }
 
-.internship-content br {
+.career-content br {
   @apply mb-2;
 }
 
-.internship-content strong, .internship-content b {
+.career-content strong, .career-content b {
   @apply font-semibold text-gray-800;
 }
 
-.internship-content em, .internship-content i {
+.career-content em, .career-content i {
   @apply italic;
 }
 
@@ -361,6 +361,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .product-description em, .product-description i {
   @apply italic;
+}
+
+/* Line clamp utilities */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* Responsive typography now works properly without global heading interference */

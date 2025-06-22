@@ -3,9 +3,82 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 import { authorisedLogos } from '@/lib/imageUrls';
 
+interface ContactSettings {
+  address: string;
+  email: string;
+  phone: string;
+  socialLinks: {
+    facebook: string;
+    instagram: string;
+    linkedin: string;
+    twitter: string;
+  };
+}
+
 const Footer = () => {
+  const [contactSettings, setContactSettings] = useState<ContactSettings | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchContactSettings = async () => {
+      try {
+        const contactDoc = doc(db, 'contactSettings', 'fXZoUuc38Jm3OTcuqOUn');
+        const docSnap = await getDoc(contactDoc);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setContactSettings({
+            address: data.address || 'Paikan, Gumra, Assam, India 788815',
+            email: data.email || 'info@gbillp.com',
+            phone: data.phone || '+91 99571 16126',
+            socialLinks: {
+              facebook: data.socialLinks?.facebook || '',
+              instagram: data.socialLinks?.instagram || '',
+              linkedin: data.socialLinks?.linkedin || '',
+              twitter: data.socialLinks?.twitter || '',
+            }
+          });
+        } else {
+          // Fallback to default values
+          setContactSettings({
+            address: 'Paikan, Gumra, Assam, India 788815',
+            email: 'info@gbillp.com',
+            phone: '+91 99571 16126',
+            socialLinks: {
+              facebook: '',
+              instagram: '',
+              linkedin: '',
+              twitter: '',
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching contact settings:', error);
+        // Fallback to default values on error
+        setContactSettings({
+          address: 'Paikan, Gumra, Assam, India 788815',
+          email: 'info@gbillp.com',
+          phone: '+91 99571 16126',
+          socialLinks: {
+            facebook: '',
+            instagram: '',
+            linkedin: '',
+            twitter: '',
+          }
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContactSettings();
+  }, []);
+
   const authorizedLogos = [
     {
       src: authorisedLogos.ashok,
@@ -196,49 +269,59 @@ const Footer = () => {
               backgroundClip: 'text'
             }}>Contact</h6>
             <div className="space-y-2 sm:space-y-3">
-              <p className="flex items-center justify-center sm:justify-start text-xs sm:text-sm text-gray-600">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{
-                  stroke: 'url(#locationGradient)'
-                }}>
-                  <defs>
-                    <linearGradient id="locationGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#b2e63a" />
-                      <stop offset="100%" stopColor="#1baf0a" />
-                    </linearGradient>
-                  </defs>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span className="break-words">Paikan, Gumra, Assam, India 788815</span>
-              </p>
-              <p className="flex items-center justify-center sm:justify-start text-xs sm:text-sm text-gray-600">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{
-                  stroke: 'url(#emailGradient)'
-                }}>
-                  <defs>
-                    <linearGradient id="emailGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#b2e63a" />
-                      <stop offset="100%" stopColor="#1baf0a" />
-                    </linearGradient>
-                  </defs>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                <span className="break-all">info@gbillp.com</span>
-              </p>
-              <p className="flex items-center justify-center sm:justify-start text-xs sm:text-sm text-gray-600">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{
-                  stroke: 'url(#phoneGradient)'
-                }}>
-                  <defs>
-                    <linearGradient id="phoneGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#b2e63a" />
-                      <stop offset="100%" stopColor="#1baf0a" />
-                    </linearGradient>
-                  </defs>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                <span>+91 99571 16126</span>
-              </p>
+              {loading ? (
+                <div className="animate-pulse space-y-2">
+                  <div className="h-4 bg-gray-200 rounded"></div>
+                  <div className="h-4 bg-gray-200 rounded"></div>
+                  <div className="h-4 bg-gray-200 rounded"></div>
+                </div>
+              ) : (
+                <>
+                  <p className="flex items-center justify-center sm:justify-start text-xs sm:text-sm text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{
+                      stroke: 'url(#locationGradient)'
+                    }}>
+                      <defs>
+                        <linearGradient id="locationGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#b2e63a" />
+                          <stop offset="100%" stopColor="#1baf0a" />
+                        </linearGradient>
+                      </defs>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span className="break-words">{contactSettings?.address}</span>
+                  </p>
+                  <p className="flex items-center justify-center sm:justify-start text-xs sm:text-sm text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{
+                      stroke: 'url(#emailGradient)'
+                    }}>
+                      <defs>
+                        <linearGradient id="emailGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#b2e63a" />
+                          <stop offset="100%" stopColor="#1baf0a" />
+                        </linearGradient>
+                      </defs>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <span className="break-all">{contactSettings?.email}</span>
+                  </p>
+                  <p className="flex items-center justify-center sm:justify-start text-xs sm:text-sm text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{
+                      stroke: 'url(#phoneGradient)'
+                    }}>
+                      <defs>
+                        <linearGradient id="phoneGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#b2e63a" />
+                          <stop offset="100%" stopColor="#1baf0a" />
+                        </linearGradient>
+                      </defs>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    <span>{contactSettings?.phone}</span>
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>
