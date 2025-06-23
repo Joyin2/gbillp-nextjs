@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { collection, getDocs, Timestamp } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, Timestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 // Import pickle images from Supabase (fallback images)
@@ -21,6 +21,17 @@ interface Product {
   updatedAt: Timestamp;
   createdBy: string;
   createdByEmail: string;
+}
+
+interface HeroText {
+  title: string;
+  subtitle: string;
+  description: string;
+  pageName: string;
+  buttonText: string;
+  buttonLink: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 }
 
 // Helper function to extract features from HTML description
@@ -51,11 +62,14 @@ const extractFeaturesFromDescription = (htmlDescription: string): string[] => {
 export default function PicklesPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
+  const [heroText, setHeroText] = useState<HeroText | null>(null);
   const [loading, setLoading] = useState(true);
+  const [heroLoading, setHeroLoading] = useState(true);
 
   useEffect(() => {
     setIsLoaded(true);
     fetchProducts();
+    fetchHeroText();
   }, []);
 
   const fetchProducts = async () => {
@@ -93,6 +107,55 @@ export default function PicklesPage() {
       console.error('Error fetching products:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchHeroText = async () => {
+    try {
+      const docRef = doc(db, 'heroTexts', 'products-pickle');
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setHeroText({
+          title: data.title || '',
+          subtitle: data.subtitle || '',
+          description: data.description || '',
+          pageName: data.pageName || '',
+          buttonText: data.buttonText || '',
+          buttonLink: data.buttonLink || '',
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+        });
+      } else {
+        console.log('No hero text document found for products-pickle');
+        // Fallback to default content
+        setHeroText({
+          title: '',
+          subtitle: 'Our range of products embodies the essence of freshness and authenticity. From our tangy and flavorful pickles made with hand-picked ingredients to our crisp and aromatic fresh ginger and garlic, each item is carefully selected and crafted to deliver unparalleled taste and quality.',
+          description: 'Discover our collection of authentic, organic pickles made with traditional recipes and natural ingredients.',
+          pageName: 'Pickle',
+          buttonText: '',
+          buttonLink: '',
+          createdAt: Timestamp.now(),
+          updatedAt: Timestamp.now(),
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching hero text:', error);
+      // Fallback to default content on error
+      setHeroText({
+        title: '',
+        subtitle: 'Our range of products embodies the essence of freshness and authenticity. From our tangy and flavorful pickles made with hand-picked ingredients to our crisp and aromatic fresh ginger and garlic, each item is carefully selected and crafted to deliver unparalleled taste and quality.',
+        description: 'Discover our collection of authentic, organic pickles made with traditional recipes and natural ingredients.',
+        pageName: 'Pickle',
+        buttonText: '',
+        buttonLink: '',
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now(),
+      });
+    } finally {
+      setHeroLoading(false);
     }
   };
 
@@ -157,7 +220,7 @@ export default function PicklesPage() {
           <div className="max-w-4xl lg:max-w-5xl text-center w-full mx-auto -mt-8 sm:-mt-12 md:-mt-16 lg:-mt-20 xl:-mt-24">
             {/* Hero Media Section - Supports both Images and Videos */}
             <motion.div
-              className="mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12 mb-6 sm:mb-8 md:mb-10 lg:mb-12"
+              className="mt-8 sm:mt-12 md:mt-16 lg:mt-20 xl:mt-24"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -193,6 +256,18 @@ export default function PicklesPage() {
               </div>
             </motion.div>
 
+            {/* Pickle Heading - Dedicated Space */}
+            <motion.div
+              className="-mt-6 sm:-mt-8 md:-mt-10 lg:-mt-12 xl:-mt-14 mb-8 sm:mb-12 md:mb-16 lg:mb-20 xl:mb-24"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white text-center drop-shadow-lg">
+                PICKLE
+              </h1>
+            </motion.div>
+
             {/* Content Section - Moved Further Upwards */}
             <motion.div
               className="space-y-4 sm:space-y-6 -mt-8 sm:-mt-12 md:-mt-16 lg:-mt-20 xl:-mt-24"
@@ -201,15 +276,19 @@ export default function PicklesPage() {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <div className="space-y-4 sm:space-y-6">
-                <p className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed drop-shadow-md px-4 sm:px-0">
-                  Our range of products embodies the essence of freshness and authenticity. From our tangy and flavorful pickles made with hand-picked ingredients to our crisp and aromatic fresh ginger and garlic, each item is carefully selected and crafted to deliver unparalleled taste and quality.
-                </p>
-                <p className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed drop-shadow-md px-4 sm:px-0">
-                  With a commitment to sourcing the finest ingredients and maintaining traditional methods of preparation, our products promise to elevate your culinary experience and bring a touch of gourmet excellence to every meal.
-                </p>
+                {heroLoading ? (
+                  <div className="text-center">
+                    <div className="animate-pulse">
+                      <div className="h-6 bg-gray-300/20 rounded w-3/4 mx-auto mb-4"></div>
+                      <div className="h-6 bg-gray-300/20 rounded w-2/3 mx-auto"></div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-gray-200 text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed drop-shadow-md px-4 sm:px-0">
+                    {heroText?.subtitle}
+                  </div>
+                )}
               </div>
-
-
             </motion.div>
           </div>
         </div>
@@ -232,15 +311,23 @@ export default function PicklesPage() {
             viewport={{ once: true }}
             className="text-center mb-12 sm:mb-16 lg:mb-20"
           >
-            <motion.h2
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 px-4"
-            >
-              Tangy Bliss in Jars
-            </motion.h2>
+            {heroLoading ? (
+              <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 px-4">
+                <div className="animate-pulse">
+                  <div className="h-12 bg-gray-300 rounded w-3/4 mx-auto"></div>
+                </div>
+              </div>
+            ) : (
+              <motion.h2
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 px-4"
+              >
+                {heroText?.title || "Tangy Bliss in Jars"}
+              </motion.h2>
+            )}
             <motion.div
               initial={{ width: 0 }}
               whileInView={{ width: "6rem" }}
@@ -250,15 +337,23 @@ export default function PicklesPage() {
             >
               <div className="h-full w-full bg-gradient-to-r from-[#b2e63a] to-[#1baf0a]"></div>
             </motion.div>
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              viewport={{ once: true }}
-              className="text-sm sm:text-base md:text-lg text-gray-600 max-w-xs sm:max-w-md md:max-w-2xl mx-auto px-4"
-            >
-              Discover our premium selection of handcrafted pickles
-            </motion.p>
+            {heroLoading ? (
+              <div className="text-sm sm:text-base md:text-lg text-gray-600 max-w-xs sm:max-w-md md:max-w-2xl mx-auto px-4">
+                <div className="animate-pulse">
+                  <div className="h-4 bg-gray-300 rounded w-2/3 mx-auto"></div>
+                </div>
+              </div>
+            ) : (
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                viewport={{ once: true }}
+                className="text-sm sm:text-base md:text-lg text-gray-600 max-w-xs sm:max-w-md md:max-w-2xl mx-auto px-4"
+              >
+                {heroText?.description || "Discover our premium selection of handcrafted pickles"}
+              </motion.p>
+            )}
           </motion.div>
 
           {loading ? (
